@@ -11,7 +11,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>TestApp.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>TestAppiOS</AssemblyName>
+    <AssemblyName>TestApp.iOS</AssemblyName>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>

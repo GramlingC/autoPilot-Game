@@ -2667,7 +2667,7 @@ namespace TestApp.Droid
 			public const int ic_vol_type_tv_light = 2130837739;
 			
 			// aapt resource value: 0x7f0200ec
-			public const int icon = 2130837740;
+			public const int Icon = 2130837740;
 			
 			// aapt resource value: 0x7f0200ed
 			public const int mr_button_connected_dark = 2130837741;

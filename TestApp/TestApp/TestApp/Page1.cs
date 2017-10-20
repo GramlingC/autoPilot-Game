@@ -15,6 +15,15 @@ namespace TestApp
         Grid grid;//Making this a global variable so we can change it dynamically through functions
         //Here is the grid documentation: https://developer.xamarin.com/api/type/Xamarin.Forms.Grid/
 
+        int row = 0;//keep track of the next row to be used
+
+        //There will be less rows on mobile devices, since they're smaller
+#if __MOBILE__
+        int maxrow = 7;
+#else
+        int maxrow = 15;//how many text rows there will be on the grid
+#endif
+
         public Page1()
         {
             /* Stack layout is an option if you want things equidistant down the page
@@ -30,25 +39,11 @@ namespace TestApp
             //First, we define the grid and its rows and columns
             grid = new Grid
             {
-                //Defines the rows
-                RowDefinitions =
-                {
-                    //The row definition defines the height of each row
-                    //GridLength.Auto means it'll fit exactly the size of what's inside it
-                    new RowDefinition { Height = GridLength.Auto},
-                    new RowDefinition { Height = GridLength.Auto},
-                    new RowDefinition { Height = GridLength.Auto},
-                    //this type of grid length expands to fill in what isn't taken up by other rows
-                    new RowDefinition { Height = new GridLength(1,GridUnitType.Star) },
-                    new RowDefinition { Height = GridLength.Auto}
-                },
-                //I want several lines of text near the top, that's the Autos
-                //I want a large empty space, that's the star
-                //I want buttons at the bottom, that's the last Auto
 
                 ColumnDefinitions =
                 {
-                    //Same here, but I want 4 buttons and space after them
+                    //The Column Definition defines the width of each column
+                    //GridLength.Auto means it'll fit exactly the size of what's inside it
                     new ColumnDefinition { Width = GridLength.Auto},
                     new ColumnDefinition { Width = GridLength.Auto},
                     new ColumnDefinition { Width = GridLength.Auto},
@@ -56,15 +51,164 @@ namespace TestApp
                     new ColumnDefinition { Width = new GridLength(1,GridUnitType.Star)}
                 }
             };
+            for (int i = 0; i < maxrow; i++)
+            {
+                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                //I want several lines of text near the top, that's the Autos
+            }
+            //this type of grid length expands to fill in what isn't taken up by other rows
+            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            //I want a large empty space, that's the star
+#if __MOBILE__
+            grid.RowDefinitions.Add(new RowDefinition { Height = 30 });
+            grid.RowDefinitions.Add(new RowDefinition { Height = 30 });
+            grid.RowDefinitions.Add(new RowDefinition { Height = 30 });
+            grid.RowDefinitions.Add(new RowDefinition { Height = 30 });
+#else
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+#endif
+            //I want buttons at the bottom, that's the last Auto
 
             //Now, to add some content.
+            AddLabel("> First Text.");
+            //AddLabel is a method I wrote, read it below to see how it works
+            AddLabel("> This is the second text. This text will hopefully be so long that it'll wrap around to a second line, and this grid row will expand accordingly to be two lines thick.");
+            AddLabel("> Third Text.");
+            //#if __MOBILE__
+            Button button = new Button
+            {
+                Text = "> choose(Option1)",
+                TextColor = Color.LightGreen,
+                //Adapt to device size
+#if __MOBILE__
+                FontSize = 8,
+#else
+            FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
+#endif
+                BackgroundColor = Color.DarkSlateGray,
+            };
+            button.Clicked += buttonClicked;//adding the function to this button's click
+
+            grid.Children.Add(button, 0, 1, maxrow + 1, maxrow + 2);
+
+            button = new Button
+            {
+                Text = "> choose(Option2)",
+                TextColor = Color.LightGreen,
+#if __MOBILE__
+                FontSize = 8,
+#else
+            FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
+#endif
+                BackgroundColor = Color.DarkSlateGray,
+            };
+            button.Clicked += buttonClicked;
+
+            grid.Children.Add(button, 0, 1, maxrow + 2, maxrow + 3);
+            //make sure to put this in a different row
+
+            button = new Button
+            {
+                Text = "> choose(Option3)",
+                TextColor = Color.LightGreen,
+#if __MOBILE__
+                FontSize = 8,
+#else
+            FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
+#endif
+                BackgroundColor = Color.DarkSlateGray,
+            };
+            button.Clicked += buttonClicked;
+
+            grid.Children.Add(button, 0, 1, maxrow + 3, maxrow + 4);
+
+
+            button = new Button
+            {
+                Text = "> choose(Option4)",
+                TextColor = Color.LightGreen,
+#if __MOBILE__
+                FontSize = 8,
+#else
+            FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
+#endif
+                BackgroundColor = Color.DarkSlateGray,
+            };
+            button.Clicked += buttonClicked;
+
+            grid.Children.Add(button, 0, 1, maxrow + 4, maxrow + 5);
+            /*#else
+                        Button button = new Button
+                        {
+                            Text = "> choose(Option1)",
+                            TextColor = Color.LightGreen,
+                            FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
+                            BackgroundColor = Color.DarkSlateGray,
+                        };
+                        button.Clicked += buttonClicked;//adding the function to this button's click
+
+                        grid.Children.Add(button, 0, 1, maxrow + 1, maxrow + 2);
+
+
+                        button = new Button
+                        {
+                            Text = "> choose(Option2)",
+                            TextColor = Color.LightGreen,
+                            FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
+                            BackgroundColor = Color.DarkSlateGray,
+                        };
+                        button.Clicked += buttonClicked;
+
+                        grid.Children.Add(button, 1, 2, maxrow + 1, maxrow + 2);
+                        //make sure to put this in a different column
+
+                        button = new Button
+                        {
+                            Text = "> choose(Option3)",
+                            TextColor = Color.LightGreen,
+                            FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
+                            BackgroundColor = Color.DarkSlateGray,
+                        };
+                        button.Clicked += buttonClicked;
+
+                        grid.Children.Add(button, 2, 3, maxrow + 1, maxrow + 2);
+
+                        button = new Button
+                        {
+                            Text = "> choose(Option4)",
+                            TextColor = Color.LightGreen,
+                            FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
+                            BackgroundColor = Color.DarkSlateGray,
+                        };
+                        button.Clicked += buttonClicked;
+
+                        grid.Children.Add(button, 3, 4, maxrow + 1, maxrow + 2);
+            #endif*/
+
+
+            this.Padding = new Thickness(10, 20, 10, 10); //Some breathing room around the edges
+            this.Content = grid;//Puts the grid on the page
+            this.BackgroundColor = Color.Black;
+
+            //BEFORE YOU RUN: You can right click the sub-projects to the right
+            //such as TestApp.UWP and choose Set as Start Up Project to choose your platform
+            //Only UWP works for me at the moment
+        }
+
+        void AddLabel(string text)
+        {
             grid.Children.Add(new Label
             {
-                Text = "> First Text.",
-                TextColor = Color.LightGreen
+                Text = text,
+                TextColor = Color.LightGreen,
+                FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
+
                 //Here we could keep editing this and make it be different sizes,angles,etc
                 //If we declared this as a global variable, we could change it with functions
-            },0,5,0,1);
+            }, 0, 5, row, ++row);
             //The parameters are (View,Left,Right,Top,Bottom)
             //View is anything from Labels to buttons to sliders, etc, and are adapt to platform
             //The numbers are grid positions. Left and top are the grid positions where they start
@@ -72,25 +216,61 @@ namespace TestApp
             //for example, the grid's column index 5 doesn't exist, the last is 4
             //But it'll stop before 5, which means it'll span all the columns
 
-            grid.Children.Add(new Label
+            //The row variable is increasing each time, so each label we add will be in a new row
+            //once it gets to the maxrow, we want to move everything up so it doesn't keep
+            //going down to the bottom of the screen
+            if (row > maxrow)
             {
-                Text = "> Second Text. This text will hopefully be so long that it'll wrap around to a second line, and this grid row will expand accordingly.",
-                TextColor = Color.LightGreen
-            }, 0, 5, 1, 2);//Make sure to put this in a different row
+                row--;//keep row at maxrow
+                bool remove = false;
+                Label toremove = null;
 
-            grid.Children.Add(new Label
+                foreach (Label l in grid.Children.OfType<Label>())
+                {
+                    if (Grid.GetRow(l) == 0)
+                    {
+                        //we want to remove the topmost thing to make room
+                        remove = true;
+                        toremove = l;
+                        //we can't remove it while iterating
+                    }
+                    else
+                        Grid.SetRow(l, Grid.GetRow(l) - 1);
+                    //move everything up to make space for the new label
+                }
+                if (remove)
+                {
+                    //so we remove it after
+                    grid.Children.Remove(toremove);
+                }
+            }
+        }
+
+        void buttonClicked(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+            AddLabel(button.Text);
+            if (button.Text == "> choose(Option1)")
             {
-                Text = "> Third Text.",
-                TextColor = Color.LightGreen
-            }, 0, 5, 2, 3);
-
-            this.Padding = new Thickness(10, 20, 50, 50); //Some breathing room around the edges
-            this.Content = grid;//Puts the grid on the page
-            this.BackgroundColor = Color.Black;
-
-            //BEFORE YOU RUN: You can right click the sub-projects to the right
-            //such as TestApp.UWP and choose Set as Start Up Project to choose your platform
-            //Only UWP works for me at the moment
+                AddLabel("> You have chosen option one.");
+                AddLabel("> Things will happen accordingly, maybe the ship will be hit by something or waste resources.Story will happen and consequences will be had, etc, etc.");
+            }
+            else if (button.Text == "> choose(Option2)")
+            {
+                AddLabel("> You have chosen option two.");
+                AddLabel("> Different things will happen by this than by option one, and so on. I'm sure it'll be a good thing.");
+            }
+            else if (button.Text == "> choose(Option3)")
+            {
+                AddLabel("> You have chosen option three.");
+                AddLabel("> This return text will probably be stored in a database somewhere, and we'll have code to check what to display depending on variables and whatnot.");
+            }
+            else if (button.Text == "> choose(Option4)")
+            {
+                AddLabel("> You have chosen option four.");
+                AddLabel("> Ideally, this text will be displayed one character at a time.");
+            }
+            //adds the button's text to the grid
         }
     }
 }
