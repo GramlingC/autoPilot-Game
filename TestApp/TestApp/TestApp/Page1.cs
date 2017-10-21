@@ -18,10 +18,13 @@ namespace TestApp
         int row = 0;//keep track of the next row to be used
 
         //There will be less rows on mobile devices, since they're smaller
+        //font will also be smaller
 #if __MOBILE__
-        int maxrow = 7;
+        int maxrow = 10;
+        double fontsize = 8;
 #else
-        int maxrow = 15;//how many text rows there will be on the grid
+        int maxrow = 15;
+        double fontsize = Device.GetNamedSize(NamedSize.Small, typeof(Label));
 #endif
 
         public Page1()
@@ -77,17 +80,15 @@ namespace TestApp
             //AddLabel is a method I wrote, read it below to see how it works
             AddLabel("> This is the second text. This text will hopefully be so long that it'll wrap around to a second line, and this grid row will expand accordingly to be two lines thick.");
             AddLabel("> Third Text.");
-            //#if __MOBILE__
+
             Button button = new Button
             {
                 Text = "> choose(Option1)",
                 TextColor = Color.LightGreen,
                 //Adapt to device size
-#if __MOBILE__
-                FontSize = 8,
-#else
-            FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
-#endif
+
+                FontSize = fontsize,
+
                 BackgroundColor = Color.DarkSlateGray,
             };
             button.Clicked += buttonClicked;//adding the function to this button's click
@@ -98,11 +99,9 @@ namespace TestApp
             {
                 Text = "> choose(Option2)",
                 TextColor = Color.LightGreen,
-#if __MOBILE__
-                FontSize = 8,
-#else
-            FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
-#endif
+
+                FontSize = fontsize,
+
                 BackgroundColor = Color.DarkSlateGray,
             };
             button.Clicked += buttonClicked;
@@ -114,11 +113,9 @@ namespace TestApp
             {
                 Text = "> choose(Option3)",
                 TextColor = Color.LightGreen,
-#if __MOBILE__
-                FontSize = 8,
-#else
-            FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
-#endif
+
+                FontSize = fontsize,
+
                 BackgroundColor = Color.DarkSlateGray,
             };
             button.Clicked += buttonClicked;
@@ -130,64 +127,14 @@ namespace TestApp
             {
                 Text = "> choose(Option4)",
                 TextColor = Color.LightGreen,
-#if __MOBILE__
-                FontSize = 8,
-#else
-            FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
-#endif
+
+                FontSize = fontsize,
+
                 BackgroundColor = Color.DarkSlateGray,
             };
             button.Clicked += buttonClicked;
 
             grid.Children.Add(button, 0, 1, maxrow + 4, maxrow + 5);
-            /*#else
-                        Button button = new Button
-                        {
-                            Text = "> choose(Option1)",
-                            TextColor = Color.LightGreen,
-                            FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
-                            BackgroundColor = Color.DarkSlateGray,
-                        };
-                        button.Clicked += buttonClicked;//adding the function to this button's click
-
-                        grid.Children.Add(button, 0, 1, maxrow + 1, maxrow + 2);
-
-
-                        button = new Button
-                        {
-                            Text = "> choose(Option2)",
-                            TextColor = Color.LightGreen,
-                            FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
-                            BackgroundColor = Color.DarkSlateGray,
-                        };
-                        button.Clicked += buttonClicked;
-
-                        grid.Children.Add(button, 1, 2, maxrow + 1, maxrow + 2);
-                        //make sure to put this in a different column
-
-                        button = new Button
-                        {
-                            Text = "> choose(Option3)",
-                            TextColor = Color.LightGreen,
-                            FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
-                            BackgroundColor = Color.DarkSlateGray,
-                        };
-                        button.Clicked += buttonClicked;
-
-                        grid.Children.Add(button, 2, 3, maxrow + 1, maxrow + 2);
-
-                        button = new Button
-                        {
-                            Text = "> choose(Option4)",
-                            TextColor = Color.LightGreen,
-                            FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
-                            BackgroundColor = Color.DarkSlateGray,
-                        };
-                        button.Clicked += buttonClicked;
-
-                        grid.Children.Add(button, 3, 4, maxrow + 1, maxrow + 2);
-            #endif*/
-
 
             this.Padding = new Thickness(10, 20, 10, 10); //Some breathing room around the edges
             this.Content = grid;//Puts the grid on the page
@@ -204,7 +151,7 @@ namespace TestApp
             {
                 Text = text,
                 TextColor = Color.LightGreen,
-                FontSize = Device.GetNamedSize(NamedSize.Micro, typeof(Label)),
+                FontSize = fontsize,
 
                 //Here we could keep editing this and make it be different sizes,angles,etc
                 //If we declared this as a global variable, we could change it with functions
