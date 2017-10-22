@@ -81,14 +81,15 @@ namespace TestApp
             AddLabel("> This is the second text. This text will hopefully be so long that it'll wrap around to a second line, and this grid row will expand accordingly to be two lines thick.");
             AddLabel("> Third Text.");
 
-            Button button;
+            GameButton button;
 
             // Loops through creating the buttons, since they are each very similar
             for (int i = 0; i < 4; i++)
             {
-                button = new Button
+                button = new GameButton
                 {
                     Text = "> choose(Option" + (i+1) + ")",
+                    Key = "option" + (i+1),
                     TextColor = Color.LightGreen,
                     //Adapt to device size
 
@@ -161,27 +162,27 @@ namespace TestApp
 
         void buttonClicked(object sender, EventArgs e)
         {
-            Button button = (Button)sender;
+            GameButton button = (GameButton)sender;
             AddLabel(button.Text);
-            if (button.Text == "> choose(Option1)")
+
+            switch (button.Key)
             {
-                AddLabel("> You have chosen option one.");
-                AddLabel("> Things will happen accordingly, maybe the ship will be hit by something or waste resources.Story will happen and consequences will be had, etc, etc.");
-            }
-            else if (button.Text == "> choose(Option2)")
-            {
-                AddLabel("> You have chosen option two.");
-                AddLabel("> Different things will happen by this than by option one, and so on. I'm sure it'll be a good thing.");
-            }
-            else if (button.Text == "> choose(Option3)")
-            {
-                AddLabel("> You have chosen option three.");
-                AddLabel("> This return text will probably be stored in a database somewhere, and we'll have code to check what to display depending on variables and whatnot.");
-            }
-            else if (button.Text == "> choose(Option4)")
-            {
-                AddLabel("> You have chosen option four.");
-                AddLabel("> Ideally, this text will be displayed one character at a time.");
+                case "option1":
+                    AddLabel("> You have chosen option one.");
+                    AddLabel("> Things will happen accordingly, maybe the ship will be hit by something or waste resources.Story will happen and consequences will be had, etc, etc.");
+                    break;
+                case "option2":
+                    AddLabel("> You have chosen option two.");
+                    AddLabel("> Different things will happen by this than by option one, and so on. I'm sure it'll be a good thing.");
+                    break;
+                case "option3":
+                    AddLabel("> You have chosen option three.");
+                    AddLabel("> This return text will probably be stored in a database somewhere, and we'll have code to check what to display depending on variables and whatnot.");
+                    break;
+                case "option4":
+                    AddLabel("> You have chosen option four.");
+                    AddLabel("> Ideally, this text will be displayed one character at a time.");
+                    break;
             }
             //adds the button's text to the grid
         }
