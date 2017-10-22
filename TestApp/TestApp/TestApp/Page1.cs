@@ -99,10 +99,15 @@ namespace TestApp
                 };
                 button.Clicked += buttonClicked;//adding the function to this button's click
 
+#if __MOBILE__
+                grid.Children.Add(button, 0, 1, maxrow + i, maxrow + i + 1);
+#else
                 grid.Children.Add(button, i, i+1, maxrow + 3, maxrow + 4);
+#endif
                 //make sure to put this in a different column each loop
             }
 
+#if !__MOBILE__
             button = new GameButton
             {
                 Text = "> clearScreen()",
@@ -117,7 +122,7 @@ namespace TestApp
             button.Clicked += buttonClicked;//adding the function to this button's click
 
             grid.Children.Add(button, 5, 6, maxrow + 3, maxrow + 4);
-            //make sure to put this in a different column each loop
+#endif
 
             this.Padding = new Thickness(10, 20, 10, 10); //Some breathing room around the edges
             this.Content = grid;//Puts the grid on the page
