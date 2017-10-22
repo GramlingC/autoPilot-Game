@@ -81,60 +81,26 @@ namespace TestApp
             AddLabel("> This is the second text. This text will hopefully be so long that it'll wrap around to a second line, and this grid row will expand accordingly to be two lines thick.");
             AddLabel("> Third Text.");
 
-            Button button = new Button
+            Button button;
+
+            // Loops through creating the buttons, since they are each very similar
+            for (int i = 0; i < 4; i++)
             {
-                Text = "> choose(Option1)",
-                TextColor = Color.LightGreen,
-                //Adapt to device size
+                button = new Button
+                {
+                    Text = "> choose(Option" + (i+1) + ")",
+                    TextColor = Color.LightGreen,
+                    //Adapt to device size
 
-                FontSize = fontsize,
+                    FontSize = fontsize,
 
-                BackgroundColor = Color.DarkSlateGray,
-            };
-            button.Clicked += buttonClicked;//adding the function to this button's click
+                    BackgroundColor = Color.DarkSlateGray,
+                };
+                button.Clicked += buttonClicked;//adding the function to this button's click
 
-            grid.Children.Add(button, 0, 1, maxrow + 1, maxrow + 2);
-
-            button = new Button
-            {
-                Text = "> choose(Option2)",
-                TextColor = Color.LightGreen,
-
-                FontSize = fontsize,
-
-                BackgroundColor = Color.DarkSlateGray,
-            };
-            button.Clicked += buttonClicked;
-
-            grid.Children.Add(button, 0, 1, maxrow + 2, maxrow + 3);
-            //make sure to put this in a different row
-
-            button = new Button
-            {
-                Text = "> choose(Option3)",
-                TextColor = Color.LightGreen,
-
-                FontSize = fontsize,
-
-                BackgroundColor = Color.DarkSlateGray,
-            };
-            button.Clicked += buttonClicked;
-
-            grid.Children.Add(button, 0, 1, maxrow + 3, maxrow + 4);
-
-
-            button = new Button
-            {
-                Text = "> choose(Option4)",
-                TextColor = Color.LightGreen,
-
-                FontSize = fontsize,
-
-                BackgroundColor = Color.DarkSlateGray,
-            };
-            button.Clicked += buttonClicked;
-
-            grid.Children.Add(button, 0, 1, maxrow + 4, maxrow + 5);
+                grid.Children.Add(button, i, i+1, maxrow + 3, maxrow + 4);
+                //make sure to put this in a different column each loop
+            }
 
             this.Padding = new Thickness(10, 20, 10, 10); //Some breathing room around the edges
             this.Content = grid;//Puts the grid on the page
