@@ -103,6 +103,22 @@ namespace TestApp
                 //make sure to put this in a different column each loop
             }
 
+            button = new GameButton
+            {
+                Text = "> clearScreen()",
+                Key = "clearScreen",
+                TextColor = Color.LightGreen,
+                //Adapt to device size
+
+                FontSize = fontsize,
+
+                BackgroundColor = Color.DarkSlateGray,
+            };
+            button.Clicked += buttonClicked;//adding the function to this button's click
+
+            grid.Children.Add(button, 5, 6, maxrow + 3, maxrow + 4);
+            //make sure to put this in a different column each loop
+
             this.Padding = new Thickness(10, 20, 10, 10); //Some breathing room around the edges
             this.Content = grid;//Puts the grid on the page
             this.BackgroundColor = Color.Black;
@@ -165,6 +181,7 @@ namespace TestApp
             GameButton button = (GameButton)sender;
             AddLabel(button.Text);
 
+            // this may be done later by retreiving text from a database (?)
             switch (button.Key)
             {
                 case "option1":
@@ -182,6 +199,21 @@ namespace TestApp
                 case "option4":
                     AddLabel("> You have chosen option four.");
                     AddLabel("> Ideally, this text will be displayed one character at a time.");
+                    break;
+                case "clearScreen":
+                    int index = 0;
+                    while (index < grid.Children.Count && row > 0)
+                    {
+                        if (grid.Children.ElementAt(index) is Label)
+                        {
+                            grid.Children.RemoveAt(index);
+                            row--;
+                        }
+                        else
+                        {
+                            index++;
+                        }
+                    }
                     break;
             }
             //adds the button's text to the grid
