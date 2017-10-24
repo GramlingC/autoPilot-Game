@@ -100,7 +100,7 @@ namespace TestApp
                 button.Clicked += buttonClicked;//adding the function to this button's click
 
 #if __MOBILE__
-                grid.Children.Add(button, 0, 1, maxrow + i, maxrow + i + 1);
+                grid.Children.Add(button, 0, 1, maxrow + i + 1, maxrow + i + 2);
 #else
                 grid.Children.Add(button, i, i+1, maxrow + 3, maxrow + 4);
 #endif
