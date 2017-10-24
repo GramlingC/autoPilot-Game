@@ -88,9 +88,37 @@ namespace TestApp
             AddLabel("> This is the second text. This text will hopefully be so long that it'll wrap around to a second line, and this grid row will expand accordingly to be two lines thick.");
             AddLabel("> Third Text.");
 
-            Button button = new Button
+            GameButton button;
+
+            // Loops through creating the buttons, since they are each very similar
+            for (int i = 0; i < 4; i++)
             {
-                Text = "> choose(Option1)",
+                button = new GameButton
+                {
+                    Text = "> choose(Option" + (i+1) + ")",
+                    Key = "option" + (i+1),
+                    TextColor = Color.LightGreen,
+                    //Adapt to device size
+
+                    FontSize = fontsize,
+
+                    BackgroundColor = Color.DarkSlateGray,
+                };
+                button.Clicked += buttonClicked;//adding the function to this button's click
+
+#if __MOBILE__
+                grid.Children.Add(button, 0, 1, maxrow + i + 1, maxrow + i + 2);
+#else
+                grid.Children.Add(button, i, i+1, maxrow + 3, maxrow + 4);
+#endif
+                //make sure to put this in a different column each loop
+            }
+
+#if !__MOBILE__
+            button = new GameButton
+            {
+                Text = "> clearScreen()",
+                Key = "clearScreen",
                 TextColor = Color.LightGreen,
                 //Adapt to device size
 
@@ -100,48 +128,8 @@ namespace TestApp
             };
             button.Clicked += buttonClicked;//adding the function to this button's click
 
-            grid.Children.Add(button, 0, 1, maxrow + 1, maxrow + 2);
-
-            button = new Button
-            {
-                Text = "> choose(Option2)",
-                TextColor = Color.LightGreen,
-
-                FontSize = fontsize,
-
-                BackgroundColor = Color.DarkSlateGray,
-            };
-            button.Clicked += buttonClicked;
-
-            grid.Children.Add(button, 0, 1, maxrow + 2, maxrow + 3);
-            //make sure to put this in a different row
-
-            button = new Button
-            {
-                Text = "> choose(Option3)",
-                TextColor = Color.LightGreen,
-
-                FontSize = fontsize,
-
-                BackgroundColor = Color.DarkSlateGray,
-            };
-            button.Clicked += buttonClicked;
-
-            grid.Children.Add(button, 0, 1, maxrow + 3, maxrow + 4);
-
-
-            button = new Button
-            {
-                Text = "> choose(Option4)",
-                TextColor = Color.LightGreen,
-
-                FontSize = fontsize,
-
-                BackgroundColor = Color.DarkSlateGray,
-            };
-            button.Clicked += buttonClicked;
-
-            grid.Children.Add(button, 0, 1, maxrow + 4, maxrow + 5);
+            grid.Children.Add(button, 5, 6, maxrow + 3, maxrow + 4);
+#endif
 
             this.Padding = new Thickness(10, 20, 10, 10); //Some breathing room around the edges
             this.Content = grid;//Puts the grid on the page
@@ -201,27 +189,43 @@ namespace TestApp
 
         void buttonClicked(object sender, EventArgs e)
         {
-            Button button = (Button)sender;
+            GameButton button = (GameButton)sender;
             AddLabel(button.Text);
-            if (button.Text == "> choose(Option1)")
+
+            // this may be done later by retreiving text from a database (?)
+            switch (button.Key)
             {
-                AddLabel("> You have chosen option one.");
-                AddLabel("> Things will happen accordingly, maybe the ship will be hit by something or waste resources.Story will happen and consequences will be had, etc, etc.");
-            }
-            else if (button.Text == "> choose(Option2)")
-            {
-                AddLabel("> You have chosen option two.");
-                AddLabel("> Different things will happen by this than by option one, and so on. I'm sure it'll be a good thing.");
-            }
-            else if (button.Text == "> choose(Option3)")
-            {
-                AddLabel("> You have chosen option three.");
-                AddLabel("> This return text will probably be stored in a database somewhere, and we'll have code to check what to display depending on variables and whatnot.");
-            }
-            else if (button.Text == "> choose(Option4)")
-            {
-                AddLabel("> You have chosen option four.");
-                AddLabel("> Ideally, this text will be displayed one character at a time.");
+                case "option1":
+                    AddLabel("> You have chosen option one.");
+                    AddLabel("> Things will happen accordingly, maybe the ship will be hit by something or waste resources.Story will happen and consequences will be had, etc, etc.");
+                    break;
+                case "option2":
+                    AddLabel("> You have chosen option two.");
+                    AddLabel("> Different things will happen by this than by option one, and so on. I'm sure it'll be a good thing.");
+                    break;
+                case "option3":
+                    AddLabel("> You have chosen option three.");
+                    AddLabel("> This return text will probably be stored in a database somewhere, and we'll have code to check what to display depending on variables and whatnot.");
+                    break;
+                case "option4":
+                    AddLabel("> You have chosen option four.");
+                    AddLabel("> Ideally, this text will be displayed one character at a time.");
+                    break;
+                case "clearScreen":
+                    int index = 0;
+                    while (index < grid.Children.Count && row > 0)
+                    {
+                        if (grid.Children.ElementAt(index) is Label)
+                        {
+                            grid.Children.RemoveAt(index);
+                            row--;
+                        }
+                        else
+                        {
+                            index++;
+                        }
+                    }
+                    break;
             }
             //adds the button's text to the grid
         }
