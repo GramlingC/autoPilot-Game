@@ -32,11 +32,11 @@ namespace TestApp
             using (FileStream stream = File.Create(fileName))
             {
                 // Convert each object into a stream of binary data, and write it to the file.
-                foreach (object o in objList)
+                for (int index = 0; index < objList.Length; index++)
                 {
                     try
                     {
-                        formatter.Serialize(stream, o);
+                        formatter.Serialize(stream, objList[index]);
                     }
                     catch (SecurityException e)
                     {
@@ -53,23 +53,23 @@ namespace TestApp
             // We will assume everything goes well.  If not, we will return false through this.
             bool wasSuccessful = true;
 
-            // If the file exists, we delete it so we can rewrite our new file.
+            // We check to make sure the file exists
             if (File.Exists(fileName))
             {
-                // We need a binary formatter to convert our objects into binary data.
+                // We need a binary formatter to convert our objects from binary data.
                 BinaryFormatter formatter = new BinaryFormatter();
 
                 // The using block lets us open a FileStream safely, because when 
                 // it closes, it will automatically close the stream for us. As we
-                // open the filestream, we create our save file.
+                // open the filestream, we open our save file.
                 using (FileStream stream = File.OpenRead(fileName))
                 {
-                    // Convert each object into a stream of binary data, and write it to the file.
-                    foreach (object o in objList)
+                    // Read each object from the file into the datastream, and copies it into the object.
+                    for (int index = 0; index < objList.Length; index++)
                     {
                         try
                         {
-                            formatter.Deserialize(stream);
+                            objList[index] = formatter.Deserialize(stream);
                         }
                         catch (SecurityException e)
                         {
