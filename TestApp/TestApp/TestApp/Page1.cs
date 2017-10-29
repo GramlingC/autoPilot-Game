@@ -8,6 +8,9 @@ using Xamarin.Forms;
 //To make a page like this, right click TestApp (Portable)
 //Choose Add, then choose Content Page (C#)
 
+//Make sure to change App.xaml.cs to have it run your desired page
+//At MainPage = new TestApp.Page1();, you'd change "Page1" to the name of the page you want it to run
+
 namespace TestApp
 {
     public class Page1 : ContentPage
@@ -52,17 +55,21 @@ namespace TestApp
                     new ColumnDefinition { Width = GridLength.Auto},
                     new ColumnDefinition { Width = GridLength.Auto},
                     new ColumnDefinition { Width = new GridLength(1,GridUnitType.Star)}
+                    //this type of grid length expands to fill in what isn't taken up by other rows
                 }
             };
             for (int i = 0; i < maxrow; i++)
             {
                 grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                //I want several lines of text near the top, that's the Autos
+                //I want several lines of text near the top, that's these Autos
             }
-            //this type of grid length expands to fill in what isn't taken up by other rows
+            
             grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            //I want a large empty space, that's the star
+            //I want a large empty space, that's the star 
+
 #if __MOBILE__
+            //I want four buttons at the bottom, 
+            //but they need to be smaller in mobile to fit the screen
             grid.RowDefinitions.Add(new RowDefinition { Height = 30 });
             grid.RowDefinitions.Add(new RowDefinition { Height = 30 });
             grid.RowDefinitions.Add(new RowDefinition { Height = 30 });
@@ -73,7 +80,7 @@ namespace TestApp
             grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 #endif
-            //I want buttons at the bottom, that's the last Auto
+            
 
             //Now, to add some content.
             AddLabel("> First Text.");
@@ -130,7 +137,6 @@ namespace TestApp
 
             //BEFORE YOU RUN: You can right click the sub-projects to the right
             //such as TestApp.UWP and choose Set as Start Up Project to choose your platform
-            //Only UWP works for me at the moment
         }
 
         void AddLabel(string text)
