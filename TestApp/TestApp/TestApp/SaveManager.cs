@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Security;
+using System.Runtime.Serialization;
 
 namespace TestApp
 {
@@ -14,7 +14,6 @@ namespace TestApp
         // Completed, need testing
         bool SaveObjects(string fileName, params object[] objList)
         {
-            // We will assume everything goes well.  If not, we will return false through this.
             bool wasSuccessful = true;
 
             // If the file exists, we delete it so we can rewrite our new file.
@@ -24,6 +23,7 @@ namespace TestApp
             }
 
             // We need a binary formatter to convert our objects into binary data.
+            // Use an XML formatter to format to xml data, for debug purposes
             BinaryFormatter formatter = new BinaryFormatter();
 
             // The using block lets us open a FileStream safely, because when 
@@ -38,7 +38,7 @@ namespace TestApp
                     {
                         formatter.Serialize(stream, objList[index]);
                     }
-                    catch (SecurityException e)
+                    catch (SerializationException e)
                     {
                         Console.Write("Error serializing objects: " + e.Message);
                         wasSuccessful = false;
@@ -71,7 +71,7 @@ namespace TestApp
                         {
                             objList[index] = formatter.Deserialize(stream);
                         }
-                        catch (SecurityException e)
+                        catch (SerializationException e)
                         {
                             Console.Write("Error deserializing objects: " + e.Message);
                             wasSuccessful = false;
