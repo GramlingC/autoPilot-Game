@@ -29,14 +29,14 @@ Then push it to the remote, so we know you're working on it
 git push origin shortFeatureName
 ```
 
-##Work on the Feature Branch
+## Work on the Feature Branch
 Write your code and commit often (anytime you change something or write something significant)
 ```
 git add -A
 git commit -m 'Useful commit message'
 ```
 
-##Keep Feature Branch up-to-date with master
+## Keep Feature Branch up-to-date with master
 As you work periodically, after you know of changes to master or when your feature is complete -
 
 Use git pull to pull the changes made to master and merge them into your current working branch:
@@ -54,18 +54,18 @@ git mergetool
 ```
 If you don't want to have to deal with this, message in the programming slack to let us known you need help resolving a merge conflict.
 
-##Push Your Feature Branch
+## Push Your Feature Branch
 After some commits, it may be a good idea to upload your code to the online repo, so everyone else can see what you've worked on:
 ``` git push origin shortFeatureName```
 
-##Create a Pull Request
+## Create a Pull Request
 When you've completed your changes, you'll want to submit a Pull Request to let us know it's ready to be merged.
 
 On GitHub, navigate to your feature branch and create a Pull Request to the ``testing`` branch.
 
 [See this guide for more detailed instructions](http://yangsu.github.io/pull-request-tutorial)
 
-##Peer Review Pull Request
+## Peer Review Pull Request
 Review code and suggest fixes, each member must approve the code before approving.
 * Fixes would be made locally on the feature branch and then the updates pushed with
 ``` 
@@ -73,15 +73,15 @@ git push origin shortFeatureName
 ```
 * This will automatically update the pull request
 
-##Approve Pull Request
+## Approve Pull Request
 After each team member has approved your feature we will pull your code to the ```master``` branch for integration testing. As better tests are developed, this process will be streamlined, but for now we will have one person incharge of integrating changes.
 
-##Delete Feature Branch (Optional)
+## Delete Feature Branch (Optional)
 You can do this immediately after it is merged into master to keep the repo tidy, but you may also choose to wait until later
 * Locally - Using ``git branch -d shortFeatureName``
 * On GitHub - Using the option on the _Pull Request_
 
-#Code and Style
+# Code and Style
 
-##Style
+## Style
 A good C++ style to refer to: [Google C++ style](https://google-styleguide.googlecode.com/svn/trunk/cppguide.html)
