@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization;
+using System.Xml.Serialization;
+using System.Diagnostics;
+//using System.Runtime.Serialization;
+
+// Binary serialization seems to not be supported by Xamarin, so 
+// we can use XML serialization for now until we find an alternative solution.
 
 namespace TestApp
 {
@@ -22,10 +26,6 @@ namespace TestApp
                 File.Delete(fileName);
             }
 
-            // We need a binary formatter to convert our objects into binary data.
-            // Use an XML formatter to format to xml data, for debug purposes
-            BinaryFormatter formatter = new BinaryFormatter();
-
             // The using block lets us open a FileStream safely, because when 
             // it closes, it will automatically close the stream for us. As we
             // open the filestream, we create our save file.
@@ -34,13 +34,18 @@ namespace TestApp
                 // Convert each object into a stream of binary data, and write it to the file.
                 for (int index = 0; index < objList.Length; index++)
                 {
+                    // Use an XML formatter to format to xml data
+                    // Note: XmlSerializer MUST be instantiated with a type in the constructor,
+                    // which is why it is created inside the for loop.
+                    XmlSerializer serializer = new XmlSerializer(objList[index].GetType());
+
                     try
                     {
-                        formatter.Serialize(stream, objList[index]);
+                        serializer.Serialize(stream, objList[index]);
                     }
-                    catch (SerializationException e)
+                    catch (Exception e)
                     {
-                        Console.Write("Error serializing objects: " + e.Message);
+                        Debug.WriteLine("Error serializing objects: " + e.Message);
                         wasSuccessful = false;
                     }
                 }
@@ -50,30 +55,24 @@ namespace TestApp
         }
         bool LoadObjects(string fileName, params object[] objList)
         {
-            // We will assume everything goes well.  If not, we will return false through this.
             bool wasSuccessful = true;
-
-            // We check to make sure the file exists
+            
             if (File.Exists(fileName))
             {
-                // We need a binary formatter to convert our objects from binary data.
-                BinaryFormatter formatter = new BinaryFormatter();
-
-                // The using block lets us open a FileStream safely, because when 
-                // it closes, it will automatically close the stream for us. As we
-                // open the filestream, we open our save file.
                 using (FileStream stream = File.OpenRead(fileName))
                 {
-                    // Read each object from the file into the datastream, and copies it into the object.
                     for (int index = 0; index < objList.Length; index++)
                     {
+                        // Use an XML formatter to format xml data
+                        XmlSerializer serializer = new XmlSerializer(objList[index].GetType());
+
                         try
                         {
-                            objList[index] = formatter.Deserialize(stream);
+                            objList[index] = serializer.Deserialize(stream);
                         }
-                        catch (SerializationException e)
+                        catch (Exception e)
                         {
-                            Console.Write("Error deserializing objects: " + e.Message);
+                            Debug.WriteLine("Error deserializing objects: " + e.Message);
                             wasSuccessful = false;
                         }
                     }
@@ -81,7 +80,7 @@ namespace TestApp
             }
             else
             {
-                Console.WriteLine("Error Loading Objects: File does not exist.");
+                Debug.WriteLine("Error Loading Objects: File does not exist.");
                 wasSuccessful = false;
             }
 
