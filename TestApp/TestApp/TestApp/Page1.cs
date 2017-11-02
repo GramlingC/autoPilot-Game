@@ -141,9 +141,9 @@ namespace TestApp
 
             Ship testShip = new Ship(100, 100, 100, 100);
 
-            //SaveManager.SaveObjects(@"testSave.xml", testShip);
+            //SaveManager.SaveObject(@"testSave.xml", testShip);
 
-            SaveManager.LoadObjects(@"testSave.xml", testShip);
+            testShip = (Ship)SaveManager.LoadObject(@"testSave.xml", testShip);
 
             Debug.WriteLine("Hull: {0} - Fuel: {1} - Lifesigns: {2} - Empathy: {3}", testShip.HullIntegrity, testShip.Fuel, testShip.Lifesigns, testShip.EmpathyLevel);
         }

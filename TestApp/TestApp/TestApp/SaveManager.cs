@@ -17,6 +17,35 @@ namespace TestApp
     class SaveManager
     {
         // Completed, need testing
+
+        public static async void SaveObject(string fileName, object obj)
+        {           
+
+            // If the file exists, we delete it so we can rewrite our new file.
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
+
+            // The using block lets us open a FileStream safely, because when 
+            // it closes, it will automatically close the stream for us. As we
+            // open the filestream, we create our save file.
+            using (FileStream stream = Task.Run(() => File.Create(fileName)).Result)
+            {
+                // Use an XML formatter to format to xml data
+                // Note: XmlSerializer MUST be instantiated with a type in the constructor
+                XmlSerializer serializer = new XmlSerializer(obj.GetType());
+
+                try
+                {
+                    await Task.Run(() => serializer.Serialize(stream, obj));
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine("Error serializing object: " + e.Message);
+                }
+            }
+        }
         public static async void SaveObjects(string fileName, params object[] objList)
         {
             //fileName = "../../../../../" + fileName;
@@ -58,14 +87,41 @@ namespace TestApp
 
             //return wasSuccessful;
         }
-
-        public static bool LoadObjects(string fileName, params object[] objList)
+        // LoadObject has the unique requirement that we cannot pass in a generic object with "ref".
+        // Thus, we have to pass it back as a return value and assign it in the calling function.
+        public static object LoadObject(string fileName, object obj)
         {
-            bool wasSuccessful = true;
-            
             if (File.Exists(fileName))
             {
-                using (FileStream stream = File.OpenRead(fileName))
+                using (FileStream stream = Task.Run(() => File.OpenRead(fileName)).Result)
+                {
+                    // Use an XML formatter to format xml data
+                    XmlSerializer serializer = new XmlSerializer(obj.GetType());
+
+                    try
+                    {
+                        obj = Task.Run(() => serializer.Deserialize(stream)).Result;
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine("Error deserializing objects: " + e.Message);
+                    }
+                }
+            }
+            else
+            {
+                Debug.WriteLine("Error Loading Objects: File does not exist.");
+            }
+
+            return obj;
+        }
+        // LoadObjects has a unique requirement in that we cannot use "params" and "out" or "ref" together.
+        // Thus, we must return the object array back as a return value, meaning it must be parsed in the calling function.
+        public static object[] LoadObjects(string fileName, params object[] objList)
+        {            
+            if (File.Exists(fileName))
+            {
+                using (FileStream stream = Task.Run(() => File.OpenRead(fileName)).Result)
                 {
                     for (int index = 0; index < objList.Length; index++)
                     {
@@ -74,13 +130,11 @@ namespace TestApp
 
                         try
                         {
-                            objList[index] = serializer.Deserialize(stream);
-                            Debug.WriteLine(objList[index].ToString());
+                            objList[index] = Task.Run(() => serializer.Deserialize(stream)).Result;
                         }
                         catch (Exception e)
                         {
                             Debug.WriteLine("Error deserializing objects: " + e.Message);
-                            wasSuccessful = false;
                         }
                     }
                 }
@@ -88,13 +142,12 @@ namespace TestApp
             else
             {
                 Debug.WriteLine("Error Loading Objects: File does not exist.");
-                wasSuccessful = false;
             }
 
-            return wasSuccessful;
+            return objList;
         }
 
-        // Incomplete, and may not be needed.
+        // Not needed, here for historical purposes?
         /*
         bool SaveVariables(string fileName, params object[] atrList)
         {
