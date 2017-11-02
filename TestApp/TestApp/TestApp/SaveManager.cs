@@ -4,6 +4,7 @@ using System.Text;
 using System.IO;
 using System.Xml.Serialization;
 using System.Diagnostics;
+using System.Threading.Tasks;
 //using System.Runtime.Serialization;
 
 // Binary serialization seems to not be supported by Xamarin, so 
@@ -16,9 +17,11 @@ namespace TestApp
     class SaveManager
     {
         // Completed, need testing
-        bool SaveObjects(string fileName, params object[] objList)
+        public static async void SaveObjects(string fileName, params object[] objList)
         {
-            bool wasSuccessful = true;
+            //fileName = "../../../../../" + fileName;
+
+            //bool wasSuccessful = true;
 
             // If the file exists, we delete it so we can rewrite our new file.
             if (File.Exists(fileName))
@@ -29,9 +32,9 @@ namespace TestApp
             // The using block lets us open a FileStream safely, because when 
             // it closes, it will automatically close the stream for us. As we
             // open the filestream, we create our save file.
-            using (FileStream stream = File.Create(fileName))
+            using (FileStream stream = Task.Run(() => File.Create(fileName)).Result)
             {
-                // Convert each object into a stream of binary data, and write it to the file.
+                // Convert each object into a stream of data, and write it to the file.
                 for (int index = 0; index < objList.Length; index++)
                 {
                     // Use an XML formatter to format to xml data
@@ -41,19 +44,22 @@ namespace TestApp
 
                     try
                     {
-                        serializer.Serialize(stream, objList[index]);
+                        await Task.Run(() => serializer.Serialize(stream, objList[index]));
                     }
                     catch (Exception e)
                     {
                         Debug.WriteLine("Error serializing objects: " + e.Message);
-                        wasSuccessful = false;
+                        //wasSuccessful = false;
                     }
                 }
             }
 
-            return wasSuccessful;
+            //stream.Close();
+
+            //return wasSuccessful;
         }
-        bool LoadObjects(string fileName, params object[] objList)
+
+        public static bool LoadObjects(string fileName, params object[] objList)
         {
             bool wasSuccessful = true;
             
@@ -69,6 +75,7 @@ namespace TestApp
                         try
                         {
                             objList[index] = serializer.Deserialize(stream);
+                            Debug.WriteLine(objList[index].ToString());
                         }
                         catch (Exception e)
                         {

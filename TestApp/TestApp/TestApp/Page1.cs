@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 
 using Xamarin.Forms;
 
@@ -137,6 +138,14 @@ namespace TestApp
 
             //BEFORE YOU RUN: You can right click the sub-projects to the right
             //such as TestApp.UWP and choose Set as Start Up Project to choose your platform
+
+            Ship testShip = new Ship(100, 100, 100, 100);
+
+            //SaveManager.SaveObjects(@"testSave.xml", testShip);
+
+            SaveManager.LoadObjects(@"testSave.xml", testShip);
+
+            Debug.WriteLine("Hull: {0} - Fuel: {1} - Lifesigns: {2} - Empathy: {3}", testShip.HullIntegrity, testShip.Fuel, testShip.Lifesigns, testShip.EmpathyLevel);
         }
 
         void AddLabel(string text)
