@@ -137,13 +137,20 @@ namespace TestApp
             //BEFORE YOU RUN: You can right click the sub-projects to the right
             //such as TestApp.UWP and choose Set as Start Up Project to choose your platform
 
-            Ship testShip = new Ship(100, 100, 100, 100);
+            //
+            // Everything below is for saving ship to file, just examples
+            //
+            Ship testShip = new Ship(100, 100, 100, 0);
+            SaveManager.SaveObject(@"testSave.xml", testShip);
+            //testShip = (Ship)SaveManager.LoadObject(@"testSave.xml", testShip);
+            //Debug.WriteLine("Hull: {0} - Fuel: {1} - Lifesigns: {2} - Empathy: {3}", testShip.HullIntegrity, testShip.Fuel, testShip.Lifesigns, testShip.EmpathyLevel);
 
-            //SaveManager.SaveObject(@"testSave.xml", testShip);
-
-            testShip = (Ship)SaveManager.LoadObject(@"testSave.xml", testShip);
-
-            Debug.WriteLine("Hull: {0} - Fuel: {1} - Lifesigns: {2} - Empathy: {3}", testShip.HullIntegrity, testShip.Fuel, testShip.Lifesigns, testShip.EmpathyLevel);
+            //
+            //
+            //
+            GameStateClass state = new GameStateClass();
+            state.GenerateSampleData();
+            state.SaveEvents();
         }
 
         void AddLabel(string text)

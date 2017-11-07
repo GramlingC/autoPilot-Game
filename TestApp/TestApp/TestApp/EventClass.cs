@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 //Contains Event class and Options class. 
@@ -7,11 +8,13 @@ using System.Collections.Generic;
 
 namespace TestApp
 {
-    class Event : IEnumerable
+    public class Event
     {
         private int eventNumber = 0;
         private String text = "";
         private List<Option> options = new List<Option>();
+
+        public Event() { }
 
         public Event(int eventNumber, String text, List<Option> options) 
         {
@@ -55,7 +58,6 @@ namespace TestApp
         {
             options = op;
         }
-        
     }
 
     public class Option
@@ -116,7 +118,6 @@ namespace TestApp
         {
             text = t;
         }
-
     }
     
 }

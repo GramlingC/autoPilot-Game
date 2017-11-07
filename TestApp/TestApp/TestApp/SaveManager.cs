@@ -14,7 +14,7 @@ namespace TestApp
 {
     // The SaveManager class can write objects to files and read
     // them back by the use of object serialization.
-    class SaveManager
+    public class SaveManager
     {
         // Completed, need testing
 
