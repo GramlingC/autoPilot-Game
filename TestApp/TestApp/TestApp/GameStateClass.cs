@@ -155,5 +155,14 @@ namespace TestApp
 
             eList.Add(e);
         }
+
+        public void SaveEvents()
+        {
+            foreach (Event e in eList)
+            {
+                int id = e.GetEventNumber();
+                SaveManager.SaveObject(@"testEvent" + id + "Save.xml", e);
+            }
+        }
     }
 }
