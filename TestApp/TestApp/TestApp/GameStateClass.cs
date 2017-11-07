@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
 
 namespace TestApp
 {
     public class GameStateClass
     {
+        /*
         private int[] ReadText(String file, int typeSelector, int eventNumber = -1)
         {
             //Reads text from file to return either Events or Options
@@ -81,7 +82,7 @@ namespace TestApp
                  * Saving/Loading 
                  * 
                  * 
-                 */
+                 *
 
             }
 
@@ -104,5 +105,8 @@ namespace TestApp
             new int[] {0,2,4,6},
             new int[] {11,22}
         };
+        */
+
+
     }
 }
