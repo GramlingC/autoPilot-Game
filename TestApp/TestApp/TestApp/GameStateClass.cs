@@ -114,12 +114,19 @@ namespace TestApp
         {
             Option o1, o2, o3, o4;
             Event e;
+            List<String> t;
 
             o1 = new Option(0, 1, false, ">doOne()");
             o2 = new Option(1, 3, false, ">doTwo()");
             o3 = new Option(2, 2, false, ">doThree()");
             o4 = new Option(3, 4, false, ">doFour()");
-            e = new Event(0, "First event!", new List<Option> { o1, o2, o3, o4 });
+            t = new List<string>()
+            {
+                "This is the first event!",
+                "Feel free to read this at your own disposal",
+                "Multiple lines of text in one Event right here!"
+            };
+            e = new Event(0, t, new List<Option> { o1, o2, o3, o4 });
 
             eList.Add(e);
             
@@ -127,7 +134,13 @@ namespace TestApp
             o2 = new Option(1, 2, false, ">escogerDos()");
             o3 = new Option(2, 3, false, ">escogerTres()");
             o4 = new Option(3, 4, false, ">escogerCuatro()");
-            e = new Event(1, "Second event, this one is.", new List<Option> { o1, o2, o3, o4 });
+            t = new List<string>()
+            {
+                "Welcome to event number 2",
+                "Or, as I like to say, numero dos",
+                "If you couldn't already tell, this event was based on Kloss's test class in EventClass.cs!"
+            };
+            e = new Event(1, t, new List<Option> { o1, o2, o3, o4 });
 
             eList.Add(e);
 
@@ -135,7 +148,12 @@ namespace TestApp
             o2 = new Option(1, 1, false, ">gotoEvent(2)");
             o3 = new Option(2, 3, false, ">gotoEvent(4)");
             o4 = new Option(3, 4, false, ">gotoEvent(5)");
-            e = new Event(2, "Currently on third event.", new List<Option> { o1, o2, o3, o4 });
+            t = new List<string>()
+            {
+                "We are now at the third event",
+                "This one only has two lines!!!"
+            };
+            e = new Event(2, t, new List<Option> { o1, o2, o3, o4 });
 
             eList.Add(e);
 
@@ -143,15 +161,28 @@ namespace TestApp
             o2 = new Option(1, 2, false, ">toPrevious()");
             o3 = new Option(2, 4, false, ">toNext()");
             o4 = new Option(3, 4, false, ">toEnd()");
-            e = new Event(3, "~Welcome to event FOUR~", new List<Option> { o1, o2, o3, o4 });
+            t = new List<string>()
+            {
+                "The next event is the last one.",
+                "It is the most realistic event in this sample data.",
+                "However, it is still silly.",
+                "Enjoy."
+            };
+            e = new Event(3, t, new List<Option> { o1, o2, o3, o4 });
 
             eList.Add(e);
 
-            o1 = new Option(0, 0, false, ">releaseCargo('box')");
+            o1 = new Option(0, 0, false, ">releaseCargo('BoxOfSupplies')");
             o2 = new Option(1, 0, false, ">examineLifeSigns()");
             o3 = new Option(2, 0, false, ">probePlanet()");
             o4 = new Option(3, 0, false, ">selfDestruct()");
-            e = new Event(4, "Is this the final event...?", new List<Option> { o1, o2, o3, o4 });
+            t = new List<string>()
+            {
+                "A distress signal is coming in from the nearby planet;",
+                "The coordinates of the signal seem to be coming from beneath the surface of the only ocean of the planet, which covers less than 20% of it's surface;",
+                "The signal asks for a box of supplies, but stresses not to intervene in any other way"
+            };
+            e = new Event(4, t, new List<Option> { o1, o2, o3, o4 });
 
             eList.Add(e);
         }
@@ -160,7 +191,7 @@ namespace TestApp
         {
             foreach (Event e in eList)
             {
-                int id = e.GetEventNumber();
+                int id = e.eventNumber;
                 SaveManager.SaveObject(@"testEvent" + id + "Save.xml", e);
             }
         }

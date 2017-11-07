@@ -10,62 +10,77 @@ namespace TestApp
 {
     public class Event
     {
-        private int eventNumber = 0;
-        private String text = "";
-        private List<Option> options = new List<Option>();
+        public int eventNumber { get; set; }
+        public List<String> text { get; set; }
+        public List<Option> options { get; set; }
 
-        public Event() { }
+        public Event()
+        {
+            eventNumber = 0;
+            text = new List<String>();
+            options = new List<Option>();
+        }
 
-        public Event(int eventNumber, String text, List<Option> options) 
+        public Event(int eventNumber, List<String> text, List<Option> options) 
         {
             this.eventNumber = eventNumber;
-            this.text = text;
-            for(int i = 0; i < options.Count; i++)
-            {
-               this.options.Add(options[i]);
-            }
+            this.text = new List<String>(text);
+            this.options = new List<Option>(options);
+
+            //for(int i = 0; i < options.Count; i++)
+            //{
+            //   this.options.Add(options[i]);
+            //}
         }
 
-        //get set eventNumber
-        public int GetEventNumber()
-        {
-            return eventNumber;
-        }
-
-        public void SetEventNumber(int n)
-        {
-            eventNumber = n;
-        }
-
-        //get set text
-        public String GetEventText()
-        {
-            return text;
-        }
-
-        public void SetEventText(String t)
-        {
-            text = t;
-        }
-
-        //get set options
-        public List<Option> GetOptions()
-        {
-            return options;
-        }
-
-        public void SetOptions(List<Option> op)
-        {
-            options = op;
-        }
+        ////get set eventNumber
+        //public int GetEventNumber()
+        //{
+        //    return eventNumber;
+        //}
+        //
+        //public void SetEventNumber(int n)
+        //{
+        //    eventNumber = n;
+        //}
+        //
+        ////get set text
+        //public String GetEventText()
+        //{
+        //    return text;
+        //}
+        //
+        //public void SetEventText(String t)
+        //{
+        //    text = t;
+        //}
+        //
+        ////get set options
+        //public List<Option> GetOptions()
+        //{
+        //    return options;
+        //}
+        //
+        //public void SetOptions(List<Option> op)
+        //{
+        //    options = op;
+        //}
     }
 
     public class Option
     {
-        private int optionNumber = 0;
-        private int nextEventNumber = 0;
-        private bool optionPicked = false;
-        private String text = "";
+        public int optionNumber { get; set; }
+        public int nextEventNumber { get; set; }
+        public bool optionPicked { get; set; }
+        public String text { get; set; }
+
+        public Option()
+        {
+            this.optionNumber = 0;
+            this.nextEventNumber = 0;
+            this.optionPicked = false;
+            this.text = "";
+        }
 
         public Option(int optionNumber, int nextEventNumber, bool optionPicked, String text)
         {
@@ -75,49 +90,49 @@ namespace TestApp
             this.text = text;
         }
 
-        //get set nextEventNumber
-        public int GetNextEventNumber()
-        {
-            return nextEventNumber;
-        }
-
-        public void SetNextEventNumber(int i)
-        {
-            nextEventNumber = i;
-        }
-
-        //get set optionNumber
-        public int GetOptionNumber()
-        {
-            return optionNumber;
-        }
-
-        public void SetOptionNumber(int n)
-        {
-            optionNumber = n;
-        }
-
-        //get set optionPicked
-        public bool GetOptionPicked()
-        {
-            return optionPicked;
-        }
-
-        public void SetOptionPicked(bool b)
-        {
-            optionPicked = b;
-        }
-
-        //get set text
-        public String GetOptionText()
-        {
-            return text;
-        }
-
-        public void SetOptionText(String t)
-        {
-            text = t;
-        }
+        ////get set nextEventNumber
+        //public int GetNextEventNumber()
+        //{
+        //    return nextEventNumber;
+        //}
+        //
+        //public void SetNextEventNumber(int i)
+        //{
+        //    nextEventNumber = i;
+        //}
+        //
+        ////get set optionNumber
+        //public int GetOptionNumber()
+        //{
+        //    return optionNumber;
+        //}
+        //
+        //public void SetOptionNumber(int n)
+        //{
+        //    optionNumber = n;
+        //}
+        //
+        ////get set optionPicked
+        //public bool GetOptionPicked()
+        //{
+        //    return optionPicked;
+        //}
+        //
+        //public void SetOptionPicked(bool b)
+        //{
+        //    optionPicked = b;
+        //}
+        //
+        ////get set text
+        //public String GetOptionText()
+        //{
+        //    return text;
+        //}
+        //
+        //public void SetOptionText(String t)
+        //{
+        //    text = t;
+        //}
     }
     
 }
