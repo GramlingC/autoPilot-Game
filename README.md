@@ -61,7 +61,7 @@ After some commits, it may be a good idea to upload your code to the online repo
 ## Create a Pull Request
 When you've completed your changes, you'll want to submit a Pull Request to let us know it's ready to be merged.
 
-On GitHub, navigate to your feature branch and create a Pull Request to the ``testing`` branch.
+On GitHub, navigate to your feature branch and create a Pull Request to the ``master`` branch.
 
 [See this guide for more detailed instructions](http://yangsu.github.io/pull-request-tutorial)
 
