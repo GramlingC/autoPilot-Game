@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace TestApp
 {
-    public class Event
+    class Event : IEnumerable
     {
         private int eventNumber = 0;
         private String text = "";

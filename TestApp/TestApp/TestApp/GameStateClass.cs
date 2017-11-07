@@ -1,7 +1,7 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace TestApp
 {
@@ -107,6 +107,53 @@ namespace TestApp
         };
         */
 
+        private List<Event> eList = new List<Event>();
 
+        // This simply fills up the List of events with dummy events.
+        public void GenerateSampleData()
+        {
+            Option o1, o2, o3, o4;
+            Event e;
+
+            o1 = new Option(0, 1, false, ">doOne()");
+            o2 = new Option(1, 3, false, ">doTwo()");
+            o3 = new Option(2, 2, false, ">doThree()");
+            o4 = new Option(3, 4, false, ">doFour()");
+            e = new Event(0, "First event!", new List<Option> { o1, o2, o3, o4 });
+
+            eList.Add(e);
+            
+            o1 = new Option(0, 0, false, ">escogerUno()");
+            o2 = new Option(1, 2, false, ">escogerDos()");
+            o3 = new Option(2, 3, false, ">escogerTres()");
+            o4 = new Option(3, 4, false, ">escogerCuatro()");
+            e = new Event(1, "Second event, this one is.", new List<Option> { o1, o2, o3, o4 });
+
+            eList.Add(e);
+
+            o1 = new Option(0, 0, false, ">gotoEvent(1)");
+            o2 = new Option(1, 1, false, ">gotoEvent(2)");
+            o3 = new Option(2, 3, false, ">gotoEvent(4)");
+            o4 = new Option(3, 4, false, ">gotoEvent(5)");
+            e = new Event(2, "Currently on third event.", new List<Option> { o1, o2, o3, o4 });
+
+            eList.Add(e);
+
+            o1 = new Option(0, 0, false, ">toBeginning()");
+            o2 = new Option(1, 2, false, ">toPrevious()");
+            o3 = new Option(2, 4, false, ">toNext()");
+            o4 = new Option(3, 4, false, ">toEnd()");
+            e = new Event(3, "~Welcome to event FOUR~", new List<Option> { o1, o2, o3, o4 });
+
+            eList.Add(e);
+
+            o1 = new Option(0, 0, false, ">releaseCargo('box')");
+            o2 = new Option(1, 0, false, ">examineLifeSigns()");
+            o3 = new Option(2, 0, false, ">probePlanet()");
+            o4 = new Option(3, 0, false, ">selfDestruct()");
+            e = new Event(4, "Is this the final event...?", new List<Option> { o1, o2, o3, o4 });
+
+            eList.Add(e);
+        }
     }
 }
