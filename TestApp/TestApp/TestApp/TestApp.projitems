@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)EventClass.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameStateClass.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
