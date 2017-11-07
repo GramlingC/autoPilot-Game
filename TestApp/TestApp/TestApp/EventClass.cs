@@ -2,127 +2,145 @@
 using System.Collections.Generic;
 
 //Contains Event class and Options class. 
+//Should make options first in GameState and put them into a List<Options> 
+//Then in GameState, separate them based on what each event needs? (Check test at the bottom of this file)
+
 namespace TestApp
 {
     public class Event
     {
-        private LinkedList<int> events = new LinkedList<int>();
-        private LinkedListNode<int> current;
+        private int eventNumber = 0;
+        private String text = "";
+        private List<Option> options = new List<Option>();
 
-        public Event()
+        public Event(int eventNumber, String text, List<Option> options) 
         {
-            //Read a line from the file with the total amount of events
-            //Subsitute 30 for n which will be retrieved
-            for (int x = 1; x <= 30; x++)
+            this.eventNumber = eventNumber;
+            this.text = text;
+            for(int i = 0; i < options.Count; i++)
             {
-                events.AddLast(x);
-            }
-            current = events.First;
-        }
-
-        public int GetCurrentEvent()
-        {
-            return current.Value;
-        }
-
-        public void SetCurrentEvent(int newEvent)
-        {
-            current = events.Find(newEvent); //error when newEvent not in the an event linked list
-        }
-
-        public void NextEvent()
-        {
-            current = current.Next;
-        }
-
-        //returns list of options depending on the current event. ex. [1, 2, 3, 4]
-        public List<int> GetOptions(Options o)
-        {
-            int eventNumber = this.GetCurrentEvent();
-            List<int> optionList = o.GetOptions()[eventNumber][1];
-            return optionList;
-        }
-
-        //returns list of next events depending on the current event and the options. ex. [2, 3, 4, 5]
-        public List<int> GetNextEventsList(Options o)
-        {
-            int eventNumber = this.GetCurrentEvent();
-            List<int> eventList = o.GetOptions()[eventNumber][2];
-            return eventList;
-        }
-
-        //Returns an int which refers to the next event according to the option chosen. Returns 0 is the chosen option is not in the option list
-        public int GetNextEvent(Options o, int chosenOption)
-        {
-            int eventNumber = this.GetCurrentEvent();
-            List<int> optionList = GetOptions(o);
-            for (int i = 0; i < optionList.Count; i++)
-                if (optionList[i] == chosenOption)
-                    return GetNextEventsList(o)[i];
-            return 0;
-        }
-    }
-
-
-
-
-    public class Options
-    {
-        private List<List<List<int>>> options = new List<List<List<int>>>();
-        private int eventCount = 0;
-
-        public Options(int eventCount)
-        {
-            this.eventCount = eventCount;
-        }
-
-        public void CreateOption()
-        {
-            //Things being added to Temp will change (as in how they are entered) depending on how we read from the file
-            for (int i = 1; i <= eventCount; i++)
-            {
-                List<List<int>> Temp = new List<List<int>>();
-                Temp.Add(new List<int> { i }); //Event#
-                Temp.Add(new List<int> { i, i + 1, i + 2, i + 3 }); //Options
-                Temp.Add(new List<int> { i + 4, i + 5, i + 6, i + 7 }); //NextEvent (dependent on option it corresponds to
-                options.Add(Temp);
+               this.options.Add(options[i]);
             }
         }
-        public List<List<List<int>>> GetOptions()
+
+        //get set eventNumber
+        public int GetEventNumber()
+        {
+            return eventNumber;
+        }
+
+        public void SetEventNumber(int n)
+        {
+            eventNumber = n;
+        }
+
+        //get set text
+        public String GetEventText()
+        {
+            return text;
+        }
+
+        public void SetEventText(String t)
+        {
+            text = t;
+        }
+
+        //get set options
+        public List<Option> GetOptions()
         {
             return options;
         }
 
-        public int GetEventCount()
+        public void SetOptions(List<Option> op)
         {
-            return eventCount;
+            options = op;
+        }
+        
+    }
+
+    public class Option
+    {
+        private int optionNumber = 0;
+        private int nextEventNumber = 0;
+        private bool optionPicked = false;
+        private String text = "";
+
+        public Option(int optionNumber, int nextEventNumber, bool optionPicked, String text)
+        {
+            this.optionNumber = optionNumber;
+            this.nextEventNumber = nextEventNumber;
+            this.optionPicked = optionPicked;
+            this.text = text;
         }
 
+        //get set nextEventNumber
+        public int GetNextEventNumber()
+        {
+            return nextEventNumber;
+        }
+
+        public void SetNextEventNumber(int i)
+        {
+            nextEventNumber = i;
+        }
+
+        //get set optionNumber
+        public int GetOptionNumber()
+        {
+            return optionNumber;
+        }
+
+        public void SetOptionNumber(int n)
+        {
+            optionNumber = n;
+        }
+
+        //get set optionPicked
+        public bool GetOptionPicked()
+        {
+            return optionPicked;
+        }
+
+        public void SetOptionPicked(bool b)
+        {
+            optionPicked = b;
+        }
+
+        //get set text
+        public String GetOptionText()
+        {
+            return text;
+        }
+
+        public void SetOptionText(String t)
+        {
+            text = t;
+        }
 
     }
+    
 }
+
 /*
 public class Test
 {
- public static void Main()
- {
-     Options o = new Options(30);
-     o.CreateOption();
-     Event e = new Event();
-     e.SetCurrentEvent(7);
-     List<int> z = e.GetOptions(o);
-     for (int x = 0; x < z.Count; x++)
-	Console.WriteLine(z[x]);
-    Console.WriteLine(e.GetNextEvent(o, 9));
- }
+    public static void Main()
+    {
+        Option o1 = new Option(1, 2, false, "Option 1");
+        Option o2 = new Option(2, 3, false, "Option 2");
+        Option o3 = new Option(3, 4, false, "Option 3");
+        List<Option> lo = new List<Option> { o1, o2, o3 };
+        Event e = new Event(1, "This is event numero uno", lo);
+        Console.WriteLine(e.GetEventText());
+        e.GetOptions()[0].SetOptionText("Option one");
+        for (int x = 0; x < e.GetOptions().Count; x++)
+        {
+            Console.WriteLine("Option Text: " + e.GetOptions()[x].GetOptionText());
+            Console.WriteLine("Option Number: " + e.GetOptions()[x].GetOptionNumber());
+            Console.WriteLine("Next Event Number: " + e.GetOptions()[x].GetNextEventNumber());
+            Console.WriteLine("Option Picked?: " + e.GetOptions()[x].GetOptionPicked());
+            Console.WriteLine();
+        }
+    }
 }
 */
-
-//Format of Options list: [[[event#],[boolOption1, ...], [nextOption1, ...]]]
-//Ex: [[[1],[op1,op2,op3,op4],[0, 0, 0, 0], [5,6,7,8]],[[2],[op5, op6, op7, op8],[0, 0, 0, 0], [12,3,5,75]]]
-
-//What we expect to read from the file:
-//Event 1: "Text A", Options[1,2,3,4]
-//...
-//Option 1: "Text1", NextEvent = 5
-//Option 2: "Text2", NextEvent = 6
