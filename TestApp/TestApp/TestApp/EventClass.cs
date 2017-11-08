@@ -11,19 +11,22 @@ namespace TestApp
     public class Event
     {
         public int eventNumber { get; set; }
+        public String eventName { get; set; }
         public List<String> text { get; set; }
         public List<Option> options { get; set; }
 
         public Event()
         {
             eventNumber = 0;
+            eventName = "";
             text = new List<String>();
             options = new List<Option>();
         }
 
-        public Event(int eventNumber, List<String> text, List<Option> options) 
+        public Event(int eventNumber, String eventName, List<String> text, List<Option> options) 
         {
             this.eventNumber = eventNumber;
+            this.eventName = eventName;
             this.text = new List<String>(text);
             this.options = new List<Option>(options);
 
