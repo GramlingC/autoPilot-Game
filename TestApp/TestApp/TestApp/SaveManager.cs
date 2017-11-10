@@ -89,14 +89,16 @@ namespace TestApp
         }
         // LoadObject has the unique requirement that we cannot pass in a generic object with "ref".
         // Thus, we have to pass it back as a return value and assign it in the calling function.
-        public static object LoadObject(string fileName, object obj)
+        public static object LoadObject(string fileName, Type t)
         {
+            object obj = null;
+
             if (File.Exists(fileName))
             {
                 using (FileStream stream = Task.Run(() => File.OpenRead(fileName)).Result)
                 {
                     // Use an XML formatter to format xml data
-                    XmlSerializer serializer = new XmlSerializer(obj.GetType());
+                    XmlSerializer serializer = new XmlSerializer(t);
 
                     try
                     {
@@ -117,8 +119,10 @@ namespace TestApp
         }
         // LoadObjects has a unique requirement in that we cannot use "params" and "out" or "ref" together.
         // Thus, we must return the object array back as a return value, meaning it must be parsed in the calling function.
-        public static object[] LoadObjects(string fileName, params object[] objList)
-        {            
+        public static object[] LoadObjects(string fileName, params Type[] t)
+        {
+            object[] objList = null;
+
             if (File.Exists(fileName))
             {
                 using (FileStream stream = Task.Run(() => File.OpenRead(fileName)).Result)
@@ -126,7 +130,7 @@ namespace TestApp
                     for (int index = 0; index < objList.Length; index++)
                     {
                         // Use an XML formatter to format xml data
-                        XmlSerializer serializer = new XmlSerializer(objList[index].GetType());
+                        XmlSerializer serializer = new XmlSerializer(t[index]);
 
                         try
                         {

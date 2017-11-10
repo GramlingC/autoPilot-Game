@@ -22,7 +22,6 @@ namespace TestApp
             text = new List<String>();
             options = new List<Option>();
         }
-
         public Event(int eventNumber, String eventName, List<String> text, List<Option> options) 
         {
             this.eventNumber = eventNumber;
@@ -36,6 +35,14 @@ namespace TestApp
             //}
         }
 
+        public override string ToString()
+        {
+            return base.ToString()
+                + ":" + eventNumber.ToString()
+                + "," + eventName
+                + "," + text.ToString()
+                + "," + options.ToString();
+        }
         ////get set eventNumber
         //public int GetEventNumber()
         //{
@@ -91,6 +98,15 @@ namespace TestApp
             this.nextEventNumber = nextEventNumber;
             this.optionPicked = optionPicked;
             this.text = text;
+        }
+
+        public override string ToString()
+        {
+            return base.ToString()
+                + ":" + optionNumber.ToString()
+                + "," + nextEventNumber.ToString()
+                + "," + optionPicked.ToString()
+                + "," + text;
         }
 
         ////get set nextEventNumber

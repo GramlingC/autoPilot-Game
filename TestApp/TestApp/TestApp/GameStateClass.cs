@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace TestApp
 {
@@ -109,6 +110,13 @@ namespace TestApp
 
         private List<Event> eList = new List<Event>();
 
+        public void ClearEventList()
+        {
+            while (eList.Count > 0)
+            {
+                eList.RemoveAt(0);
+            }
+        }
         // This simply fills up the List of events with dummy events.
         public void GenerateSampleData()
         {
@@ -193,6 +201,21 @@ namespace TestApp
             {
                 int id = e.eventNumber;
                 SaveManager.SaveObject(@"testEvent" + id + "Save.xml", e);
+            }
+        }
+        public void LoadEvents()
+        {
+            if (eList.Count != 0)
+            {
+                string[] fileList = Directory.GetFiles(Directory.GetCurrentDirectory());
+                foreach (string file in fileList)
+                {
+                    if (file.Contains("testEvent") && file.Contains("Save"))
+                    {
+                        Event e = (Event)SaveManager.LoadObject(file, typeof(Event));
+                        eList.Add(e);
+                    }
+                }
             }
         }
     }
