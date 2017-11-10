@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Diagnostics;
 
 namespace TestApp
 {
@@ -117,6 +118,13 @@ namespace TestApp
                 eList.RemoveAt(0);
             }
         }
+        public void PrintEventList()
+        {
+            foreach (Event e in eList)
+            {
+                Debug.WriteLine(e.ToString());
+            }
+        }
         // This simply fills up the List of events with dummy events.
         public void GenerateSampleData()
         {
@@ -205,7 +213,7 @@ namespace TestApp
         }
         public void LoadEvents()
         {
-            if (eList.Count != 0)
+            if (eList.Count == 0)
             {
                 string[] fileList = Directory.GetFiles(Directory.GetCurrentDirectory());
                 foreach (string file in fileList)

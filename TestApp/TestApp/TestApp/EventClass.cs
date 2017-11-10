@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 //Contains Event class and Options class. 
 //Should make options first in GameState and put them into a List<Options> 
@@ -37,11 +38,29 @@ namespace TestApp
 
         public override string ToString()
         {
-            return base.ToString()
-                + ":" + eventNumber.ToString()
-                + "," + eventName
-                + "," + text.ToString()
-                + "," + options.ToString();
+            StringBuilder str = new StringBuilder();
+
+            str.Append(base.ToString());
+            str.Append(": Event ");
+            str.Append(eventNumber);
+            str.Append(", ");
+            str.Append(eventName);
+
+            foreach (string s in text)
+            {
+                str.Append("\n\t");
+                str.Append(s);
+            }
+
+            foreach (Option o in options)
+            {
+                str.Append("\n\t");
+                str.Append(o);
+            }
+
+            str.Append("\n");
+
+            return str.ToString();
         }
         ////get set eventNumber
         //public int GetEventNumber()
@@ -102,11 +121,20 @@ namespace TestApp
 
         public override string ToString()
         {
-            return base.ToString()
-                + ":" + optionNumber.ToString()
-                + "," + nextEventNumber.ToString()
-                + "," + optionPicked.ToString()
-                + "," + text;
+            StringBuilder str = new StringBuilder();
+
+            str.Append(base.ToString());
+            str.Append(": Option ");
+            str.Append(optionNumber);
+            str.Append(", Leads to event ");
+            str.Append(nextEventNumber);
+            str.Append(", Picked=");
+            str.Append(optionPicked);
+            str.Append(", '");
+            str.Append(text);
+            str.Append("'");
+
+            return str.ToString();
         }
 
         ////get set nextEventNumber

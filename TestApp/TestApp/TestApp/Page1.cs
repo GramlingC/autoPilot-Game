@@ -145,12 +145,20 @@ namespace TestApp
             //testShip = (Ship)SaveManager.LoadObject(@"testSave.xml", testShip);
             //Debug.WriteLine("Hull: {0} - Fuel: {1} - Lifesigns: {2} - Empathy: {3}", testShip.HullIntegrity, testShip.Fuel, testShip.Lifesigns, testShip.EmpathyLevel);
 
-            //
-            //
-            //
+
+
+
             GameStateClass state = new GameStateClass();
-            state.GenerateSampleData();
-            state.SaveEvents();
+
+            // These two lines generate the data and save them to files
+            //state.GenerateSampleData();
+            //state.SaveEvents();
+
+            // This will load all event files from the working directory
+            state.LoadEvents();
+
+            // This will print all events in the game state to the console
+            state.PrintEventList();
         }
 
         void AddLabel(string text)
