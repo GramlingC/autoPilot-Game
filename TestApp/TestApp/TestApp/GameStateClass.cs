@@ -110,6 +110,17 @@ namespace TestApp
         */
 
         private List<Event> eList = new List<Event>();
+        private int currentEvent;
+
+        public Event getCurrent()
+        {
+            return eList[currentEvent];
+        }
+
+        public void goTo(int next)
+        {
+            currentEvent = next;
+        }
 
         public void ClearEventList()
         {
@@ -195,7 +206,7 @@ namespace TestApp
             t = new List<string>()
             {
                 "A distress signal is coming in from the nearby planet",
-                "The coordinates of the signal seem to be coming from beneath the surface of the only ocean of the planet, which covers less than 20% of it's surface",
+                "The coordinates of the signal seem to be coming from beneath the surface of the only ocean of the planet, which covers less than 20% of its surface",
                 "The signal asks for a box of supplies, but stresses not to intervene in any other way"
             };
             e = new Event(4, "Underwater Investigation", t, new List<Option> { o1, o2, o3, o4 });
@@ -211,7 +222,7 @@ namespace TestApp
                 SaveManager.SaveObject(@"testEvent" + id + "Save.xml", e);
             }
         }
-        public void LoadEvents()
+        public async void LoadEvents()
         {
             if (eList.Count == 0)
             {
@@ -220,7 +231,7 @@ namespace TestApp
                 {
                     if (file.Contains("testEvent") && file.Contains("Save"))
                     {
-                        Event e = (Event)SaveManager.LoadObject(file, typeof(Event));
+                        Event e = (Event) await SaveManager.LoadObject(file, typeof(Event));
                         eList.Add(e);
                     }
                 }

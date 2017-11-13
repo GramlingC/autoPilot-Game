@@ -5,6 +5,9 @@ using System.IO;
 using System.Xml.Serialization;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Xamarin.Forms;
+using PCLStorage;
+
 //using System.Runtime.Serialization;
 
 // Binary serialization seems to not be supported by Xamarin, so 
@@ -17,20 +20,27 @@ namespace TestApp
     public class SaveManager
     {
         // Completed, need testing
+ 
+        
 
         public static async void SaveObject(string fileName, object obj)
-        {           
+        {
+            IFolder rootFolder = FileSystem.Current.LocalStorage;
+            IFolder appDataFolder = await rootFolder.CreateFolderAsync("appData", CreationCollisionOption.OpenIfExists);
 
+            /*
             // If the file exists, we delete it so we can rewrite our new file.
             if (File.Exists(fileName))
             {
                 File.Delete(fileName);
             }
-
+            */
+            IFile saveFile = await appDataFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+            Debug.WriteLine(saveFile.Path);
             // The using block lets us open a FileStream safely, because when 
             // it closes, it will automatically close the stream for us. As we
             // open the filestream, we create our save file.
-            using (FileStream stream = Task.Run(() => File.Create(fileName)).Result)
+            using (Stream stream = await Task.Run(() => saveFile.OpenAsync(PCLStorage.FileAccess.ReadAndWrite).Result))
             {
                 // Use an XML formatter to format to xml data
                 // Note: XmlSerializer MUST be instantiated with a type in the constructor
@@ -48,20 +58,27 @@ namespace TestApp
         }
         public static async void SaveObjects(string fileName, params object[] objList)
         {
+        
             //fileName = "../../../../../" + fileName;
 
             //bool wasSuccessful = true;
+            IFolder rootFolder = FileSystem.Current.LocalStorage;
+            IFolder appDataFolder = await rootFolder.CreateFolderAsync("appData", CreationCollisionOption.OpenIfExists);
 
+            /*
             // If the file exists, we delete it so we can rewrite our new file.
             if (File.Exists(fileName))
             {
                 File.Delete(fileName);
             }
+            */
+            IFile saveFile = await appDataFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+            Debug.WriteLine(saveFile.Path);
 
             // The using block lets us open a FileStream safely, because when 
             // it closes, it will automatically close the stream for us. As we
             // open the filestream, we create our save file.
-            using (FileStream stream = Task.Run(() => File.Create(fileName)).Result)
+            using (Stream stream = await Task.Run(() => saveFile.OpenAsync(PCLStorage.FileAccess.ReadAndWrite).Result))
             {
                 // Convert each object into a stream of data, and write it to the file.
                 for (int index = 0; index < objList.Length; index++)
@@ -89,13 +106,18 @@ namespace TestApp
         }
         // LoadObject has the unique requirement that we cannot pass in a generic object with "ref".
         // Thus, we have to pass it back as a return value and assign it in the calling function.
-        public static object LoadObject(string fileName, Type t)
+        public static async Task<object> LoadObject(string fileName, Type t)
         {
             object obj = null;
 
-            if (File.Exists(fileName))
+            IFolder rootFolder = FileSystem.Current.LocalStorage;
+            IFolder appDataFolder = await rootFolder.GetFolderAsync("appData");
+
+            if (await appDataFolder.CheckExistsAsync(fileName) == ExistenceCheckResult.FileExists)
             {
-                using (FileStream stream = Task.Run(() => File.OpenRead(fileName)).Result)
+                IFile saveFile = await appDataFolder.GetFileAsync(fileName);
+                Debug.WriteLine(saveFile.Path);
+                using (Stream stream = await Task.Run(() => saveFile.OpenAsync(PCLStorage.FileAccess.Read).Result))
                 {
                     // Use an XML formatter to format xml data
                     XmlSerializer serializer = new XmlSerializer(t);
@@ -119,13 +141,18 @@ namespace TestApp
         }
         // LoadObjects has a unique requirement in that we cannot use "params" and "out" or "ref" together.
         // Thus, we must return the object array back as a return value, meaning it must be parsed in the calling function.
-        public static object[] LoadObjects(string fileName, params Type[] t)
+        public static async Task<object[]> LoadObjects(string fileName, params Type[] t)
         {
             object[] objList = null;
 
-            if (File.Exists(fileName))
+            IFolder rootFolder = FileSystem.Current.LocalStorage;
+            IFolder appDataFolder = await rootFolder.GetFolderAsync("appData");
+
+            if (await appDataFolder.CheckExistsAsync(fileName) == ExistenceCheckResult.FileExists)
             {
-                using (FileStream stream = Task.Run(() => File.OpenRead(fileName)).Result)
+                IFile saveFile = await appDataFolder.GetFileAsync(fileName);
+                Debug.WriteLine(saveFile.Path);
+                using (Stream stream = await Task.Run(() => saveFile.OpenAsync(PCLStorage.FileAccess.Read).Result))
                 {
                     for (int index = 0; index < objList.Length; index++)
                     {

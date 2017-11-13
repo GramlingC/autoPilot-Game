@@ -3,6 +3,7 @@ using System.Linq;
 using System.Diagnostics;
 
 using Xamarin.Forms;
+using System.Collections.Generic;
 
 //To make a page like this, right click TestApp (Portable)
 //Choose Add, then choose Content Page (C#)
@@ -14,6 +15,10 @@ namespace TestApp
 {
     public class Page1 : ContentPage
     {
+        Event current;
+
+        GameStateClass state;
+
         Grid grid;//Making this a global variable so we can change it dynamically through functions
         //Here is the grid documentation: https://developer.xamarin.com/api/type/Xamarin.Forms.Grid/
 
@@ -22,8 +27,8 @@ namespace TestApp
         //There will be less rows on mobile devices, since they're smaller
         //font will also be smaller
 #if __MOBILE__
-        int maxrow = 10;
-        double fontsize = 8;
+        int maxrow = 7;
+        double fontsize = 10;
 #else
         int maxrow = 15;
         double fontsize = Device.GetNamedSize(NamedSize.Small, typeof(Label));
@@ -49,11 +54,17 @@ namespace TestApp
                 {
                     //The Column Definition defines the width of each column
                     //GridLength.Auto means it'll fit exactly the size of what's inside it
+#if __MOBILE__
+                    new ColumnDefinition { Width = GridLength.Auto},
+                    //new ColumnDefinition { Width = new GridLength(1,GridUnitType.Star)},
+#else
                     new ColumnDefinition { Width = GridLength.Auto},
                     new ColumnDefinition { Width = GridLength.Auto},
                     new ColumnDefinition { Width = GridLength.Auto},
                     new ColumnDefinition { Width = GridLength.Auto},
-                    new ColumnDefinition { Width = new GridLength(1,GridUnitType.Star)}
+                    new ColumnDefinition { Width = new GridLength(1,GridUnitType.Star)},
+                    new ColumnDefinition { Width = GridLength.Auto},
+#endif
                     //this type of grid length expands to fill in what isn't taken up by other rows
                 }
             };
@@ -69,52 +80,47 @@ namespace TestApp
 #if __MOBILE__
             //I want four buttons at the bottom, 
             //but they need to be smaller in mobile to fit the screen
-            grid.RowDefinitions.Add(new RowDefinition { Height = 30 });
-            grid.RowDefinitions.Add(new RowDefinition { Height = 30 });
-            grid.RowDefinitions.Add(new RowDefinition { Height = 30 });
-            grid.RowDefinitions.Add(new RowDefinition { Height = 30 });
+            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
+            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
+            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
+            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
 #else
             grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 #endif
-            
+            //
+            // Everything below is for saving ship to file, just examples
+            //
+            Ship testShip = new Ship(100, 100, 100, 0);
+            SaveManager.SaveObject(@"testSave.xml", testShip);
+            //testShip = (Ship)SaveManager.LoadObject(@"testSave.xml", testShip);
+            //Debug.WriteLine("Hull: {0} - Fuel: {1} - Lifesigns: {2} - Empathy: {3}", testShip.HullIntegrity, testShip.Fuel, testShip.Lifesigns, testShip.EmpathyLevel);
 
-            //Now, to add some content.
-            AddLabel("> First Text.");
-            //AddLabel is a method I wrote, read it below to see how it works
-            AddLabel("> This is the second text. This text will hopefully be so long that it'll wrap around to a second line, and this grid row will expand accordingly to be two lines thick.");
-            AddLabel("> Third Text.");
 
-            GameButton button;
 
-            // Loops through creating the buttons, since they are each very similar
-            for (int i = 0; i < 4; i++)
-            {
-                button = new GameButton
-                {
-                    Text = "> choose(Option" + (i+1) + ")",
-                    Key = "option" + (i+1),
-                    TextColor = Color.LightGreen,
-                    //Adapt to device size
 
-                    FontSize = fontsize,
+            state = new GameStateClass();
 
-                    BackgroundColor = Color.DarkSlateGray,
-                };
-                button.Clicked += buttonClicked;//adding the function to this button's click
+            // These two lines generate the data and save them to files
+            state.GenerateSampleData();
+            state.SaveEvents();
 
-#if __MOBILE__
-                grid.Children.Add(button, 0, 1, maxrow + i + 1, maxrow + i + 2);
-#else
-                grid.Children.Add(button, i, i+1, maxrow + 3, maxrow + 4);
-#endif
-                //make sure to put this in a different column each loop
-            }
+            // This will load all event files from the working directory
+            state.LoadEvents();
+
+            // This will print all events in the game state to the console
+            //state.PrintEventList();
+
+            current = state.getCurrent();
+
+            AddLabels();
+            AddButtons(current.options);
+
 
 #if !__MOBILE__
-            button = new GameButton
+            GameButton button = new GameButton
             {
                 Text = "> clearScreen()",
                 Key = "clearScreen",
@@ -124,6 +130,10 @@ namespace TestApp
                 FontSize = fontsize,
 
                 BackgroundColor = Color.DarkSlateGray,
+                buttonOption = new Option
+                {
+                    text = "",
+                },
             };
             button.Clicked += buttonClicked;//adding the function to this button's click
 
@@ -137,41 +147,28 @@ namespace TestApp
             //BEFORE YOU RUN: You can right click the sub-projects to the right
             //such as TestApp.UWP and choose Set as Start Up Project to choose your platform
 
-            //
-            // Everything below is for saving ship to file, just examples
-            //
-            Ship testShip = new Ship(100, 100, 100, 0);
-            SaveManager.SaveObject(@"testSave.xml", testShip);
-            //testShip = (Ship)SaveManager.LoadObject(@"testSave.xml", testShip);
-            //Debug.WriteLine("Hull: {0} - Fuel: {1} - Lifesigns: {2} - Empathy: {3}", testShip.HullIntegrity, testShip.Fuel, testShip.Lifesigns, testShip.EmpathyLevel);
 
+        }
 
-
-
-            GameStateClass state = new GameStateClass();
-
-            // These two lines generate the data and save them to files
-            //state.GenerateSampleData();
-            //state.SaveEvents();
-
-            // This will load all event files from the working directory
-            state.LoadEvents();
-
-            // This will print all events in the game state to the console
-            state.PrintEventList();
+        void AddLabels()
+        {
+            foreach (string s in current.text)
+            {
+                AddLabel(s);
+            }
         }
 
         void AddLabel(string text)
         {
             grid.Children.Add(new Label
             {
-                Text = text,
+                Text = "> " + text,
                 TextColor = Color.LightGreen,
                 FontSize = fontsize,
 
                 //Here we could keep editing this and make it be different sizes,angles,etc
                 //If we declared this as a global variable, we could change it with functions
-            }, 0, 5, row, ++row);
+            }, 0, 6, row, ++row);
             //The parameters are (View,Left,Right,Top,Bottom)
             //View is anything from Labels to buttons to sliders, etc, and are adapt to platform
             //The numbers are grid positions. Left and top are the grid positions where they start
@@ -209,29 +206,67 @@ namespace TestApp
             }
         }
 
+        void AddButtons(List<Option> op)
+        {
+            List<View> removable = new List<View>();
+            foreach (GameButton b in grid.Children.OfType<GameButton>())
+            {
+                if (b.Key != "clearScreen")
+                {
+                    removable.Add(b);
+                }
+            }
+            foreach (GameButton b in removable)
+                grid.Children.Remove(b);
+
+            GameButton button;
+
+            for (int i = 0; i < 4; i++)
+            {
+                button = new GameButton
+                {
+                    Text = "> " + op[i].text,
+                    Key = "option" + i,
+                    TextColor = Color.LightGreen,
+                    HorizontalOptions = LayoutOptions.StartAndExpand,
+
+                    FontSize = fontsize,
+
+                    BackgroundColor = Color.DarkSlateGray,
+
+                    buttonOption = op[i],
+                    
+                };
+                button.Clicked += buttonClicked;
+
+#if __MOBILE__
+                grid.Children.Add(button, 0, 1, maxrow + i + 1, maxrow + i + 2);
+#else
+                grid.Children.Add(button, i, i+1, maxrow + 3, maxrow + 4);
+#endif
+                //make sure to put this in a different column each loop
+            }
+        }
+
         void buttonClicked(object sender, EventArgs e)
         {
             GameButton button = (GameButton)sender;
-            AddLabel(button.Text);
-
+            AddLabel(button.buttonOption.text);
+            
             // this may be done later by retreiving text from a database (?)
             switch (button.Key)
             {
                 case "option1":
-                    AddLabel("> You have chosen option one.");
-                    AddLabel("> Things will happen accordingly, maybe the ship will be hit by something or waste resources.Story will happen and consequences will be had, etc, etc.");
+                    state.goTo(current.options[0].nextEventNumber);
                     break;
                 case "option2":
-                    AddLabel("> You have chosen option two.");
-                    AddLabel("> Different things will happen by this than by option one, and so on. I'm sure it'll be a good thing.");
+                    state.goTo(current.options[1].nextEventNumber);
                     break;
                 case "option3":
-                    AddLabel("> You have chosen option three.");
-                    AddLabel("> This return text will probably be stored in a database somewhere, and we'll have code to check what to display depending on variables and whatnot.");
+                    state.goTo(current.options[2].nextEventNumber);
                     break;
                 case "option4":
-                    AddLabel("> You have chosen option four.");
-                    AddLabel("> Ideally, this text will be displayed one character at a time.");
+                    state.goTo(current.options[3].nextEventNumber);
                     break;
                 case "clearScreen":
                     int index = 0;
@@ -247,9 +282,11 @@ namespace TestApp
                             index++;
                         }
                     }
-                    break;
+                    return;
             }
-            //adds the button's text to the grid
+            current = state.getCurrent();
+            AddLabels();
+            AddButtons(current.options);
         }
     }
 }
