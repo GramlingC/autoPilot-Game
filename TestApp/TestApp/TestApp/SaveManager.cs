@@ -25,18 +25,13 @@ namespace TestApp
 
         public static async void SaveObject(string fileName, object obj)
         {
+
             IFolder rootFolder = FileSystem.Current.LocalStorage;
             IFolder appDataFolder = await rootFolder.CreateFolderAsync("appData", CreationCollisionOption.OpenIfExists);
 
-            /*
-            // If the file exists, we delete it so we can rewrite our new file.
-            if (File.Exists(fileName))
-            {
-                File.Delete(fileName);
-            }
-            */
+
             IFile saveFile = await appDataFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
-            Debug.WriteLine(saveFile.Path);
+            Debug.WriteLine("Saving " + saveFile.Path);
             // The using block lets us open a FileStream safely, because when 
             // it closes, it will automatically close the stream for us. As we
             // open the filestream, we create our save file.
@@ -55,6 +50,7 @@ namespace TestApp
                     Debug.WriteLine("Error serializing object: " + e.Message);
                 }
             }
+            
         }
         public static async void SaveObjects(string fileName, params object[] objList)
         {
@@ -107,7 +103,7 @@ namespace TestApp
         // LoadObject has the unique requirement that we cannot pass in a generic object with "ref".
         // Thus, we have to pass it back as a return value and assign it in the calling function.
         public static async Task<object> LoadObject(string fileName, Type t)
-        {
+        {//CURRENTLY NOT WORKING< DON'T KNOW WHY
             object obj = null;
 
             IFolder rootFolder = FileSystem.Current.LocalStorage;
@@ -139,6 +135,7 @@ namespace TestApp
 
             return obj;
         }
+
         // LoadObjects has a unique requirement in that we cannot use "params" and "out" or "ref" together.
         // Thus, we must return the object array back as a return value, meaning it must be parsed in the calling function.
         public static async Task<object[]> LoadObjects(string fileName, params Type[] t)
@@ -178,58 +175,99 @@ namespace TestApp
             return objList;
         }
 
-        // Not needed, here for historical purposes?
-        /*
-        bool SaveVariables(string fileName, params object[] atrList)
-        {
-            // We will assume everything goes well.  If not, we will return false through this.
-            bool wasSuccessful = true;
 
-            using (TextWriter writer = new StreamWriter(fileName))
+        //Made this alternate code that is working
+        //It loads all the events synchronously
+        //Dunno why, but I couldn't do that with LoadObject
+        public static List<Event> LoadAll()
+        {
+            ///////
+            List<Event> e = new List<Event>();
+
+            IFolder rootFolder = FileSystem.Current.LocalStorage;
+            IFolder appDataFolder = rootFolder.GetFolderAsync("appData").Result;
+
+            IList<IFile> files = appDataFolder.GetFilesAsync().Result;
+
+
+            foreach (IFile saveFile in files)
             {
-                foreach (object o in atrList)
+                if (!saveFile.Name.Contains("Event"))
+                    continue;
+                Debug.WriteLine("Loading " + saveFile.Path);
+                using (Stream stream = Task.Run(() => saveFile.OpenAsync(PCLStorage.FileAccess.Read).Result).Result)
                 {
+                    // Use an XML formatter to format xml data
+                    XmlSerializer serializer = new XmlSerializer(typeof(Event));
+
                     try
                     {
-                        writer.WriteLine(o);
+                        e.Add((Event)Task.Run(() => serializer.Deserialize(stream)).Result);
                     }
-                    catch (SecurityException e)
+                    catch (Exception ex)
                     {
-                        Console.Write("Error serializing attributes: " + e.Message);
-                        wasSuccessful = false;
+                        Debug.WriteLine("Error deserializing objects: " + ex.Message);
                     }
                 }
             }
 
-            return wasSuccessful;
-        }
-        bool LoadVariables(string fileName, params object[] atrList)
-        {
-            // We will assume everything goes well.  If not, we will return false through this.
-            bool wasSuccessful = true;
+            Debug.WriteLine("Done Loading");
 
-            using (TextReader reader = new StreamReader(fileName))
+            return e;
+        }
+
+            // Not needed, here for historical purposes?
+            /*
+            bool SaveVariables(string fileName, params object[] atrList)
             {
-                string input;
-                foreach (object o in atrList)
+                // We will assume everything goes well.  If not, we will return false through this.
+                bool wasSuccessful = true;
+
+                using (TextWriter writer = new StreamWriter(fileName))
                 {
-                    // Note - Not finished, does not read into objects
-                    try
+                    foreach (object o in atrList)
                     {
-                        //if (o.GetType())
-                        input = reader.ReadLine();
-                        //o = Convert.
-                    }
-                    catch (SecurityException e)
-                    {
-                        Console.Write("Error serializing attributes: " + e.Message);
-                        wasSuccessful = false;
+                        try
+                        {
+                            writer.WriteLine(o);
+                        }
+                        catch (SecurityException e)
+                        {
+                            Console.Write("Error serializing attributes: " + e.Message);
+                            wasSuccessful = false;
+                        }
                     }
                 }
-            }
 
-            return wasSuccessful;
+                return wasSuccessful;
+            }
+            bool LoadVariables(string fileName, params object[] atrList)
+            {
+                // We will assume everything goes well.  If not, we will return false through this.
+                bool wasSuccessful = true;
+
+                using (TextReader reader = new StreamReader(fileName))
+                {
+                    string input;
+                    foreach (object o in atrList)
+                    {
+                        // Note - Not finished, does not read into objects
+                        try
+                        {
+                            //if (o.GetType())
+                            input = reader.ReadLine();
+                            //o = Convert.
+                        }
+                        catch (SecurityException e)
+                        {
+                            Console.Write("Error serializing attributes: " + e.Message);
+                            wasSuccessful = false;
+                        }
+                    }
+                }
+
+                return wasSuccessful;
+            }
+            */
         }
-        */
-    }
 }

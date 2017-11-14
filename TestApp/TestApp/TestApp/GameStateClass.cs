@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Diagnostics;
+using PCLStorage;
 
 namespace TestApp
 {
@@ -111,6 +112,7 @@ namespace TestApp
 
         private List<Event> eList = new List<Event>();
         private int currentEvent;
+        public bool ready;
 
         public Event getCurrent()
         {
@@ -219,22 +221,15 @@ namespace TestApp
             foreach (Event e in eList)
             {
                 int id = e.eventNumber;
-                SaveManager.SaveObject(@"testEvent" + id + "Save.xml", e);
+
+                SaveManager.SaveObject(@"testEvent"+id+"Save.xml",e);
             }
         }
-        public async void LoadEvents()
+        public void LoadEvents()
         {
             if (eList.Count == 0)
             {
-                string[] fileList = Directory.GetFiles(Directory.GetCurrentDirectory());
-                foreach (string file in fileList)
-                {
-                    if (file.Contains("testEvent") && file.Contains("Save"))
-                    {
-                        Event e = (Event) await SaveManager.LoadObject(file, typeof(Event));
-                        eList.Add(e);
-                    }
-                }
+                eList = SaveManager.LoadAll();
             }
         }
     }

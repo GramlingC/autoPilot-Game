@@ -98,8 +98,8 @@ namespace TestApp
             //testShip = (Ship)SaveManager.LoadObject(@"testSave.xml", testShip);
             //Debug.WriteLine("Hull: {0} - Fuel: {1} - Lifesigns: {2} - Empathy: {3}", testShip.HullIntegrity, testShip.Fuel, testShip.Lifesigns, testShip.EmpathyLevel);
 
-
-
+            //LoadObject still not working for whatever reason
+            //Debug.WriteLine(SaveManager.LoadObject(@"testSave.xml", typeof(Ship)).Result.ToString());
 
             state = new GameStateClass();
 
