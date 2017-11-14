@@ -113,6 +113,7 @@ namespace TestApp
         private List<Event> eList = new List<Event>();
         private int currentEvent;
         public bool ready;
+        public Ship ship;
 
         public Event getCurrent()
         {
@@ -167,7 +168,7 @@ namespace TestApp
             {
                 "Welcome to event number 2",
                 "Or, as I like to say, numero dos",
-                "If you couldn't already tell, this event was based on Kloss's test class in EventClass.cs!"
+                "If you couldn't already tell, this event was| based on Kloss's test class in EventClass.cs!"
             };
             e = new Event(1, "Event Two", t, new List<Option> { o1, o2, o3, o4 });
 
@@ -193,7 +194,7 @@ namespace TestApp
             t = new List<string>()
             {
                 "The next event is the last one.",
-                "It is the most realistic event in this sample data.",
+                "It's the most realistic event in this sample| data.",
                 "However, it is still silly.",
                 "Enjoy."
             };
@@ -207,9 +208,9 @@ namespace TestApp
             o4 = new Option(3, 0, false, "selfDestruct()");
             t = new List<string>()
             {
-                "A distress signal is coming in from the nearby planet",
-                "The coordinates of the signal seem to be coming from beneath the surface of the only ocean of the planet, which covers less than 20% of its surface",
-                "The signal asks for a box of supplies, but stresses not to intervene in any other way"
+                "A distress signal is coming in from the| nearby planet",
+                "The coordinates of the signal seem to be| coming from beneath the surface of the| only ocean of the planet, which covers| less than 20% of its surface",
+                "The signal asks for a box of supplies, but| stresses not to intervene in any other way"
             };
             e = new Event(4, "Underwater Investigation", t, new List<Option> { o1, o2, o3, o4 });
 

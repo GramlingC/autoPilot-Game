@@ -22,29 +22,21 @@ namespace TestApp
         Grid grid;//Making this a global variable so we can change it dynamically through functions
         //Here is the grid documentation: https://developer.xamarin.com/api/type/Xamarin.Forms.Grid/
 
-        int row = 0;//keep track of the next row to be used
+        int row = 2;//keep track of the next row to be used
 
         //There will be less rows on mobile devices, since they're smaller
         //font will also be smaller
 #if __MOBILE__
-        int maxrow = 7;
+        int maxrow = 10;
         double fontsize = 10;
 #else
-        int maxrow = 15;
+        int maxrow = 18;
         double fontsize = Device.GetNamedSize(NamedSize.Small, typeof(Label));
 #endif
 
         public Page1()
         {
-            /* Stack layout is an option if you want things equidistant down the page
-             * But a grid gives us more flexibility as to where things are on the page
-            Content = new StackLayout
-            {
-                Children = {
-                    new Label { Text = "Welcome to Xamarin.Forms!" }
-                }
-            };
-            */
+
 
             //First, we define the grid and its rows and columns
             grid = new Grid
@@ -55,7 +47,7 @@ namespace TestApp
                     //The Column Definition defines the width of each column
                     //GridLength.Auto means it'll fit exactly the size of what's inside it
 #if __MOBILE__
-                    new ColumnDefinition { Width = GridLength.Auto},
+                    new ColumnDefinition { Width = 200},
                     //new ColumnDefinition { Width = new GridLength(1,GridUnitType.Star)},
 #else
                     new ColumnDefinition { Width = GridLength.Auto},
@@ -68,7 +60,16 @@ namespace TestApp
                     //this type of grid length expands to fill in what isn't taken up by other rows
                 }
             };
-            for (int i = 0; i < maxrow; i++)
+
+#if __MOBILE__
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
+#else
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+#endif
+
+            for (int i = 2; i < maxrow; i++)
             {
                 grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                 //I want several lines of text near the top, that's these Autos
@@ -97,11 +98,12 @@ namespace TestApp
             SaveManager.SaveObject(@"testSave.xml", testShip);
             //testShip = (Ship)SaveManager.LoadObject(@"testSave.xml", testShip);
             //Debug.WriteLine("Hull: {0} - Fuel: {1} - Lifesigns: {2} - Empathy: {3}", testShip.HullIntegrity, testShip.Fuel, testShip.Lifesigns, testShip.EmpathyLevel);
-
+            
             //LoadObject still not working for whatever reason
             //Debug.WriteLine(SaveManager.LoadObject(@"testSave.xml", typeof(Ship)).Result.ToString());
 
             state = new GameStateClass();
+            state.ship = testShip;
 
             // These two lines generate the data and save them to files
             state.GenerateSampleData();
@@ -140,6 +142,96 @@ namespace TestApp
             grid.Children.Add(button, 5, 6, maxrow + 3, maxrow + 4);
 #endif
 
+            //Displaying Stats:
+            
+            Button StatsButton = new Button
+            {
+                Text = "System.Diagnostics()",
+                BackgroundColor = Color.DarkSlateGray,
+                TextColor = Color.LightSeaGreen,
+                FontSize = fontsize,
+            };
+
+            // FIRST OPTION: Display the stats as a menu
+            /*
+            StackLayout stats = new StackLayout
+            {
+                Opacity = 1,
+                BackgroundColor = Color.Black,
+                Children =
+                {
+                    new Label
+                    {
+                        Text = "Hull Integrity = " + state.ship.HullIntegrity,
+                        TextColor = Color.LightSeaGreen,
+                        FontSize = fontsize,
+                    },
+                    new Label
+                    {
+                        Text = "Crew Lifesigns = " + state.ship.Lifesigns,
+                        TextColor = Color.LightSeaGreen,
+                        FontSize = fontsize,
+                    },
+                    new Label
+                    {
+                        Text = "Fuel = " + state.ship.Fuel,
+                        TextColor = Color.LightSeaGreen,
+                        FontSize = fontsize,
+                    },
+                }
+            };
+
+            Button DismissButton = new Button
+            {
+                Text = "Dismiss",
+                TextColor = Color.LightGreen,
+                FontSize = fontsize,
+                BackgroundColor = Color.DarkSlateGray,
+            };
+              
+            List<Label> HiddenLabels = new List<Label>();
+            //We wanna hide the text that appears under the menu
+            StatsButton.Clicked += (object sender, EventArgs e) =>
+            {
+                grid.Children.Add(stats, 0, 2, 0, 1);
+                grid.Children.Add(DismissButton,0,2,1,2);
+                grid.Children.Remove(StatsButton);
+                foreach (Label l in grid.Children.OfType<Label>())
+                {
+                    if (Grid.GetRow(l) < 6)
+                    {
+                        HiddenLabels.Add(l);
+                        l.IsVisible = false;
+                    }
+                }
+            };
+
+            DismissButton.Clicked += (object sender, EventArgs e) =>
+            {
+                
+                grid.Children.Add(StatsButton, 0, 2, 1, 2);
+                grid.Children.Remove(DismissButton);
+                foreach (Label l in HiddenLabels)
+                {
+                    l.IsVisible = true;
+                }
+                HiddenLabels.Clear();
+                grid.Children.Remove(stats);
+                
+            };
+            */
+            // SECOND OPTION: Display the stats as regular text:
+            StatsButton.Clicked += (object sender, EventArgs e) =>
+            {
+                AddLabel("System.Diagnostics()");
+                AddLabel("Hull Integrity = " + state.ship.HullIntegrity);
+                AddLabel("Crew Lifesigns = " + state.ship.Lifesigns);
+                AddLabel("Fuel = " + state.ship.Fuel);
+            };
+            
+            grid.Children.Add(StatsButton, 0, 2, 1, 2);
+            //
+
             this.Padding = new Thickness(10, 20, 10, 10); //Some breathing room around the edges
             this.Content = grid;//Puts the grid on the page
             this.BackgroundColor = Color.Black;
@@ -154,15 +246,28 @@ namespace TestApp
         {
             foreach (string s in current.text)
             {
-                AddLabel(s);
+                string[] strings = s.Split('|');
+#if __MOBILE__
+                for(int i = 0; i < strings.Length; ++i)
+                {
+                    AddLabel(strings[i], i==0?false:true);
+                }
+#else
+                string l = "";
+                foreach (string x in strings)
+                {
+                    l += x;
+                }
+                AddLabel(l);
+#endif
             }
         }
 
-        void AddLabel(string text)
+        void AddLabel(string text, bool continuing = false)
         {
             grid.Children.Add(new Label
             {
-                Text = "> " + text,
+                Text = continuing? text :"> " + text,
                 TextColor = Color.LightGreen,
                 FontSize = fontsize,
 
@@ -187,7 +292,7 @@ namespace TestApp
 
                 foreach (Label l in grid.Children.OfType<Label>())
                 {
-                    if (Grid.GetRow(l) == 0)
+                    if (Grid.GetRow(l) == 2)
                     {
                         //we want to remove the topmost thing to make room
                         remove = true;
@@ -228,13 +333,14 @@ namespace TestApp
                     Text = "> " + op[i].text,
                     Key = "option" + i,
                     TextColor = Color.LightGreen,
-                    HorizontalOptions = LayoutOptions.StartAndExpand,
+                    //HorizontalOptions = LayoutOptions.StartAndExpand,
 
                     FontSize = fontsize,
 
                     BackgroundColor = Color.DarkSlateGray,
 
                     buttonOption = op[i],
+
                     
                 };
                 button.Clicked += buttonClicked;
@@ -256,16 +362,16 @@ namespace TestApp
             // this may be done later by retreiving text from a database (?)
             switch (button.Key)
             {
-                case "option1":
+                case "option0":
                     state.goTo(current.options[0].nextEventNumber);
                     break;
-                case "option2":
+                case "option1":
                     state.goTo(current.options[1].nextEventNumber);
                     break;
-                case "option3":
+                case "option2":
                     state.goTo(current.options[2].nextEventNumber);
                     break;
-                case "option4":
+                case "option3":
                     state.goTo(current.options[3].nextEventNumber);
                     break;
                 case "clearScreen":
