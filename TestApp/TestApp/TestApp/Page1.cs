@@ -242,25 +242,84 @@ namespace TestApp
 
         }
 
-        void AddLabels()
+        void AddLabels(bool continuing = false)
         {
+
+            int lineCount = 0;
+            //Text interpretation will happen here?
             foreach (string s in current.text)
             {
+                //will add code to check for variables and whatnot
+
+                //string is split up so that it fits onto a phone screen
                 string[] strings = s.Split('|');
 #if __MOBILE__
-                for(int i = 0; i < strings.Length; ++i)
+                for (int i = 0; i < strings.Length; ++i)
                 {
-                    AddLabel(strings[i], i==0?false:true);
+                    lineCount++;
+                    if ((continuing && lineCount >= maxrow-1) || (!continuing && lineCount < maxrow-1))
+                    {
+                        AddLabel(strings[i], i == 0 ? false : true);
+                    }
+                    else if (!continuing)
+                    {
+                        continueButton();
+                        return;
+                    }
+
+                    
                 }
 #else
+                lineCount++;
+                //string is put back together if it's not on a phone screen
                 string l = "";
                 foreach (string x in strings)
                 {
                     l += x;
                 }
-                AddLabel(l);
+
+                if ((continuing && lineCount >= maxrow-1) || (!continuing && lineCount < maxrow-1))
+                {
+                    AddLabel(l); 
+                }
+                else if (!continuing)
+                {
+                    continueButton();
+                    return;
+                }
+                
 #endif
             }
+        }
+
+        void continueButton()
+        {
+            List<View> removable = new List<View>();
+            foreach (GameButton b in grid.Children.OfType<GameButton>())
+            {
+                if (b.Key != "clearScreen")
+                {
+                    removable.Add(b);
+                }
+            }
+            foreach (GameButton b in removable)
+                grid.Children.Remove(b);
+
+            GameButton continueButton = new GameButton
+            {
+                Text = "> Continue",
+                Key = "Continue",
+                TextColor = Color.LightGreen,
+
+                FontSize = fontsize,
+
+                BackgroundColor = Color.DarkSlateGray,
+
+                buttonOption = new Option() { text = "Continue"},
+
+            };
+            continueButton.Clicked += buttonClicked;
+            grid.Children.Add(continueButton, 0, maxrow + 3);
         }
 
         void AddLabel(string text, bool continuing = false)
@@ -346,7 +405,7 @@ namespace TestApp
                 button.Clicked += buttonClicked;
 
 #if __MOBILE__
-                grid.Children.Add(button, 0, 1, maxrow + i + 1, maxrow + i + 2);
+                grid.Children.Add(button, 0, 1, maxrow - i + 4, maxrow - i + 5);
 #else
                 grid.Children.Add(button, i, i+1, maxrow + 3, maxrow + 4);
 #endif
@@ -374,6 +433,10 @@ namespace TestApp
                 case "option3":
                     state.goTo(current.options[3].nextEventNumber);
                     break;
+                case "Continue":
+                    AddButtons(current.options);
+                    AddLabels(true);
+                    return;
                 case "clearScreen":
                     int index = 0;
                     while (index < grid.Children.Count && row > 0)
@@ -391,8 +454,8 @@ namespace TestApp
                     return;
             }
             current = state.getCurrent();
-            AddLabels();
             AddButtons(current.options);
+            AddLabels();
         }
     }
 }
