@@ -242,9 +242,10 @@ namespace TestApp
 
         }
 
-        void AddLabels(bool continuing = false)
+        void AddLabels(string continuestring = "0")
         {
-
+            int continuing = Convert.ToInt32(continuestring);//convert to int so we can use it 
+            continuestring = Convert.ToString(continuing + 1);//update the string so that if it's used again it will have moved forward
             int lineCount = 0;
             //Text interpretation will happen here?
             foreach (string s in current.text)
@@ -256,17 +257,22 @@ namespace TestApp
 #if __MOBILE__
                 for (int i = 0; i < strings.Length; ++i)
                 {
-                    lineCount++;
-                    if ((continuing && lineCount >= maxrow-1) || (!continuing && lineCount < maxrow-1))
+                    lineCount++;//Keeping track of how many lines into the event we are
+                    if ((continuing * (maxrow-3)) <= lineCount)
                     {
-                        AddLabel(strings[i], i == 0 ? false : true);
-                    }
-                    else if (!continuing)
-                    {
-                        continueButton();
-                        return;
-                    }
-
+                        if (lineCount < ((continuing + 1) * (maxrow-3)))
+                            // Between these two "if"s, only maxrow-3 at a time is displayed at a time
+                            // "Continuing" pushes it forward to the next maxrow-2 items
+                        {
+                            AddLabel(strings[i], i == 0 ? false : true);
+                        }
+                        else
+                        {
+                            //if it's past the current maxrow-3, Stop and give continue option
+                            continueButton(continuestring);
+                            return;
+                        }
+                    }// if it's under the current maxrow-3, keep going.
                     
                 }
 #else
@@ -278,22 +284,28 @@ namespace TestApp
                     l += x;
                 }
 
-                if ((continuing && lineCount >= maxrow-1) || (!continuing && lineCount < maxrow-1))
+                if ((continuing * (maxrow-3)) <= lineCount) 
                 {
-                    AddLabel(l); 
+                    if (lineCount < ((continuing + 1)* (maxrow-3)))
+                    {
+                        AddLabel(l); 
+                    }
+                    else
+                    {
+                        continueButton(continuestring);
+                        return;
+                    }   
                 }
-                else if (!continuing)
-                {
-                    continueButton();
-                    return;
-                }
+                
+                
                 
 #endif
             }
         }
 
-        void continueButton()
+        void continueButton(string continuing)
         {
+            //First we clear the buttons, as usual
             List<View> removable = new List<View>();
             foreach (GameButton b in grid.Children.OfType<GameButton>())
             {
@@ -308,18 +320,18 @@ namespace TestApp
             GameButton continueButton = new GameButton
             {
                 Text = "> Continue",
-                Key = "Continue",
+                Key = continuing,//Use the button key to keep track of how far into the event we are
                 TextColor = Color.LightGreen,
 
                 FontSize = fontsize,
 
                 BackgroundColor = Color.DarkSlateGray,
 
-                buttonOption = new Option() { text = "Continue"},
+                buttonOption = new Option() { text = "Continue"},//Since key is taken, this will be used as the identifier
 
             };
             continueButton.Clicked += buttonClicked;
-            grid.Children.Add(continueButton, 0, maxrow + 3);
+            grid.Children.Add(continueButton, 0, maxrow + 3);//put it on the grid
         }
 
         void AddLabel(string text, bool continuing = false)
@@ -416,6 +428,14 @@ namespace TestApp
         void buttonClicked(object sender, EventArgs e)
         {
             GameButton button = (GameButton)sender;
+
+            if (button.buttonOption.text == "Continue")//Continue button is a special case, because it doesn't come from options
+            {
+                AddButtons(current.options);
+                AddLabels(button.Key);//Using the button key to keep track of how far into the event you are.
+                return;
+            }
+
             AddLabel(button.buttonOption.text);
             
             // this may be done later by retreiving text from a database (?)
@@ -433,10 +453,6 @@ namespace TestApp
                 case "option3":
                     state.goTo(current.options[3].nextEventNumber);
                     break;
-                case "Continue":
-                    AddButtons(current.options);
-                    AddLabels(true);
-                    return;
                 case "clearScreen":
                     int index = 0;
                     while (index < grid.Children.Count && row > 0)
