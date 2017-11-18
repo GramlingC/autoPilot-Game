@@ -60,12 +60,17 @@ namespace TestApp
                     //this type of grid length expands to fill in what isn't taken up by other rows
                 }
             };
-            
+
             // In our grid, add a TGR to recognize generic mouse/tap input (for skipping through text primarily)
             var tgr = new TapGestureRecognizer() { NumberOfTapsRequired = 1 };
-            tgr.Command = new Command(new Action(ContinueText()));
+            tgr.Tapped += (s, e) =>
+            {
+                // Handle tap event here
+                // Eventually speeds up text
+            };
+            grid.GestureRecognizers.Add(tgr);
 
-            
+
 #if __MOBILE__
             grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
@@ -79,7 +84,7 @@ namespace TestApp
                 grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
                 //I want several lines of text near the top, that's these Autos
             }
-            
+
             grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
             //I want a large empty space, that's the star 
 
@@ -103,7 +108,7 @@ namespace TestApp
             SaveManager.SaveObject(@"testSave.xml", testShip);
             //testShip = (Ship)SaveManager.LoadObject(@"testSave.xml", testShip);
             //Debug.WriteLine("Hull: {0} - Fuel: {1} - Lifesigns: {2} - Empathy: {3}", testShip.HullIntegrity, testShip.Fuel, testShip.Lifesigns, testShip.EmpathyLevel);
-            
+
             //LoadObject still not working for whatever reason
             //Debug.WriteLine(SaveManager.LoadObject(@"testSave.xml", typeof(Ship)).Result.ToString());
 
@@ -148,7 +153,7 @@ namespace TestApp
 #endif
 
             //Displaying Stats:
-            
+
             Button StatsButton = new Button
             {
                 Text = "System.Diagnostics()",
@@ -233,7 +238,7 @@ namespace TestApp
                 AddLabel("Crew Lifesigns = " + state.ship.Lifesigns);
                 AddLabel("Fuel = " + state.ship.Fuel);
             };
-            
+
             grid.Children.Add(StatsButton, 0, 2, 1, 2);
             //
 
@@ -245,13 +250,6 @@ namespace TestApp
             //such as TestApp.UWP and choose Set as Start Up Project to choose your platform
 
 
-        }
-        
-        private Action ContinueText()
-        {
-            // We will make any label that has started typing text immediately finish and start typing the next line.
-
-            return null;
         }
         
         void AddLabels(string continuestring = "0")
