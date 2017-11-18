@@ -58,6 +58,12 @@ namespace TestApp
                     //this type of grid length expands to fill in what isn't taken up by other rows
                 }
             };
+
+            // In our grid, add a TGR to recognize generic mouse/tap input (for skipping through text primarily)
+            var tgr = new TapGestureRecognizer() { NumberOfTapsRequired = 1 };
+            tgr.Command = new Command(new Action(ContinueText()));
+
+
             for (int i = 0; i < maxrow; i++)
             {
                 grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
@@ -137,6 +143,13 @@ namespace TestApp
 
             //BEFORE YOU RUN: You can right click the sub-projects to the right
             //such as TestApp.UWP and choose Set as Start Up Project to choose your platform
+        }
+
+        private Action ContinueText()
+        {
+            // We will make any label that has started typing text immediately finish and start typing the next line.
+
+            return null;
         }
 
         void AddLabel(string text)
