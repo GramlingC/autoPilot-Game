@@ -68,6 +68,13 @@ namespace TestApp
             {
                 // Handle tap event here
                 // Eventually speeds up text
+                foreach (GameLabel gl in grid.Children.OfType<GameLabel>())
+                {
+                    if (!gl.Completed)
+                    {
+                        gl.CompleteText();
+                    }
+                }
             };
             grid.GestureRecognizers.Add(tgr);
 
@@ -322,8 +329,6 @@ namespace TestApp
 
             return;
         }
-
-
         async Task AddLabel(string text, bool continuing = false)
         {
             GameLabel nextLabel = new GameLabel(continuing ? text : "> " + text);
@@ -405,6 +410,7 @@ namespace TestApp
         }
         void AddButtons(List<Option> op)
         {
+            // Moving this all to buttonClicked for now
             List<View> removable = new List<View>();
             foreach (GameButton b in grid.Children.OfType<GameButton>())
             {
@@ -454,6 +460,7 @@ namespace TestApp
         }
         async void buttonClicked(object sender, EventArgs e)
         {
+            // Save which button we got
             GameButton button = (GameButton)sender;
 
             if (!button.IsVisible)
@@ -461,6 +468,12 @@ namespace TestApp
                 return;
             }
 
+            foreach (GameButton b in grid.Children.OfType<GameButton>())
+            {
+                if (b.Key.Contains("option"))
+                    b.IsEnabled = false;
+            }
+           
             if (button.buttonOption.text == "Continue")//Continue button is a special case, because it doesn't come from options
             {
                 AddButtons(current.options);
@@ -468,8 +481,6 @@ namespace TestApp
                 return;
             }
 
-            await AddLabel(button.buttonOption.text);
-            
             // this may be done later by retreiving text from a database (?)
             switch (button.Key)
             {
@@ -503,6 +514,7 @@ namespace TestApp
             }
             current = state.getCurrent();
             AddButtons(current.options);
+            await AddLabel(button.buttonOption.text);
             await AddLabels();
             ShowChoices();
         }
