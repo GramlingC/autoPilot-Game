@@ -253,7 +253,7 @@ namespace TestApp
 
         }
         
-        void AddLabels(string continuestring = "0")
+        async Task AddLabels(string continuestring = "0")
         {
             int continuing = Convert.ToInt32(continuestring);//convert to int so we can use it 
             continuestring = Convert.ToString(continuing + 1);//update the string so that if it's used again it will have moved forward
@@ -275,7 +275,7 @@ namespace TestApp
                             // Between these two "if"s, only maxrow-3 at a time is displayed at a time
                             // "Continuing" pushes it forward to the next maxrow-2 items
                         {
-                            AddLabel(strings[i], i == 0 ? false : true);
+                            await AddLabel(strings[i], i == 0 ? false : true);
                         }
                         else
                         {
@@ -299,7 +299,7 @@ namespace TestApp
                 {
                     if (lineCount < ((continuing + 1)* (maxrow-3)))
                     {
-                        AddLabel(l); 
+                        await AddLabel(l); 
                     }
                     else
                     {
@@ -347,7 +347,7 @@ namespace TestApp
             grid.Children.Add(continueButton, 0, maxrow + 3);//put it on the grid
         }
 
-        void AddLabel(string text, bool continuing = false)
+        async Task AddLabel(string text, bool continuing = false)
         {
             GameLabel nextLabel = new GameLabel(continuing ? text : "> " + text);
             nextLabel.FontSize = fontsize;
@@ -360,7 +360,7 @@ namespace TestApp
             //But it'll stop before 5, which means it'll span all the columns
 
             // This should start the GameLabel object to slowly display it's text.
-            nextLabel.DisplayText();
+            await nextLabel.DisplayText();
 
             // This line would immediately present the text on the screen
             //nextLabel.CompleteText();

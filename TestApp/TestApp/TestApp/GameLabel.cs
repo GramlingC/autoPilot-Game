@@ -32,7 +32,7 @@ namespace TestApp
         public bool RequestEnd { get; set; } // If the calling function has requested to finish text displaying early
 
         // Loop through the text and display it.
-        public async void DisplayText()
+        public async Task DisplayText()
         {
             while (!Completed && !RequestEnd)
             {
