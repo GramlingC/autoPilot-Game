@@ -439,7 +439,8 @@ namespace TestApp
 
                     buttonOption = op[i],
 
-                    IsVisible = false
+                    //IsVisible = false
+                    IsEnabled = false
                 };
                 button.Clicked += buttonClicked;
 
@@ -455,7 +456,8 @@ namespace TestApp
         {
             foreach (GameButton gb in grid.Children.OfType<GameButton>())
             {
-                gb.IsVisible = true;
+                //gb.IsVisible = true;
+                gb.IsEnabled = true;
             }
         }
         async void buttonClicked(object sender, EventArgs e)
@@ -474,10 +476,12 @@ namespace TestApp
                     b.IsEnabled = false;
             }
            
+            // Not quite sure how the continue system works
             if (button.buttonOption.text == "Continue")//Continue button is a special case, because it doesn't come from options
             {
                 AddButtons(current.options);
                 await AddLabels(button.Key);//Using the button key to keep track of how far into the event you are.
+                ShowChoices();
                 return;
             }
 
