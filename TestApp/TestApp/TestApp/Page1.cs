@@ -106,7 +106,7 @@ namespace TestApp
             // Everything below is for saving ship to file, just examples
             //
             Ship testShip = new Ship(100, 100, 100, 0);
-            SaveManager.SaveObject(@"testSave.xml", testShip);
+            //SaveManager.SaveObject(@"testSave.xml", testShip);
             //testShip = (Ship)SaveManager.LoadObject(@"testSave.xml", testShip);
             //Debug.WriteLine("Hull: {0} - Fuel: {1} - Lifesigns: {2} - Empathy: {3}", testShip.HullIntegrity, testShip.Fuel, testShip.Lifesigns, testShip.EmpathyLevel);
 
@@ -128,34 +128,33 @@ namespace TestApp
 
             current = state.getCurrent();
 
-            AddLabels();
             AddButtons(current.options);
 
 
-#if !__MOBILE__
-            GameButton button = new GameButton
-            {
-                Text = "> clearScreen()",
-                Key = "clearScreen",
-                TextColor = Color.LightGreen,
-                //Adapt to device size
-
-                FontSize = fontsize,
-
-                BackgroundColor = Color.DarkSlateGray,
-                buttonOption = new Option
-                {
-                    text = "",
-                },
-            };
-            button.Clicked += buttonClicked;//adding the function to this button's click
-
-            grid.Children.Add(button, 5, 6, maxrow + 3, maxrow + 4);
-#endif
+//#if !__MOBILE__
+//            GameButton button = new GameButton
+//            {
+//                Text = "> clearScreen()",
+//                Key = "clearScreen",
+//                TextColor = Color.LightGreen,
+//                //Adapt to device size
+//
+//                FontSize = fontsize,
+//
+//                BackgroundColor = Color.DarkSlateGray,
+//                buttonOption = new Option
+//                {
+//                    text = "",
+//                },
+//            };
+//            button.Clicked += buttonClicked;//adding the function to this button's click
+//
+//            grid.Children.Add(button, 5, 6, maxrow + 3, maxrow + 4);
+//#endif
 
             //Displaying Stats:
 
-            Button StatsButton = new Button
+            GameButton StatsButton = new GameButton
             {
                 Text = "System.Diagnostics()",
                 BackgroundColor = Color.DarkSlateGray,
@@ -232,16 +231,16 @@ namespace TestApp
             };
             */
             // SECOND OPTION: Display the stats as regular text:
-            StatsButton.Clicked += (object sender, EventArgs e) =>
-            {
-                AddLabel("System.Diagnostics()");
-                AddLabel("Hull Integrity = " + state.ship.HullIntegrity);
-                AddLabel("Crew Lifesigns = " + state.ship.Lifesigns);
-                AddLabel("Fuel = " + state.ship.Fuel);
-            };
-
-            grid.Children.Add(StatsButton, 0, 2, 1, 2);
+            //StatsButton.Clicked += (object sender, EventArgs e) =>
+            //{
+            //    AddLabel("System.Diagnostics()");
+            //    AddLabel("Hull Integrity = " + state.ship.HullIntegrity);
+            //    AddLabel("Crew Lifesigns = " + state.ship.Lifesigns);
+            //    AddLabel("Fuel = " + state.ship.Fuel);
+            //};
             //
+            //grid.Children.Add(StatsButton, 0, 2, 1, 2);
+            // Commented this out to simplify the flow of the program a bit
 
             this.Padding = new Thickness(10, 20, 10, 10); //Some breathing room around the edges
             this.Content = grid;//Puts the grid on the page
@@ -250,9 +249,17 @@ namespace TestApp
             //BEFORE YOU RUN: You can right click the sub-projects to the right
             //such as TestApp.UWP and choose Set as Start Up Project to choose your platform
 
+            BeginGame();
 
         }
         
+        // Separating some of this into an async function
+        async void BeginGame()
+        {
+            await AddLabels();
+            ShowChoices();
+        }
+
         async Task AddLabels(string continuestring = "0")
         {
             int continuing = Convert.ToInt32(continuestring);//convert to int so we can use it 
@@ -316,36 +323,6 @@ namespace TestApp
             return;
         }
 
-        void continueButton(string continuing)
-        {
-            //First we clear the buttons, as usual
-            List<View> removable = new List<View>();
-            foreach (GameButton b in grid.Children.OfType<GameButton>())
-            {
-                if (b.Key != "clearScreen")
-                {
-                    removable.Add(b);
-                }
-            }
-            foreach (GameButton b in removable)
-                grid.Children.Remove(b);
-
-            GameButton continueButton = new GameButton
-            {
-                Text = "> Continue",
-                Key = continuing,//Use the button key to keep track of how far into the event we are
-                TextColor = Color.LightGreen,
-
-                FontSize = fontsize,
-
-                BackgroundColor = Color.DarkSlateGray,
-
-                buttonOption = new Option() { text = "Continue"},//Since key is taken, this will be used as the identifier
-
-            };
-            continueButton.Clicked += buttonClicked;
-            grid.Children.Add(continueButton, 0, maxrow + 3);//put it on the grid
-        }
 
         async Task AddLabel(string text, bool continuing = false)
         {
@@ -396,6 +373,36 @@ namespace TestApp
             }
         }
 
+        void continueButton(string continuing)
+        {
+            //First we clear the buttons, as usual
+            List<View> removable = new List<View>();
+            foreach (GameButton b in grid.Children.OfType<GameButton>())
+            {
+                if (b.Key != "clearScreen")
+                {
+                    removable.Add(b);
+                }
+            }
+            foreach (GameButton b in removable)
+                grid.Children.Remove(b);
+
+            GameButton continueButton = new GameButton
+            {
+                Text = "> Continue",
+                Key = continuing,//Use the button key to keep track of how far into the event we are
+                TextColor = Color.LightGreen,
+
+                FontSize = fontsize,
+
+                BackgroundColor = Color.DarkSlateGray,
+
+                buttonOption = new Option() { text = "Continue" },//Since key is taken, this will be used as the identifier
+
+            };
+            continueButton.Clicked += buttonClicked;
+            grid.Children.Add(continueButton, 0, maxrow + 3);//put it on the grid
+        }
         void AddButtons(List<Option> op)
         {
             List<View> removable = new List<View>();
@@ -426,7 +433,7 @@ namespace TestApp
 
                     buttonOption = op[i],
 
-                    
+                    IsVisible = false
                 };
                 button.Clicked += buttonClicked;
 
@@ -438,19 +445,30 @@ namespace TestApp
                 //make sure to put this in a different column each loop
             }
         }
-
-        void buttonClicked(object sender, EventArgs e)
+        void ShowChoices()
+        {
+            foreach (GameButton gb in grid.Children.OfType<GameButton>())
+            {
+                gb.IsVisible = true;
+            }
+        }
+        async void buttonClicked(object sender, EventArgs e)
         {
             GameButton button = (GameButton)sender;
+
+            if (!button.IsVisible)
+            {
+                return;
+            }
 
             if (button.buttonOption.text == "Continue")//Continue button is a special case, because it doesn't come from options
             {
                 AddButtons(current.options);
-                AddLabels(button.Key);//Using the button key to keep track of how far into the event you are.
+                await AddLabels(button.Key);//Using the button key to keep track of how far into the event you are.
                 return;
             }
 
-            AddLabel(button.buttonOption.text);
+            await AddLabel(button.buttonOption.text);
             
             // this may be done later by retreiving text from a database (?)
             switch (button.Key)
@@ -485,7 +503,8 @@ namespace TestApp
             }
             current = state.getCurrent();
             AddButtons(current.options);
-            AddLabels();
+            await AddLabels();
+            ShowChoices();
         }
     }
 }

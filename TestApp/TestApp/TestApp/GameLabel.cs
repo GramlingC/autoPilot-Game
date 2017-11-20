@@ -37,7 +37,7 @@ namespace TestApp
             while (!Completed && !RequestEnd)
             {
                 AdvanceText();
-                await Task.Delay(50);
+                await Task.Delay(20);
             }
 
             if (RequestEnd)
