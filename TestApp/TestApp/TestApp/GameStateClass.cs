@@ -117,9 +117,18 @@ namespace TestApp
 
         public Event getCurrent()
         {
-            return eList[currentEvent];
-        }
+            // Removed this line, in case events are not inserted in order
+            //return eList[currentEvent];
+            foreach (Event e in eList)
+            {
+                if (e.eventNumber == currentEvent)
+                {
+                    return e;
+                }
+            }
 
+            return null;
+        }
         public void goTo(int next)
         {
             currentEvent = next;

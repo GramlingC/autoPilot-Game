@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 using Xamarin.Forms;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 //To make a page like this, right click TestApp (Portable)
 //Choose Add, then choose Content Page (C#)
@@ -311,6 +312,8 @@ namespace TestApp
                 
 #endif
             }
+
+            return;
         }
 
         void continueButton(string continuing)
@@ -346,21 +349,22 @@ namespace TestApp
 
         void AddLabel(string text, bool continuing = false)
         {
-            grid.Children.Add(new Label
-            {
-                Text = continuing? text :"> " + text,
-                TextColor = Color.LightGreen,
-                FontSize = fontsize,
-
-                //Here we could keep editing this and make it be different sizes,angles,etc
-                //If we declared this as a global variable, we could change it with functions
-            }, 0, 6, row, ++row);
+            GameLabel nextLabel = new GameLabel(continuing ? text : "> " + text);
+            nextLabel.FontSize = fontsize;
+            grid.Children.Add(nextLabel, 0, 6, row, ++row);
             //The parameters are (View,Left,Right,Top,Bottom)
             //View is anything from Labels to buttons to sliders, etc, and are adapt to platform
             //The numbers are grid positions. Left and top are the grid positions where they start
             //Top and Bottom are where they end, they will not enter these grid positions
             //for example, the grid's column index 5 doesn't exist, the last is 4
             //But it'll stop before 5, which means it'll span all the columns
+
+            // This should start the GameLabel object to slowly display it's text.
+            nextLabel.DisplayText();
+
+            // This line would immediately present the text on the screen
+            //nextLabel.CompleteText();
+
 
             //The row variable is increasing each time, so each label we add will be in a new row
             //once it gets to the maxrow, we want to move everything up so it doesn't keep
