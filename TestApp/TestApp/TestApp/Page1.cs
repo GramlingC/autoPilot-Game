@@ -438,8 +438,7 @@ namespace TestApp
 
             return;
         }
-
-
+        
         void continueButton(string continuing)
         {
             //First we clear the buttons, as usual
@@ -553,7 +552,7 @@ namespace TestApp
             // Print the text displayed on the button
             await AddLabel(button.buttonOption.text);
 
-            // Print the aftereffects of the option chosed
+            // Print the results of the option chosed
             await OutputOptionResult(button.buttonOption);
 
             // this may be done later by retreiving text from a database (?)
@@ -587,6 +586,7 @@ namespace TestApp
                     }
                     return;
             }
+
             current = state.getCurrent();
             AddButtons(current.options);
             await AddLabels();
