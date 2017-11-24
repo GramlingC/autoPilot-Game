@@ -156,9 +156,9 @@ namespace TestApp
             List<String> t;
 
             o1 = new Option(0, 1, false, "doOne()", "This is a summary for choice one", new List<string> {"This is the result of choice one.", "And here is another line of the result."});
-            o2 = new Option(1, 3, false, "doTwo()", "This is a summary for choice two", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
-            o3 = new Option(2, 2, false, "doThree()", "This is a summary for choice three", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
-            o4 = new Option(3, 4, false, "doFour()", "This is a summary for choice four", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
+            o2 = new Option(1, 3, false, "doTwo()", "This is a summary for choice two", new List<string> { "This is the result of choice two.", "And here is another line of the result." });
+            o3 = new Option(2, 2, false, "doThree()", "This is a summary for choice three", new List<string> { "This is the result of choice three.", "And here is another line of the result." });
+            o4 = new Option(3, 4, false, "doFour()", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "And here is another line of the result." });
             t = new List<string>()
             {
                 "This is the first event!",
@@ -170,9 +170,9 @@ namespace TestApp
             eList.Add(e);
             
             o1 = new Option(0, 0, false, "escogerUno()", "This is a summary for choice one", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
-            o2 = new Option(1, 2, false, "escogerDos()", "This is a summary for choice two", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
-            o3 = new Option(2, 3, false, "escogerTres()", "This is a summary for choice three", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
-            o4 = new Option(3, 4, false, "escogerCuatro()", "This is a summary for choice four", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
+            o2 = new Option(1, 2, false, "escogerDos()", "This is a summary for choice two", new List<string> { "This is the result of choice two.", "And here is another line of the result." });
+            o3 = new Option(2, 3, false, "escogerTres()", "This is a summary for choice three", new List<string> { "This is the result of choice three.", "And here is another line of the result." });
+            o4 = new Option(3, 4, false, "escogerCuatro()", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "And here is another line of the result." });
             t = new List<string>()
             {
                 "Welcome to event number 2",
@@ -184,9 +184,9 @@ namespace TestApp
             eList.Add(e);
 
             o1 = new Option(0, 0, false, "gotoEvent(1)", "This is a summary for choice one", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
-            o2 = new Option(1, 1, false, "gotoEvent(2)", "This is a summary for choice two", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
-            o3 = new Option(2, 3, false, "gotoEvent(4)", "This is a summary for choice three", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
-            o4 = new Option(3, 4, false, "gotoEvent(5)", "This is a summary for choice four", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
+            o2 = new Option(1, 1, false, "gotoEvent(2)", "This is a summary for choice two", new List<string> { "This is the result of choice two.", "And here is another line of the result." });
+            o3 = new Option(2, 3, false, "gotoEvent(4)", "This is a summary for choice three", new List<string> { "This is the result of choice three.", "And here is another line of the result." });
+            o4 = new Option(3, 4, false, "gotoEvent(5)", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "And here is another line of the result." });
             t = new List<string>()
             {
                 "We are now at the third event",
@@ -197,9 +197,9 @@ namespace TestApp
             eList.Add(e);
 
             o1 = new Option(0, 0, false, "toBeginning()", "This is a summary for choice one", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
-            o2 = new Option(1, 2, false, "toPrevious()", "This is a summary for choice two", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
-            o3 = new Option(2, 4, false, "toNext()", "This is a summary for choice three", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
-            o4 = new Option(3, 4, false, "toEnd()", "This is a summary for choice four", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
+            o2 = new Option(1, 2, false, "toPrevious()", "This is a summary for choice two", new List<string> { "This is the result of choice two.", "And here is another line of the result." });
+            o3 = new Option(2, 4, false, "toNext()", "This is a summary for choice three", new List<string> { "This is the result of choice three.", "And here is another line of the result." });
+            o4 = new Option(3, 4, false, "toEnd()", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "And here is another line of the result." });
             t = new List<string>()
             {
                 "The next event is the last one.",
@@ -212,9 +212,9 @@ namespace TestApp
             eList.Add(e);
 
             o1 = new Option(0, 0, false, "releaseCargo('BoxOfSupplies')", "This is a summary for choice one", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
-            o2 = new Option(1, 0, false, "examineLifeSigns()", "This is a summary for choice two", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
-            o3 = new Option(2, 0, false, "probePlanet()", "This is a summary for choice three", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
-            o4 = new Option(3, 0, false, "selfDestruct()", "This is a summary for choice four", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
+            o2 = new Option(1, 0, false, "examineLifeSigns()", "This is a summary for choice two", new List<string> { "This is the result of choice two.", "And here is another line of the result." });
+            o3 = new Option(2, 0, false, "probePlanet()", "This is a summary for choice three", new List<string> { "This is the result of choice three.", "And here is another line of the result." });
+            o4 = new Option(3, 0, false, "selfDestruct()", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "And here is another line of the result." });
             t = new List<string>()
             {
                 "A distress signal is coming in from the| nearby planet",

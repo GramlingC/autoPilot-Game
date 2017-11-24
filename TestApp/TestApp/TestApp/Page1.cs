@@ -132,12 +132,7 @@ namespace TestApp
 
             // This will print all events in the game state to the console
             //state.PrintEventList();
-
-            current = state.getCurrent();
-
-            AddButtons(current.options);
-
-
+            
 //#if !__MOBILE__
 //            GameButton button = new GameButton
 //            {
@@ -257,16 +252,18 @@ namespace TestApp
             //such as TestApp.UWP and choose Set as Start Up Project to choose your platform
 
             BeginGame();
-
         }
         
-        // Separating some of this into an async function
+        // Separating some of this into an async function. This is called at the end of page constructor.
         async void BeginGame()
         {
+            current = state.getCurrent();
+            AddButtons(current.options);
             await AddLabels();
             ShowChoices();
         }
 
+        // Displays all text for an event
         async Task AddLabels(string continuestring = "0")
         {
             int continuing = Convert.ToInt32(continuestring);//convert to int so we can use it 
@@ -329,6 +326,7 @@ namespace TestApp
 
             return;
         }
+        // Displays the text shown on an option button
         async Task AddLabel(string text, bool continuing = false)
         {
             GameLabel nextLabel = new GameLabel(continuing ? text : "> " + text);
@@ -377,6 +375,70 @@ namespace TestApp
                 }
             }
         }
+        // Displays the results of an action (option) chosen
+        async Task OutputOptionResult(Option option, string continuestring = "0")
+        {
+            int continuing = Convert.ToInt32(continuestring);//convert to int so we can use it 
+            continuestring = Convert.ToString(continuing + 1);//update the string so that if it's used again it will have moved forward
+            int lineCount = 0;
+            //Text interpretation will happen here?
+            foreach (string s in option.resultText)
+            {
+                //will add code to check for variables and whatnot
+
+                //string is split up so that it fits onto a phone screen
+                string[] strings = s.Split('|');
+#if __MOBILE__
+                for (int i = 0; i < strings.Length; ++i)
+                {
+                    lineCount++;//Keeping track of how many lines into the event we are
+                    if ((continuing * (maxrow - 3)) <= lineCount)
+                    {
+                        if (lineCount < ((continuing + 1) * (maxrow - 3)))
+                        // Between these two "if"s, only maxrow-3 at a time is displayed at a time
+                        // "Continuing" pushes it forward to the next maxrow-2 items
+                        {
+                            await AddLabel(strings[i], i == 0 ? false : true);
+                        }
+                        else
+                        {
+                            //if it's past the current maxrow-3, Stop and give continue option
+                            continueButton(continuestring);
+                            return;
+                        }
+                    }// if it's under the current maxrow-3, keep going.
+
+                }
+#else
+                lineCount++;
+                //string is put back together if it's not on a phone screen
+                string l = "";
+                foreach (string x in strings)
+                {
+                    l += x;
+                }
+
+                if ((continuing * (maxrow-3)) <= lineCount) 
+                {
+                    if (lineCount < ((continuing + 1)* (maxrow-3)))
+                    {
+                        await AddLabel(l); 
+                    }
+                    else
+                    {
+                        continueButton(continuestring);
+                        return;
+                    }   
+                }
+                
+                
+                
+#endif
+            }
+
+            return;
+        }
+
 
         void continueButton(string continuing)
         {
@@ -439,7 +501,7 @@ namespace TestApp
 
                     buttonOption = op[i],
 
-                    //IsVisible = false
+                    IsVisible = false,
                     IsEnabled = false
                 };
                 button.Clicked += buttonClicked;
@@ -456,7 +518,7 @@ namespace TestApp
         {
             foreach (GameButton gb in grid.Children.OfType<GameButton>())
             {
-                //gb.IsVisible = true;
+                gb.IsVisible = true;
                 gb.IsEnabled = true;
             }
         }
@@ -473,7 +535,10 @@ namespace TestApp
             foreach (GameButton b in grid.Children.OfType<GameButton>())
             {
                 if (b.Key.Contains("option"))
+                {
+                    b.IsVisible = false;
                     b.IsEnabled = false;
+                }
             }
            
             // Not quite sure how the continue system works
@@ -484,6 +549,12 @@ namespace TestApp
                 ShowChoices();
                 return;
             }
+
+            // Print the text displayed on the button
+            await AddLabel(button.buttonOption.text);
+
+            // Print the aftereffects of the option chosed
+            await OutputOptionResult(button.buttonOption);
 
             // this may be done later by retreiving text from a database (?)
             switch (button.Key)
@@ -518,7 +589,6 @@ namespace TestApp
             }
             current = state.getCurrent();
             AddButtons(current.options);
-            await AddLabel(button.buttonOption.text);
             await AddLabels();
             ShowChoices();
         }
