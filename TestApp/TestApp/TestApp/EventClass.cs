@@ -36,6 +36,7 @@ namespace TestApp
             //}
         }
 
+        // Simply for debug purposes
         public override string ToString()
         {
             StringBuilder str = new StringBuilder();
@@ -102,23 +103,30 @@ namespace TestApp
         public int nextEventNumber { get; set; }
         public bool optionPicked { get; set; }
         public String text { get; set; }
+        public String optionSummary { get; set; }
+        public List<String> resultText { get; set; }
 
         public Option()
         {
-            this.optionNumber = 0;
-            this.nextEventNumber = 0;
-            this.optionPicked = false;
-            this.text = "";
+            optionNumber = 0;
+            nextEventNumber = 0;
+            optionPicked = false;
+            text = "";
+            optionSummary = "";
+            resultText = new List<string>();
         }
 
-        public Option(int optionNumber, int nextEventNumber, bool optionPicked, String text)
+        public Option(int optionNumber, int nextEventNumber, bool optionPicked, String text, String optionSummary, List<String> resultText)
         {
             this.optionNumber = optionNumber;
             this.nextEventNumber = nextEventNumber;
             this.optionPicked = optionPicked;
             this.text = text;
+            this.optionSummary = optionSummary;
+            this.resultText = resultText;
         }
 
+        // Simply for debug purposes
         public override string ToString()
         {
             StringBuilder str = new StringBuilder();
