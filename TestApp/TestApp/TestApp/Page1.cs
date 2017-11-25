@@ -518,7 +518,16 @@ namespace TestApp
             foreach (GameButton gb in grid.Children.OfType<GameButton>())
             {
                 gb.IsVisible = true;
-                gb.IsEnabled = true;
+
+                // Only enable the button if the ship's attributes 
+                // meet the requirements of the chosen option.
+                Option o = gb.buttonOption;
+                Ship s = state.ship;
+                if (s.HullIntegrity >= o.HullRequired &&
+                    s.Fuel >= o.FuelRequired &&
+                    s.Lifesigns >= o.LifeRequired &&
+                    s.EmpathyLevel >= o.EmpRequired)
+                        gb.IsEnabled = true;
             }
         }
         async void buttonClicked(object sender, EventArgs e)

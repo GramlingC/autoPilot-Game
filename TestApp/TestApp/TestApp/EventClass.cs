@@ -112,6 +112,14 @@ namespace TestApp
         public int LifeChange { get; set; }
         public int EmpChange { get; set; }
 
+        // Values required for option to be available
+        // Ship attribute must be greater than or equal to required value to be available
+        // All of these default to 0, which means there is no requirement.
+        public int HullRequired { get; set; }
+        public int FuelRequired { get; set; }
+        public int LifeRequired { get; set; }
+        public int EmpRequired { get; set; }
+
         // This calls the other constructor to fill it with empty values
         public Option() : this(0, 0, false, "", "", new List<string>()) { }
         
@@ -128,6 +136,11 @@ namespace TestApp
             FuelChange = 0;
             LifeChange = 0;
             EmpChange = 0;
+
+            HullRequired = 0;
+            FuelRequired = 0;
+            LifeRequired = 0;
+            EmpRequired = 0;
         }
 
         // Simply for debug purposes
