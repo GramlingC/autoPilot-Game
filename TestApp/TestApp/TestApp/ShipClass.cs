@@ -68,5 +68,10 @@ namespace TestApp
         {
             empathyLevel += change;
         }
+
+        public override string ToString()
+        {
+            return "Ship: H=" + hullIntegrity + " F=" + fuel + " L=" + lifesigns + " E=" + empathyLevel;
+        }
     }
 }

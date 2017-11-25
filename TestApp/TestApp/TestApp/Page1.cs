@@ -540,7 +540,6 @@ namespace TestApp
                 }
             }
            
-            // Not quite sure how the continue system works
             if (button.buttonOption.text == "Continue")//Continue button is a special case, because it doesn't come from options
             {
                 AddButtons(current.options);
@@ -552,7 +551,14 @@ namespace TestApp
             // Print the text displayed on the button
             await AddLabel(button.buttonOption.text);
 
-            // Print the results of the option chosed
+            // Change the attributes of the ship based on chosen option
+            // Note: Moving this to AFTER the OutputOptionResult method will print
+            //       the option result, and THEN do any changes to ship variables.
+            ModifyShipAttributes(button.buttonOption);
+            // DEBUG: Print ship in console after changes
+            Debug.WriteLine(state.ship.ToString());
+
+            // Print the results of the option chosen
             await OutputOptionResult(button.buttonOption);
 
             // this may be done later by retreiving text from a database (?)
@@ -591,6 +597,31 @@ namespace TestApp
             AddButtons(current.options);
             await AddLabels();
             ShowChoices();
+        }
+
+        private void ModifyShipAttributes(Option o)
+        {
+            // In this function we can create any notifications of
+            // Ship variable changes
+            if (o.HullChange != 0)
+            {
+                state.ship.ChangeHullIntegrity(o.HullChange);
+            }
+
+            if (o.FuelChange != 0)
+            {
+                state.ship.ChangeFuel(o.FuelChange);
+            }
+
+            if (o.LifeChange != 0)
+            {
+                state.ship.ChangeLifesigns(o.LifeChange);
+            }
+
+            if (o.EmpChange != 0)
+            {
+                state.ship.ChangeEmpathyLevel(o.EmpChange);
+            }
         }
     }
 }

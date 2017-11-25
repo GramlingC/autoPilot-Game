@@ -183,10 +183,10 @@ namespace TestApp
 
             eList.Add(e);
 
-            o1 = new Option(0, 0, false, "gotoEvent(1)", "This is a summary for choice one", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
-            o2 = new Option(1, 1, false, "gotoEvent(2)", "This is a summary for choice two", new List<string> { "This is the result of choice two.", "And here is another line of the result." });
-            o3 = new Option(2, 3, false, "gotoEvent(4)", "This is a summary for choice three", new List<string> { "This is the result of choice three.", "And here is another line of the result." });
-            o4 = new Option(3, 4, false, "gotoEvent(5)", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "And here is another line of the result." });
+            o1 = new Option(0, 0, false, "gotoEvent(0)", "This is a summary for choice one", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
+            o2 = new Option(1, 1, false, "gotoEvent(1)", "This is a summary for choice two", new List<string> { "This is the result of choice two.", "And here is another line of the result." });
+            o3 = new Option(2, 3, false, "gotoEvent(3)", "This is a summary for choice three", new List<string> { "This is the result of choice three.", "And here is another line of the result." });
+            o4 = new Option(3, 4, false, "gotoEvent(4)", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "And here is another line of the result." });
             t = new List<string>()
             {
                 "We are now at the third event",
@@ -199,7 +199,7 @@ namespace TestApp
             o1 = new Option(0, 0, false, "toBeginning()", "This is a summary for choice one", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
             o2 = new Option(1, 2, false, "toPrevious()", "This is a summary for choice two", new List<string> { "This is the result of choice two.", "And here is another line of the result." });
             o3 = new Option(2, 4, false, "toNext()", "This is a summary for choice three", new List<string> { "This is the result of choice three.", "And here is another line of the result." });
-            o4 = new Option(3, 4, false, "toEnd()", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "And here is another line of the result." });
+            o4 = new Option(3, 5, false, "toEnd()", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "And here is another line of the result." });
             t = new List<string>()
             {
                 "The next event is the last one.",
@@ -211,10 +211,10 @@ namespace TestApp
 
             eList.Add(e);
 
-            o1 = new Option(0, 0, false, "releaseCargo('BoxOfSupplies')", "This is a summary for choice one", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
-            o2 = new Option(1, 0, false, "examineLifeSigns()", "This is a summary for choice two", new List<string> { "This is the result of choice two.", "And here is another line of the result." });
-            o3 = new Option(2, 0, false, "probePlanet()", "This is a summary for choice three", new List<string> { "This is the result of choice three.", "And here is another line of the result." });
-            o4 = new Option(3, 0, false, "selfDestruct()", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "And here is another line of the result." });
+            o1 = new Option(0, 5, false, "releaseCargo('BoxOfSupplies')", "This is a summary for choice one", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
+            o2 = new Option(1, 5, false, "examineLifeSigns()", "This is a summary for choice two", new List<string> { "This is the result of choice two.", "And here is another line of the result." });
+            o3 = new Option(2, 5, false, "probePlanet()", "This is a summary for choice three", new List<string> { "This is the result of choice three.", "And here is another line of the result." });
+            o4 = new Option(3, 5, false, "selfDestruct()", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "And here is another line of the result." });
             t = new List<string>()
             {
                 "A distress signal is coming in from the| nearby planet",
@@ -244,6 +244,25 @@ namespace TestApp
                 "If you couldn't already tell, this event was| based on Kloss's test class in EventClass.cs!"
             };
             e = new Event(4, "Underwater Investigation", t, new List<Option> { o1, o2, o3, o4 });
+
+            eList.Add(e);
+
+            o1 = new Option(0, 0, false, "loseHull()", "This is a summary for choice one", new List<string> { "This is the result of choice one.", "Decreasing hull by 15.", "Returning to start event..." });
+            o1.HullChange = -15;
+            o2 = new Option(1, 0, false, "gainHull()", "This is a summary for choice two", new List<string> { "This is the result of choice two.", "Increasing hull by 20.", "Returning to start event..." });
+            o2.HullChange = 20;
+            o3 = new Option(2, 0, false, "gainLife()", "This is a summary for choice three", new List<string> { "This is the result of choice three.", "Increasing life by 40.", "Returning to start event..." });
+            o3.LifeChange = 40;
+            o4 = new Option(3, 0, false, "loseHumanity()", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "Decreasing empathy by 10.", "Returning to start event..." });
+            o4.EmpChange = -10;
+            t = new List<string>()
+            {
+                "The next event is the last one.",
+                "It's the most realistic event in this sample| data.",
+                "However, it is still silly.",
+                "Enjoy."
+            };
+            e = new Event(5, "Event to Test Ship Changes", t, new List<Option> { o1, o2, o3, o4 });
 
             eList.Add(e);
         }
