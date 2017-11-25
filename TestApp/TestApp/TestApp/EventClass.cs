@@ -106,16 +106,15 @@ namespace TestApp
         public String optionSummary { get; set; }
         public List<String> resultText { get; set; }
 
-        public Option()
-        {
-            optionNumber = 0;
-            nextEventNumber = 0;
-            optionPicked = false;
-            text = "";
-            optionSummary = "";
-            resultText = new List<string>();
-        }
+        // Changes to attributes if option is selected
+        public int HullChange { get; set; }
+        public int FuelChange { get; set; }
+        public int LifeChange { get; set; }
+        public int EmpChange { get; set; }
 
+        // This calls the other constructor to fill it with empty values
+        public Option() : this(0, 0, false, "", "", new List<string>()) { }
+        
         public Option(int optionNumber, int nextEventNumber, bool optionPicked, String text, String optionSummary, List<String> resultText)
         {
             this.optionNumber = optionNumber;
@@ -124,6 +123,11 @@ namespace TestApp
             this.text = text;
             this.optionSummary = optionSummary;
             this.resultText = resultText;
+
+            HullChange = 0;
+            FuelChange = 0;
+            LifeChange = 0;
+            EmpChange = 0;
         }
 
         // Simply for debug purposes
