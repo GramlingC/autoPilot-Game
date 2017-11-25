@@ -169,6 +169,17 @@ namespace TestApp
                 FontSize = fontsize,
             };
 
+            GameButton Log = new GameButton
+            {
+                Text = "Log",
+                BackgroundColor = Color.Black,
+                TextColor = Color.Red,
+                FontSize = fontsize
+            };
+            //grid.Children.Add(Log, 0, 0);
+            Log.Clicked += goToLog;
+
+
             // FIRST OPTION: Display the stats as a menu
             /*
             StackLayout stats = new StackLayout
@@ -255,6 +266,15 @@ namespace TestApp
 
             //BEFORE YOU RUN: You can right click the sub-projects to the right
             //such as TestApp.UWP and choose Set as Start Up Project to choose your platform
+
+
+
+
+
+            //Added for Log\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+            state.AddToUsedText();
+            /////////////////////////////////////////////////
+
 
             BeginGame();
 
@@ -516,11 +536,20 @@ namespace TestApp
                     }
                     return;
             }
+            //testing adding to the used text for the log
+            state.AddToUsedText();
+            //
             current = state.getCurrent();
             AddButtons(current.options);
             await AddLabel(button.buttonOption.text);
             await AddLabels();
             ShowChoices();
+        }
+
+        //for going to the log. im not sure what async does so i didnt put it here but it can be changed if needed
+        void goToLog(object sender, EventArgs e)
+        {
+            Navigation.PushModalAsync(new Page2(state));
         }
     }
 }
