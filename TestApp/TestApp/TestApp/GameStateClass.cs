@@ -155,10 +155,10 @@ namespace TestApp
             Event e;
             List<String> t;
 
-            o1 = new Option(0, 1, false, "doOne()", "This is a summary for choice one", new List<string> {"This is the result of choice one.", "And here is another line of the result."});
-            o2 = new Option(1, 3, false, "doTwo()", "This is a summary for choice two", new List<string> { "This is the result of choice two.", "And here is another line of the result." });
+            o1 = new Option(0, 0, false, "doOne()", "This is a summary for choice one", new List<string> {"This is the result of choice one.", "And here is another line of the result."});
+            o2 = new Option(1, 1, false, "doTwo()", "This is a summary for choice two", new List<string> { "This is the result of choice two.", "And here is another line of the result." });
             o3 = new Option(2, 2, false, "doThree()", "This is a summary for choice three", new List<string> { "This is the result of choice three.", "And here is another line of the result." });
-            o4 = new Option(3, 4, false, "doFour()", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "And here is another line of the result." });
+            o4 = new Option(3, 3, false, "doFour()", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "And here is another line of the result." });
             t = new List<string>()
             {
                 "This is the first event!",
@@ -170,9 +170,9 @@ namespace TestApp
             eList.Add(e);
             
             o1 = new Option(0, 0, false, "escogerUno()", "This is a summary for choice one", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
-            o2 = new Option(1, 2, false, "escogerDos()", "This is a summary for choice two", new List<string> { "This is the result of choice two.", "And here is another line of the result." });
+            o2 = new Option(1, 1, false, "escogerDos()", "This is a summary for choice two", new List<string> { "This is the result of choice two.", "And here is another line of the result." });
             o3 = new Option(2, 3, false, "escogerTres()", "This is a summary for choice three", new List<string> { "This is the result of choice three.", "And here is another line of the result." });
-            o4 = new Option(3, 4, false, "escogerCuatro()", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "And here is another line of the result." });
+            o4 = new Option(3, 5, false, "escogerCuatro()", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "And here is another line of the result." });
             t = new List<string>()
             {
                 "Welcome to event number 2",
@@ -211,10 +211,14 @@ namespace TestApp
 
             eList.Add(e);
 
-            o1 = new Option(0, 5, false, "releaseCargo('BoxOfSupplies')", "This is a summary for choice one", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
-            o2 = new Option(1, 5, false, "examineLifeSigns()", "This is a summary for choice two", new List<string> { "This is the result of choice two.", "And here is another line of the result." });
-            o3 = new Option(2, 5, false, "probePlanet()", "This is a summary for choice three", new List<string> { "This is the result of choice three.", "And here is another line of the result." });
-            o4 = new Option(3, 5, false, "selfDestruct()", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "And here is another line of the result." });
+            o1 = new Option(0, 5, false, "releaseCargo('60x Fuel')", "This is a summary for choice one", new List<string> { "You release 60x Fuel to the planet below.", "Hopefully it helps someone..." });
+            o1.FuelRequired = 60;
+            o1.FuelChange = -60;
+            o2 = new Option(1, 5, false, "examinePlanetLife()", "This is a summary for choice two", new List<string> { "Planet life is intelligent.", "...", "For the most part." });
+            o3 = new Option(2, 5, false, "helpPlanet()", "This is a summary for choice three", new List<string> { "You have enough empathy to help the planet!" });
+            o3.EmpRequired = 5;
+            o4 = new Option(3, 5, false, "selfDestruct()", "This is a summary for choice four", new List<string> { "You exploded." });
+            o4.HullChange = -100;
             t = new List<string>()
             {
                 "A distress signal is coming in from the| nearby planet",
@@ -249,12 +253,12 @@ namespace TestApp
 
             o1 = new Option(0, 0, false, "loseHull()", "This is a summary for choice one", new List<string> { "This is the result of choice one.", "Decreasing hull by 15.", "Returning to start event..." });
             o1.HullChange = -15;
-            o2 = new Option(1, 0, false, "gainHull()", "This is a summary for choice two", new List<string> { "This is the result of choice two.", "Increasing hull by 20.", "Returning to start event..." });
-            o2.HullChange = 20;
+            o2 = new Option(1, 0, false, "gainFuel()", "This is a summary for choice two", new List<string> { "This is the result of choice two.", "Increasing fuel by 20.", "Returning to start event..." });
+            o2.FuelChange = 20;
             o3 = new Option(2, 0, false, "gainLife()", "This is a summary for choice three", new List<string> { "This is the result of choice three.", "Increasing life by 40.", "Returning to start event..." });
             o3.LifeChange = 40;
-            o4 = new Option(3, 0, false, "loseHumanity()", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "Decreasing empathy by 10.", "Returning to start event..." });
-            o4.EmpChange = -10;
+            o4 = new Option(3, 0, false, "gainHumanity()", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "Increasing empathy by 10.", "Returning to start event..." });
+            o4.EmpChange = 10;
             t = new List<string>()
             {
                 "The next event is the last one.",

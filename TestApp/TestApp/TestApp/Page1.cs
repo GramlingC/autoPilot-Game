@@ -608,29 +608,48 @@ namespace TestApp
             ShowChoices();
         }
 
+        // Modifies the attributes of the ship based on a given option.
+        // Calls game over state if any attribute falls below 0;
         private void ModifyShipAttributes(Option o)
         {
+            Ship s = state.ship;
             // In this function we can create any notifications of
             // Ship variable changes
             if (o.HullChange != 0)
             {
-                state.ship.ChangeHullIntegrity(o.HullChange);
+                s.ChangeHullIntegrity(o.HullChange);
             }
 
             if (o.FuelChange != 0)
             {
-                state.ship.ChangeFuel(o.FuelChange);
+                s.ChangeFuel(o.FuelChange);
             }
 
             if (o.LifeChange != 0)
             {
-                state.ship.ChangeLifesigns(o.LifeChange);
+                s.ChangeLifesigns(o.LifeChange);
             }
 
             if (o.EmpChange != 0)
             {
-                state.ship.ChangeEmpathyLevel(o.EmpChange);
+                s.ChangeEmpathyLevel(o.EmpChange);
             }
+
+            // Calls game over state if any attribute falls below 0.
+            // This can be changed if we decide on different lose states.
+            if (s.HullIntegrity <= 0 ||
+                s.Fuel <= 0 ||
+                s.Lifesigns <= 0)
+            {
+                GameOver();
+            }
+        }
+
+        private async void GameOver()
+        {
+            // Need to implement game over state in here
+            await AddLabel("Game Over!");
+            throw new NotImplementedException();
         }
     }
 }
