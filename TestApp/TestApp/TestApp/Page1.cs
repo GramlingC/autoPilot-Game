@@ -16,7 +16,14 @@ namespace TestApp
 {
     public class Page1 : ContentPage
     {
-        int fontsize = 14;
+        //There will be less rows on mobile devices, since they're smaller
+        //font will also be smaller
+#if __MOBILE__
+        double fontsize = 10;
+#else
+        double fontsize = Device.GetNamedSize(NamedSize.Small, typeof(Label));
+#endif
+        
         Event currentEvent;
         GameStateClass state;
 
@@ -156,7 +163,117 @@ namespace TestApp
 
             AddButtons(currentEvent.options);
 
-            //GameButton StatsButton = new GameButton
+//#if !__MOBILE__
+//            GameButton button = new GameButton
+//            {
+//                Text = "> clearScreen()",
+//                Key = "clearScreen",
+//                TextColor = Color.LightGreen,
+//                //Adapt to device size
+//
+//                FontSize = fontsize,
+//
+//                BackgroundColor = Color.DarkSlateGray,
+//                buttonOption = new Option
+//                {
+//                    text = "",
+//                },
+//            };
+//            button.Clicked += buttonClicked;//adding the function to this button's click
+//
+//            grid.Children.Add(button, 5, 6, maxrow + 3, maxrow + 4);
+//#endif
+
+            //Displaying Stats:
+
+            GameButton StatsButton = new GameButton
+            {
+                Text = "System.Diagnostics()",
+                BackgroundColor = Color.DarkSlateGray,
+                TextColor = Color.LightSeaGreen,
+                FontSize = fontsize,
+            };
+
+            GameButton Log = new GameButton
+            {
+                Text = "Log",
+                BackgroundColor = Color.Black,
+                TextColor = Color.Red,
+                FontSize = fontsize
+            };
+            //grid.Children.Add(Log, 0, 0);
+            Log.Clicked += goToLog;
+
+            // FIRST OPTION: Display the stats as a menu
+            /*
+            StackLayout stats = new StackLayout
+            {
+                Opacity = 1,
+                BackgroundColor = Color.Black,
+                Children =
+                {
+                    new Label
+                    {
+                        Text = "Hull Integrity = " + state.ship.HullIntegrity,
+                        TextColor = Color.LightSeaGreen,
+                        FontSize = fontsize,
+                    },
+                    new Label
+                    {
+                        Text = "Crew Lifesigns = " + state.ship.Lifesigns,
+                        TextColor = Color.LightSeaGreen,
+                        FontSize = fontsize,
+                    },
+                    new Label
+                    {
+                        Text = "Fuel = " + state.ship.Fuel,
+                        TextColor = Color.LightSeaGreen,
+                        FontSize = fontsize,
+                    },
+                }
+            };
+
+            Button DismissButton = new Button
+            {
+                Text = "Dismiss",
+                TextColor = Color.LightGreen,
+                FontSize = fontsize,
+                BackgroundColor = Color.DarkSlateGray,
+            };
+              
+            List<Label> HiddenLabels = new List<Label>();
+            //We wanna hide the text that appears under the menu
+            StatsButton.Clicked += (object sender, EventArgs e) =>
+            {
+                grid.Children.Add(stats, 0, 2, 0, 1);
+                grid.Children.Add(DismissButton,0,2,1,2);
+                grid.Children.Remove(StatsButton);
+                foreach (Label l in grid.Children.OfType<Label>())
+                {
+                    if (Grid.GetRow(l) < 6)
+                    {
+                        HiddenLabels.Add(l);
+                        l.IsVisible = false;
+                    }
+                }
+            };
+
+            DismissButton.Clicked += (object sender, EventArgs e) =>
+            {
+                
+                grid.Children.Add(StatsButton, 0, 2, 1, 2);
+                grid.Children.Remove(DismissButton);
+                foreach (Label l in HiddenLabels)
+                {
+                    l.IsVisible = true;
+                }
+                HiddenLabels.Clear();
+                grid.Children.Remove(stats);
+                
+            };
+            */
+            // SECOND OPTION: Display the stats as regular text:
+            //StatsButton.Clicked += (object sender, EventArgs e) =>
             //{
             //    Text = "System.Diagnostics()",
             //    BackgroundColor = Color.DarkSlateGray,
@@ -168,6 +285,14 @@ namespace TestApp
             this.Content = pageContent;//Puts the content on the page
             this.BackgroundColor = Color.Black;
 
+
+            //BEFORE YOU RUN: You can right click the sub-projects to the right
+            //such as TestApp.UWP and choose Set as Start Up Project to choose your platform
+           
+            //Added for Log\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+            state.AddToUsedText();
+            /////////////////////////////////////////////////
+                       
             BeginGame();
         }
         
@@ -496,14 +621,15 @@ namespace TestApp
                 //    }
                 //    return;
             }
-
             currentEvent = state.getCurrent();
             AddButtons(currentEvent.options);
+            state.AddToUsedText();
+
             await AddLabel(button.buttonOption.text);
             await AddLabels();
             ShowChoices();
         }
-
+        
         // Modifies the attributes of the ship based on a given option.
         // Calls game over state if any attribute falls below 0;
         private void ModifyShipAttributes(Option o)
@@ -546,6 +672,12 @@ namespace TestApp
             // Need to implement game over state in here
             await AddLabel("Game Over!");
             throw new NotImplementedException();
+        }
+
+        //for going to the log. im not sure what async does so i didnt put it here but it can be changed if needed
+        void goToLog(object sender, EventArgs e)
+        {
+            Navigation.PushModalAsync(new Page2(state));
         }
     }
 }
