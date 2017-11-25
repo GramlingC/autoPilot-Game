@@ -14,6 +14,7 @@ namespace TestApp
 			InitializeComponent();
 
 			//MainPage = new TestApp.Page1();
+            //Made this use NavigationPage so we could go back and forth between pages
             MainPage = new NavigationPage(new TestApp.Page1());
 		}
 

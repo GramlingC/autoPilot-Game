@@ -114,6 +114,7 @@ namespace TestApp
         private int currentEvent;
         public bool ready;
         public Ship ship;
+        ////////////////////////////////
         //To get used text for log
         public List<String> usedText = new List<String>();
 
@@ -299,7 +300,7 @@ namespace TestApp
                 usedText.Add(str);
                 foreach (Option o in currentEvent.options)
                 {
-                   // if (o.optionPicked) usedText.Add(o.text);
+                   if(o.optionPicked) usedText.Add(o.text);
                 }
 
             }

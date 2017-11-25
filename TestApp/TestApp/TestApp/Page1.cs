@@ -194,6 +194,11 @@ namespace TestApp
                 FontSize = fontsize,
             };
 
+            ///////////////////////////////////////////////////////////////////
+            //Not sure how the buttons are being managed here with the GameButton class and how clearing
+            //the page for text and the IsVisible stuff so the Log button is not currently in but the 
+            //Log page works and the back button works. Also not sure on what async means so i didnt add it
+            //for the button clicked
             GameButton Log = new GameButton
             {
                 Text = "Log",
@@ -203,6 +208,7 @@ namespace TestApp
             };
             //grid.Children.Add(Log, 0, 0);
             Log.Clicked += goToLog;
+            ///////////////////////////////////////////////////////////////////
 
             // FIRST OPTION: Display the stats as a menu
             /*

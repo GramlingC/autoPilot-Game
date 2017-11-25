@@ -60,6 +60,7 @@ namespace TestApp
                 }
             };
 
+            //There is also a PushAsync option rather than PushModalAsync
             void buttonClicked(object sender, EventArgs e)
             {
                 Navigation.PushModalAsync(new Page1());
@@ -67,14 +68,3 @@ namespace TestApp
         }
     }
 }
-
-       /*     var scroll = new ScrollView();
-            Content = scroll;
-            var stack = new StackLayout();
-            stack.Children.Add(new BoxViewView
-            {
-                BackgroundColor = Color.Black,
-                HeightRequest = 500,
-                WidthRequest = 500
-            });
-            stack.Children.Add(new Entry());*/
