@@ -194,6 +194,8 @@ namespace TestApp
                 FontSize = fontsize,
             };
 
+            //logPage = new Page2(state);
+
             ///////////////////////////////////////////////////////////////////
             //Not sure how the buttons are being managed here with the GameButton class and how clearing
             //the page for text and the IsVisible stuff so the Log button is not currently in but the 
@@ -298,7 +300,7 @@ namespace TestApp
             //such as TestApp.UWP and choose Set as Start Up Project to choose your platform
            
             //Added for Log\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-            state.AddToUsedText();
+            //state.AddToUsedText();
             /////////////////////////////////////////////////
                        
             BeginGame();
@@ -348,6 +350,7 @@ namespace TestApp
                             // "Continuing" pushes it forward to the next maxrow-2 items
                         {
                             await AddLabel(strings[i], i == 0 ? false : true);
+                            state.AddToUsedText(strings[i]);
                         }
                         else
                         {
@@ -372,6 +375,7 @@ namespace TestApp
                     if (lineCount < ((continuing + 1)* (maxrow-3)))
                     {
                         await AddLabel(l); 
+                        state.AddToUsedText(l);
                     }
                     else
                     {
@@ -627,9 +631,9 @@ namespace TestApp
                 //    }
                 //    return;
             }
+
             currentEvent = state.getCurrent();
             AddButtons(currentEvent.options);
-            state.AddToUsedText();
 
             await AddLabel(button.buttonOption.text);
             await AddLabels();
@@ -683,6 +687,7 @@ namespace TestApp
         //for going to the log. im not sure what async does so i didnt put it here but it can be changed if needed
         void goToLog(object sender, EventArgs e)
         {
+            //Navigation.PushModalAsync(logPage);
             Navigation.PushModalAsync(new Page2(state));
         }
     }
