@@ -468,7 +468,7 @@ namespace TestApp
             List<View> removable = new List<View>();
             foreach (GameButton b in grid.Children.OfType<GameButton>())
             {
-                if (b.Key != "clearScreen")
+                if (b.Key != null && (b.Key.Contains("option") || b.Text == "> Continue"))
                 {
                     removable.Add(b);
                 }
@@ -499,7 +499,7 @@ namespace TestApp
             List<View> removable = new List<View>();
             foreach (GameButton b in buttonArea.Children.OfType<GameButton>())
             {
-                if (b.Key != null && b.Key.Contains("option"))
+                if (b.Key != null && (b.Key.Contains("option") || b.Text == "> Continue"))
                 {
                     removable.Add(b);
                 }
