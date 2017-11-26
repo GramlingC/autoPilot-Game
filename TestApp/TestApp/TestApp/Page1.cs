@@ -210,6 +210,8 @@ namespace TestApp
             Log.Clicked += goToLog;
             ///////////////////////////////////////////////////////////////////
 
+            topBarArea.Children.Add(Log);
+
             // FIRST OPTION: Display the stats as a menu
             /*
             StackLayout stats = new StackLayout
@@ -497,7 +499,7 @@ namespace TestApp
             List<View> removable = new List<View>();
             foreach (GameButton b in buttonArea.Children.OfType<GameButton>())
             {
-                if (b.Key != "clearScreen")
+                if (b.Key != null && b.Key.Contains("option"))
                 {
                     removable.Add(b);
                 }
@@ -567,11 +569,9 @@ namespace TestApp
 
             foreach (GameButton b in buttonArea.Children.OfType<GameButton>())
             {
-                if (b.Key.Contains("option"))
-                {
-                    //b.IsVisible = false;
+
+                if (b.Key != null && b.Key.Contains("option"))
                     b.IsEnabled = false;
-                }
             }
            
             // Not quite sure how the continue system works
