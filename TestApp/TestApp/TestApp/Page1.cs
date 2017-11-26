@@ -184,6 +184,7 @@ namespace TestApp
             //grid.Children.Add(Log, 0, 0);
             Log.Clicked += goToLog;
             ///////////////////////////////////////////////////////////////////
+            grid.Children.Add(Log, 0, 2, maxrow + 2, maxrow + 3);
 
             // FIRST OPTION: Display the stats as a menu
             /*
@@ -439,7 +440,7 @@ namespace TestApp
             List<View> removable = new List<View>();
             foreach (GameButton b in grid.Children.OfType<GameButton>())
             {
-                if (b.Key != "clearScreen")
+                if (b.Key != null && b.Key.Contains("option"))
                 {
                     removable.Add(b);
                 }
@@ -497,7 +498,7 @@ namespace TestApp
 
             foreach (GameButton b in grid.Children.OfType<GameButton>())
             {
-                if (b.Key.Contains("option"))
+                if (b.Key != null && b.Key.Contains("option"))
                     b.IsEnabled = false;
             }
            
