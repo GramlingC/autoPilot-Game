@@ -269,18 +269,25 @@ namespace TestApp
         }
 
         ///////////////////////////////////////
-        public void AddToUsedText()
+        public void AddToUsedText(string s)
         {
-            Event currentEvent = this.getCurrent();
-            foreach (string str in currentEvent.text)
-            {
-                usedText.Add(str);
-                foreach (Option o in currentEvent.options)
-                {
-                   if(o.optionPicked) usedText.Add(o.text);
-                }
+            //Event currentEvent = this.getCurrent();
+            //foreach (string str in currentEvent.text)
+            //{
+            //    usedText.Add(str);
+            //    foreach (Option o in currentEvent.options)
+            //    {
+            //       if(o.optionPicked) usedText.Add(o.text);
+            //    }
+            //
+            //}
 
-            }
+            usedText.Add(s);
+        }
+
+        public override string ToString()
+        {
+            return base.ToString() + usedText.ToString();
         }
     }
 }

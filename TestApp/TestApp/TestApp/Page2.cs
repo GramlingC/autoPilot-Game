@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 
 using Xamarin.Forms;
 
@@ -11,6 +12,8 @@ namespace TestApp
     {
         public Page2(GameStateClass state)
         {
+            //Debug.WriteLine(state.ToString());
+
             //Adding used text to the string to be put in the class
             string text = "";
             foreach(string s in state.usedText)
@@ -63,7 +66,7 @@ namespace TestApp
             //There is also a PushAsync option rather than PushModalAsync
             void buttonClicked(object sender, EventArgs e)
             {
-                Navigation.PushModalAsync(new Page1());
+                Navigation.PopModalAsync();
             }
         }
     }
