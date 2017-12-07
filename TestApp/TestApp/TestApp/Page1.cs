@@ -16,6 +16,7 @@ namespace TestApp
 {
     public class Page1 : ContentPage
     {
+
         //There will be less rows on mobile devices, since they're smaller
         //font will also be smaller
 #if __MOBILE__
@@ -213,7 +214,7 @@ namespace TestApp
             ///////////////////////////////////////////////////////////////////
 
             topBarArea.Children.Add(Log);
-
+            
             // FIRST OPTION: Display the stats as a menu
             /*
             StackLayout stats = new StackLayout
@@ -298,11 +299,10 @@ namespace TestApp
 
             //BEFORE YOU RUN: You can right click the sub-projects to the right
             //such as TestApp.UWP and choose Set as Start Up Project to choose your platform
-           
             //Added for Log\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
             //state.AddToUsedText();
             /////////////////////////////////////////////////
-                       
+
             BeginGame();
         }
         
@@ -577,7 +577,6 @@ namespace TestApp
 
             foreach (GameButton b in buttonArea.Children.OfType<GameButton>())
             {
-
                 if (b.Key != null && b.Key.Contains("option"))
                     b.IsEnabled = false;
             }
@@ -643,6 +642,7 @@ namespace TestApp
             await AddLabels();
             ShowChoices();
         }
+
         
         // Modifies the attributes of the ship based on a given option.
         // Calls game over state if any attribute falls below 0;
