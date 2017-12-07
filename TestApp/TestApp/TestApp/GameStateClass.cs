@@ -114,6 +114,9 @@ namespace TestApp
         private int currentEvent;
         public bool ready;
         public Ship ship;
+        ////////////////////////////////
+        //To get used text for log
+        public List<String> usedText = new List<String>();
 
         public Event getCurrent()
         {
@@ -286,6 +289,28 @@ namespace TestApp
             {
                 eList = SaveManager.LoadAll();
             }
+        }
+
+        ///////////////////////////////////////
+        public void AddToUsedText(string s)
+        {
+            //Event currentEvent = this.getCurrent();
+            //foreach (string str in currentEvent.text)
+            //{
+            //    usedText.Add(str);
+            //    foreach (Option o in currentEvent.options)
+            //    {
+            //       if(o.optionPicked) usedText.Add(o.text);
+            //    }
+            //
+            //}
+
+            usedText.Add(s);
+        }
+
+        public override string ToString()
+        {
+            return base.ToString() + usedText.ToString();
         }
     }
 }
