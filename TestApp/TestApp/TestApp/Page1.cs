@@ -638,7 +638,7 @@ namespace TestApp
             currentEvent = state.getCurrent();
             AddButtons(currentEvent.options);
 
-            await AddLabel(button.buttonOption.text);
+            //await AddLabel(button.buttonOption.text);
             await AddLabels();
             ShowChoices();
         }
