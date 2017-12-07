@@ -16,51 +16,80 @@ namespace TestApp
 {
     public class Page1 : ContentPage
     {
-        Event current;
-
+        int fontsize = 14;
+        Event currentEvent;
         GameStateClass state;
 
-        Grid grid;//Making this a global variable so we can change it dynamically through functions
-        //Here is the grid documentation: https://developer.xamarin.com/api/type/Xamarin.Forms.Grid/
+        // Base view of the entire page
+        AbsoluteLayout pageContent;
 
-        int row = 2;//keep track of the next row to be used
+        // Can use bar at top for ship stats/pause game button
+        // (not sure if Grid is best choice, and may decide to change/remove this)
+        Grid topBarArea;
 
-        //There will be less rows on mobile devices, since they're smaller
-        //font will also be smaller
-#if __MOBILE__
-        int maxrow = 10;
-        double fontsize = 10;
-#else
-        int maxrow = 18;
-        double fontsize = Device.GetNamedSize(NamedSize.Small, typeof(Label));
-#endif
+        // Text area where all text labels appear
+        // Has a stack layout inside of it, to stack all text labels on top of each other.
+        ScrollView textArea;
+        StackLayout textStack;
 
+        // Button area at bottom of screen 
+        // (not sure if Grid is best choice)
+        Grid buttonArea;
+        
         public Page1()
         {
+            pageContent = new AbsoluteLayout();
 
+            topBarArea = new Grid();
 
-            //First, we define the grid and its rows and columns
-            grid = new Grid
+            textStack = new StackLayout();
+            textArea = new ScrollView
             {
-
-                ColumnDefinitions =
-                {
-                    //The Column Definition defines the width of each column
-                    //GridLength.Auto means it'll fit exactly the size of what's inside it
-#if __MOBILE__
-                    new ColumnDefinition { Width = 200},
-                    //new ColumnDefinition { Width = new GridLength(1,GridUnitType.Star)},
-#else
-                    new ColumnDefinition { Width = GridLength.Auto},
-                    new ColumnDefinition { Width = GridLength.Auto},
-                    new ColumnDefinition { Width = GridLength.Auto},
-                    new ColumnDefinition { Width = GridLength.Auto},
-                    new ColumnDefinition { Width = new GridLength(1,GridUnitType.Star)},
-                    new ColumnDefinition { Width = GridLength.Auto},
-#endif
-                    //this type of grid length expands to fill in what isn't taken up by other rows
-                }
+                // We only want the view to scroll vertically, not horizontally
+                Orientation = ScrollOrientation.Vertical,
+                Content = textStack
             };
+
+            buttonArea = new Grid();
+            buttonArea.Padding = new Thickness(0, 10, 0, 0);
+
+            // Set porportions of page layout dependent on platform
+            // ADJUST MOBILE LAYOUT HERE
+#if __MOBILE__
+            // Set the top bar area to stretch screen width and take up small portion of top of window
+            AbsoluteLayout.SetLayoutBounds(topBarArea, new Rectangle(0, 0, 1, .05));
+            AbsoluteLayout.SetLayoutFlags(topBarArea, AbsoluteLayoutFlags.All);
+
+            // Set the top bar area to stretch screen width and take up 50% of window (approximately)
+            AbsoluteLayout.SetLayoutBounds(textArea, new Rectangle(0, .15, 1, .5));
+            AbsoluteLayout.SetLayoutFlags(textArea, AbsoluteLayoutFlags.All);
+
+            // Set the button area to stretch screen width and take up last 40% of window (approximately)
+            AbsoluteLayout.SetLayoutBounds(buttonArea, new Rectangle(0, 1, 1, .4));
+            AbsoluteLayout.SetLayoutFlags(buttonArea, AbsoluteLayoutFlags.All);
+#else
+            // Set the top bar area to stretch screen width and take up small portion of top of window
+            AbsoluteLayout.SetLayoutBounds(topBarArea, new Rectangle(0, 0, 1, .05));
+            AbsoluteLayout.SetLayoutFlags(topBarArea, AbsoluteLayoutFlags.All);
+
+            // Set the top bar area to stretch screen width and take up 50% of window (approximately)
+            AbsoluteLayout.SetLayoutBounds(textArea, new Rectangle(0, .15, 1, .5));
+            AbsoluteLayout.SetLayoutFlags(textArea, AbsoluteLayoutFlags.All);
+
+            // Set the button area to stretch screen width and take up last 40% of window (approximately)
+            AbsoluteLayout.SetLayoutBounds(buttonArea, new Rectangle(0, 1, 1, .4));
+            AbsoluteLayout.SetLayoutFlags(buttonArea, AbsoluteLayoutFlags.All);
+#endif
+
+            // Colors to debug layout
+            topBarArea.BackgroundColor = Color.Maroon;
+            textArea.BackgroundColor = Color.DarkBlue;
+            buttonArea.BackgroundColor = Color.DarkGray;
+
+            // Add all page parts to the page
+            pageContent.Children.Add(topBarArea);
+            pageContent.Children.Add(textArea);
+            pageContent.Children.Add(buttonArea);
 
             // In our grid, add a TGR to recognize generic mouse/tap input (for skipping through text primarily)
             var tgr = new TapGestureRecognizer() { NumberOfTapsRequired = 1 };
@@ -68,7 +97,7 @@ namespace TestApp
             {
                 // Handle tap event here
                 // Eventually speeds up text
-                foreach (GameLabel gl in grid.Children.OfType<GameLabel>())
+                foreach (GameLabel gl in textStack.Children.OfType<GameLabel>())
                 {
                     if (!gl.Completed)
                     {
@@ -76,180 +105,68 @@ namespace TestApp
                     }
                 }
             };
-            grid.GestureRecognizers.Add(tgr);
+            
+            // Add the TGR to the page content, to detect mouse clicks/taps
+            pageContent.GestureRecognizers.Add(tgr);
 
 
-#if __MOBILE__
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
-#else
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-#endif
-
-            for (int i = 2; i < maxrow; i++)
-            {
-                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                //I want several lines of text near the top, that's these Autos
-            }
-
-            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            //I want a large empty space, that's the star 
-
-#if __MOBILE__
-            //I want four buttons at the bottom, 
-            //but they need to be smaller in mobile to fit the screen
-            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
-            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
-            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
-            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
-#else
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-#endif
+//#if __MOBILE__
+//            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+//            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
+//#else
+//            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+//            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+//#endif
+//
+//            for (int i = 2; i < maxrow; i++)
+//            {
+//                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+//                //I want several lines of text near the top, that's these Autos
+//            }
+//
+//            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+//            //I want a large empty space, that's the star 
+//
+//#if __MOBILE__
+//            //I want four buttons at the bottom, 
+//            //but they need to be smaller in mobile to fit the screen
+//            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
+//            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
+//            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
+//            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
+//#else
+//            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+//            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+//            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+//            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+//#endif
+ 
             //
             // Everything below is for saving ship to file, just examples
             //
             Ship testShip = new Ship(100, 100, 100, 0);
-            //SaveManager.SaveObject(@"testSave.xml", testShip);
-            //testShip = (Ship)SaveManager.LoadObject(@"testSave.xml", testShip);
-            //Debug.WriteLine("Hull: {0} - Fuel: {1} - Lifesigns: {2} - Empathy: {3}", testShip.HullIntegrity, testShip.Fuel, testShip.Lifesigns, testShip.EmpathyLevel);
-
-            //LoadObject still not working for whatever reason
-            //Debug.WriteLine(SaveManager.LoadObject(@"testSave.xml", typeof(Ship)).Result.ToString());
 
             state = new GameStateClass();
             state.ship = testShip;
 
-            // These two lines generate the data and save them to files
+            // These two lines generate the event data
             state.GenerateSampleData();
-            state.SaveEvents();
 
-            // This will load all event files from the working directory
-            state.LoadEvents();
+            currentEvent = state.getCurrent();
 
-            // This will print all events in the game state to the console
-            //state.PrintEventList();
-            
-//#if !__MOBILE__
-//            GameButton button = new GameButton
-//            {
-//                Text = "> clearScreen()",
-//                Key = "clearScreen",
-//                TextColor = Color.LightGreen,
-//                //Adapt to device size
-//
-//                FontSize = fontsize,
-//
-//                BackgroundColor = Color.DarkSlateGray,
-//                buttonOption = new Option
-//                {
-//                    text = "",
-//                },
-//            };
-//            button.Clicked += buttonClicked;//adding the function to this button's click
-//
-//            grid.Children.Add(button, 5, 6, maxrow + 3, maxrow + 4);
-//#endif
+            AddButtons(currentEvent.options);
 
-            //Displaying Stats:
-
-            GameButton StatsButton = new GameButton
-            {
-                Text = "System.Diagnostics()",
-                BackgroundColor = Color.DarkSlateGray,
-                TextColor = Color.LightSeaGreen,
-                FontSize = fontsize,
-            };
-
-            // FIRST OPTION: Display the stats as a menu
-            /*
-            StackLayout stats = new StackLayout
-            {
-                Opacity = 1,
-                BackgroundColor = Color.Black,
-                Children =
-                {
-                    new Label
-                    {
-                        Text = "Hull Integrity = " + state.ship.HullIntegrity,
-                        TextColor = Color.LightSeaGreen,
-                        FontSize = fontsize,
-                    },
-                    new Label
-                    {
-                        Text = "Crew Lifesigns = " + state.ship.Lifesigns,
-                        TextColor = Color.LightSeaGreen,
-                        FontSize = fontsize,
-                    },
-                    new Label
-                    {
-                        Text = "Fuel = " + state.ship.Fuel,
-                        TextColor = Color.LightSeaGreen,
-                        FontSize = fontsize,
-                    },
-                }
-            };
-
-            Button DismissButton = new Button
-            {
-                Text = "Dismiss",
-                TextColor = Color.LightGreen,
-                FontSize = fontsize,
-                BackgroundColor = Color.DarkSlateGray,
-            };
-              
-            List<Label> HiddenLabels = new List<Label>();
-            //We wanna hide the text that appears under the menu
-            StatsButton.Clicked += (object sender, EventArgs e) =>
-            {
-                grid.Children.Add(stats, 0, 2, 0, 1);
-                grid.Children.Add(DismissButton,0,2,1,2);
-                grid.Children.Remove(StatsButton);
-                foreach (Label l in grid.Children.OfType<Label>())
-                {
-                    if (Grid.GetRow(l) < 6)
-                    {
-                        HiddenLabels.Add(l);
-                        l.IsVisible = false;
-                    }
-                }
-            };
-
-            DismissButton.Clicked += (object sender, EventArgs e) =>
-            {
-                
-                grid.Children.Add(StatsButton, 0, 2, 1, 2);
-                grid.Children.Remove(DismissButton);
-                foreach (Label l in HiddenLabels)
-                {
-                    l.IsVisible = true;
-                }
-                HiddenLabels.Clear();
-                grid.Children.Remove(stats);
-                
-            };
-            */
-            // SECOND OPTION: Display the stats as regular text:
-            //StatsButton.Clicked += (object sender, EventArgs e) =>
+            //GameButton StatsButton = new GameButton
             //{
-            //    AddLabel("System.Diagnostics()");
-            //    AddLabel("Hull Integrity = " + state.ship.HullIntegrity);
-            //    AddLabel("Crew Lifesigns = " + state.ship.Lifesigns);
-            //    AddLabel("Fuel = " + state.ship.Fuel);
+            //    Text = "System.Diagnostics()",
+            //    BackgroundColor = Color.DarkSlateGray,
+            //    TextColor = Color.LightSeaGreen,
+            //    FontSize = fontsize,
             //};
-            //
-            //grid.Children.Add(StatsButton, 0, 2, 1, 2);
-            // Commented this out to simplify the flow of the program a bit
 
             this.Padding = new Thickness(10, 20, 10, 10); //Some breathing room around the edges
-            this.Content = grid;//Puts the grid on the page
+            this.Content = pageContent;//Puts the content on the page
             this.BackgroundColor = Color.Black;
-
-            //BEFORE YOU RUN: You can right click the sub-projects to the right
-            //such as TestApp.UWP and choose Set as Start Up Project to choose your platform
 
             BeginGame();
         }
@@ -257,20 +174,31 @@ namespace TestApp
         // Separating some of this into an async function. This is called at the end of page constructor.
         async void BeginGame()
         {
-            current = state.getCurrent();
-            AddButtons(current.options);
+            currentEvent = state.getCurrent();
+            AddButtons(currentEvent.options);
             await AddLabels();
             ShowChoices();
         }
 
-        // Displays all text for an event
+
+        async Task AddLabels()
+        {
+            foreach (string s in currentEvent.text)
+            {
+                // Remove any lingering pipes from text (for sample events mainly)
+                string str = s.Replace("|", "");
+
+                await AddLabel(str);
+            }
+        }
+/*
         async Task AddLabels(string continuestring = "0")
         {
             int continuing = Convert.ToInt32(continuestring);//convert to int so we can use it 
             continuestring = Convert.ToString(continuing + 1);//update the string so that if it's used again it will have moved forward
             int lineCount = 0;
             //Text interpretation will happen here?
-            foreach (string s in current.text)
+            foreach (string s in currentEvent.text)
             {
                 //will add code to check for variables and whatnot
 
@@ -326,7 +254,18 @@ namespace TestApp
 
             return;
         }
-        // Displays the text shown on an option button
+    */
+        async Task AddLabel(string text)
+        {
+            GameLabel textLabel = new GameLabel(text);
+            textLabel.FontSize = fontsize;
+            textStack.Children.Add(textLabel);
+
+            textArea.ScrollToAsync(0, textArea.ContentSize.Height, false);
+            //textArea.ScrollToAsync(textLabel, ScrollToPosition.End, false);
+            await textLabel.DisplayText();
+        }
+/*
         async Task AddLabel(string text, bool continuing = false)
         {
             GameLabel nextLabel = new GameLabel(continuing ? text : "> " + text);
@@ -375,70 +314,21 @@ namespace TestApp
                 }
             }
         }
+*/
         // Displays the results of an action (option) chosen
-        async Task OutputOptionResult(Option option, string continuestring = "0")
+        async Task OutputOptionResult(Option option)
         {
-            int continuing = Convert.ToInt32(continuestring);//convert to int so we can use it 
-            continuestring = Convert.ToString(continuing + 1);//update the string so that if it's used again it will have moved forward
-            int lineCount = 0;
-            //Text interpretation will happen here?
             foreach (string s in option.resultText)
             {
-                //will add code to check for variables and whatnot
+                // Remove any lingering pipes from text (for sample events mainly)
+                string str = s.Replace("|", "");
 
-                //string is split up so that it fits onto a phone screen
-                string[] strings = s.Split('|');
-#if __MOBILE__
-                for (int i = 0; i < strings.Length; ++i)
-                {
-                    lineCount++;//Keeping track of how many lines into the event we are
-                    if ((continuing * (maxrow - 3)) <= lineCount)
-                    {
-                        if (lineCount < ((continuing + 1) * (maxrow - 3)))
-                        // Between these two "if"s, only maxrow-3 at a time is displayed at a time
-                        // "Continuing" pushes it forward to the next maxrow-2 items
-                        {
-                            await AddLabel(strings[i], i == 0 ? false : true);
-                        }
-                        else
-                        {
-                            //if it's past the current maxrow-3, Stop and give continue option
-                            continueButton(continuestring);
-                            return;
-                        }
-                    }// if it's under the current maxrow-3, keep going.
-
-                }
-#else
-                lineCount++;
-                //string is put back together if it's not on a phone screen
-                string l = "";
-                foreach (string x in strings)
-                {
-                    l += x;
-                }
-
-                if ((continuing * (maxrow-3)) <= lineCount) 
-                {
-                    if (lineCount < ((continuing + 1)* (maxrow-3)))
-                    {
-                        await AddLabel(l); 
-                    }
-                    else
-                    {
-                        continueButton(continuestring);
-                        return;
-                    }   
-                }
-                
-                
-                
-#endif
+                await AddLabel(str);
             }
-
             return;
         }
         
+/*
         void continueButton(string continuing)
         {
             //First we clear the buttons, as usual
@@ -469,11 +359,12 @@ namespace TestApp
             continueButton.Clicked += buttonClicked;
             grid.Children.Add(continueButton, 0, maxrow + 3);//put it on the grid
         }
+        */
         void AddButtons(List<Option> op)
         {
             // Moving this all to buttonClicked for now
             List<View> removable = new List<View>();
-            foreach (GameButton b in grid.Children.OfType<GameButton>())
+            foreach (GameButton b in buttonArea.Children.OfType<GameButton>())
             {
                 if (b.Key != "clearScreen")
                 {
@@ -481,7 +372,7 @@ namespace TestApp
                 }
             }
             foreach (GameButton b in removable)
-                grid.Children.Remove(b);
+                buttonArea.Children.Remove(b);
 
             GameButton button;
 
@@ -500,24 +391,27 @@ namespace TestApp
 
                     buttonOption = op[i],
 
-                    IsVisible = false,
+                    //IsVisible = false,
                     IsEnabled = false
                 };
                 button.Clicked += buttonClicked;
 
-#if __MOBILE__
-                grid.Children.Add(button, 0, 1, maxrow - i + 4, maxrow - i + 5);
-#else
-                grid.Children.Add(button, i, i+1, maxrow + 3, maxrow + 4);
-#endif
+                // Position buttons in the grid.
+                buttonArea.Children.Add(button, 0, 1, i, i + 1);
+
+//#if __MOBILE__
+//                grid.Children.Add(button, 0, 1, maxrow - i + 4, maxrow - i + 5);
+//#else
+//                grid.Children.Add(button, i, i+1, maxrow + 3, maxrow + 4);
+//#endif
                 //make sure to put this in a different column each loop
             }
         }
         void ShowChoices()
         {
-            foreach (GameButton gb in grid.Children.OfType<GameButton>())
+            foreach (GameButton gb in buttonArea.Children.OfType<GameButton>())
             {
-                gb.IsVisible = true;
+                //gb.IsVisible = true;
 
                 // Only enable the button if the ship's attributes 
                 // meet the requirements of the chosen option.
@@ -540,22 +434,23 @@ namespace TestApp
                 return;
             }
 
-            foreach (GameButton b in grid.Children.OfType<GameButton>())
+            foreach (GameButton b in buttonArea.Children.OfType<GameButton>())
             {
                 if (b.Key.Contains("option"))
                 {
-                    b.IsVisible = false;
+                    //b.IsVisible = false;
                     b.IsEnabled = false;
                 }
             }
            
-            if (button.buttonOption.text == "Continue")//Continue button is a special case, because it doesn't come from options
-            {
-                AddButtons(current.options);
-                await AddLabels(button.Key);//Using the button key to keep track of how far into the event you are.
-                ShowChoices();
-                return;
-            }
+            // Not quite sure how the continue system works
+            //if (button.buttonOption.text == "Continue")//Continue button is a special case, because it doesn't come from options
+            //{
+            //    AddButtons(currentEvent.options);
+            //    await AddLabels(button.Key);//Using the button key to keep track of how far into the event you are.
+            //    ShowChoices();
+            //    return;
+            //}
 
             // Print the text displayed on the button
             await AddLabel(button.buttonOption.text);
@@ -574,36 +469,37 @@ namespace TestApp
             switch (button.Key)
             {
                 case "option0":
-                    state.goTo(current.options[0].nextEventNumber);
+                    state.goTo(currentEvent.options[0].nextEventNumber);
                     break;
                 case "option1":
-                    state.goTo(current.options[1].nextEventNumber);
+                    state.goTo(currentEvent.options[1].nextEventNumber);
                     break;
                 case "option2":
-                    state.goTo(current.options[2].nextEventNumber);
+                    state.goTo(currentEvent.options[2].nextEventNumber);
                     break;
                 case "option3":
-                    state.goTo(current.options[3].nextEventNumber);
+                    state.goTo(currentEvent.options[3].nextEventNumber);
                     break;
-                case "clearScreen":
-                    int index = 0;
-                    while (index < grid.Children.Count && row > 0)
-                    {
-                        if (grid.Children.ElementAt(index) is Label)
-                        {
-                            grid.Children.RemoveAt(index);
-                            row--;
-                        }
-                        else
-                        {
-                            index++;
-                        }
-                    }
-                    return;
+                //case "clearScreen":
+                //    int index = 0;
+                //    while (index < grid.Children.Count && row > 0)
+                //    {
+                //        if (grid.Children.ElementAt(index) is Label)
+                //        {
+                //            grid.Children.RemoveAt(index);
+                //            row--;
+                //        }
+                //        else
+                //        {
+                //            index++;
+                //        }
+                //    }
+                //    return;
             }
 
-            current = state.getCurrent();
-            AddButtons(current.options);
+            currentEvent = state.getCurrent();
+            AddButtons(currentEvent.options);
+            await AddLabel(button.buttonOption.text);
             await AddLabels();
             ShowChoices();
         }

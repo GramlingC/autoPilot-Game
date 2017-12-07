@@ -8,20 +8,13 @@ namespace TestApp
 {
     class GameLabel : Label
     {
-        public GameLabel()
-        {
-            FullText = "";
-            Completed = false;
-            RequestEnd = false;
-            Text = "";
-            TextColor = Color.LightGreen;
-        }
+        public GameLabel() : this("") { }
         public GameLabel(string text)
         {
-            FullText = text;
+            FullText = "> " + text;
             Completed = false;
             RequestEnd = false;
-            Text = "";
+            Text = ">";
             TextColor = Color.LightGreen;
 
             //DisplayText();
