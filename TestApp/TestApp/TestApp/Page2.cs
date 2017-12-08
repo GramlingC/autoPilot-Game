@@ -10,6 +10,8 @@ namespace TestApp
 {
     public class Page2 : ContentPage
     {
+        Page1 MainPageReference;
+
         public Page2(GameStateClass state)
         {
             //Debug.WriteLine(state.ToString());
@@ -67,7 +69,17 @@ namespace TestApp
             void buttonClicked(object sender, EventArgs e)
             {
                 Navigation.PopModalAsync();
+
+                if (MainPageReference != null)
+                    MainPageReference.ResumeText();
             }
+
+
+        }
+
+        public void AddMainPage(Page1 reference)
+        {
+            MainPageReference = reference;
         }
     }
 }
