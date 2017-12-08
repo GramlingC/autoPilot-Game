@@ -402,6 +402,7 @@ namespace TestApp
 
             // BUG: does not scroll all the way down
             textArea.ScrollToAsync(0, textArea.ContentSize.Height, false);
+
             //textArea.ScrollToAsync(textLabel, ScrollToPosition.End, false);
             await textLabel.DisplayText();
 
@@ -691,10 +692,37 @@ namespace TestApp
         }
 
         //for going to the log. im not sure what async does so i didnt put it here but it can be changed if needed
+        // NOTE: Changed it to async. async lets us use "await", which in turn creates a thread for multiple actions happening at once.
         void goToLog(object sender, EventArgs e)
         {
+            // Request for game to pause any typing labels
+            PauseText();
+
             //Navigation.PushModalAsync(logPage);
-            Navigation.PushModalAsync(new Page2(state));
+            Page2 log = new Page2(state);
+            Navigation.PushModalAsync(log);
+
+            // Resume typing effect on labels
+            //ResumeText();
+            log.AddMainPage(this);
+        }
+
+        public void PauseText()
+        {
+            foreach (GameLabel gl in textStack.Children)
+            {
+                if (!gl.Completed)
+                    gl.Paused = true;
+            }
+        }
+
+        public void ResumeText()
+        {
+            foreach (GameLabel gl in textStack.Children)
+            {
+                if (!gl.Completed && gl.Paused)
+                    gl.Paused = false;
+            }
         }
     }
 }
