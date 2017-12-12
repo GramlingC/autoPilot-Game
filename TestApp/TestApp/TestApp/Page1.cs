@@ -702,12 +702,10 @@ namespace TestApp
             //Navigation.PushModalAsync(logPage);
             Page2 log = new Page2(state, tcs);
             Navigation.PushAsync(log);
-
-            // Resume typing effect on labels
-            //ResumeText();
-            log.AddMainPage(this);
         }
 
+        // Pauses the text by passing a TCS (TaskCompletionSource) to each gamelabel, which
+        // will pause the text until a signal is received that the log is closed.
         public void PauseText(TaskCompletionSource<bool> _tcs)
         {
             foreach (GameLabel gl in textStack.Children)
@@ -716,15 +714,6 @@ namespace TestApp
                 {
                     gl.PauseText(_tcs);
                 }
-            }
-        }
-
-        public void ResumeText()
-        {
-            foreach (GameLabel gl in textStack.Children)
-            {
-                if (!gl.Completed && gl.Paused)
-                    gl.Paused = false;
             }
         }
     }

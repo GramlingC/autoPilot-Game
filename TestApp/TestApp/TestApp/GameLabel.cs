@@ -35,11 +35,13 @@ namespace TestApp
         {
             while (!Completed && !RequestEnd)
             {
+                // If it's not paused, advance to the next character and then wait X milliseconds.
                 if (!Paused)
                 {
                     AdvanceText();
                     await Task.Delay(20);
                 }
+                // If it's paused, await a signal from the passed TCS to unpause.
                 else
                 {
                     await tcs.Task;
@@ -49,8 +51,7 @@ namespace TestApp
 
             if (RequestEnd)
                 CompleteText();
-
-            //if (!Paused)
+            
             Completed = true;
         }
 
@@ -80,6 +81,7 @@ namespace TestApp
             return;
         }
 
+        // Pause the text of the label, passing a TCS to await a signal for when to resume.
         public void PauseText(TaskCompletionSource<bool> _tcs)
         {
             tcs = _tcs;
