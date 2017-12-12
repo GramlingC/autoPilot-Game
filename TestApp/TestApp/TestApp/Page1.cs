@@ -601,7 +601,7 @@ namespace TestApp
             //       the option result, and THEN do any changes to ship variables.
             ModifyShipAttributes(button.buttonOption);
             // DEBUG: Print ship in console after changes
-            Debug.WriteLine(state.ship.ToString());
+            //Debug.WriteLine(state.ship.ToString());
 
             // Print the results of the option chosen
             await OutputOptionResult(button.buttonOption);
@@ -621,27 +621,10 @@ namespace TestApp
                 case "option3":
                     state.goTo(currentEvent.options[3].nextEventNumber);
                     break;
-                //case "clearScreen":
-                //    int index = 0;
-                //    while (index < grid.Children.Count && row > 0)
-                //    {
-                //        if (grid.Children.ElementAt(index) is Label)
-                //        {
-                //            grid.Children.RemoveAt(index);
-                //            row--;
-                //        }
-                //        else
-                //        {
-                //            index++;
-                //        }
-                //    }
-                //    return;
             }
 
             currentEvent = state.getCurrent();
             AddButtons(currentEvent.options);
-
-            //await AddLabel(button.buttonOption.text);
             await AddLabels();
             ShowChoices();
         }
@@ -692,7 +675,6 @@ namespace TestApp
         }
 
         //for going to the log. im not sure what async does so i didnt put it here but it can be changed if needed
-        // NOTE: Changed it to async. async lets us use "await", which in turn creates a thread for multiple actions happening at once.
         void goToLog(object sender, EventArgs e)
         {
             TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
