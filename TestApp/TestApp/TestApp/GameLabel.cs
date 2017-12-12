@@ -9,7 +9,7 @@ namespace TestApp
     class GameLabel : Label
     {
         public GameLabel() : this("") { }
-        public GameLabel(string text)
+        public GameLabel(string text, TaskCompletionSource<bool> _tcs = null)
         {
             FullText = "> " + text;
             Completed = false;
@@ -18,8 +18,12 @@ namespace TestApp
             TextColor = Color.LightGreen;
             Paused = false;
 
+            tcs = _tcs;
             //DisplayText();
         }
+
+        // Testing to see if I can use TaskCompletionSource to await page to return to unpause text.
+        private TaskCompletionSource<bool> tcs;
 
         public string FullText { get; set; } // The full text that will eventually be displayed
         public bool Completed { get; set; }  // If the text has finished displaying entirely
@@ -29,17 +33,25 @@ namespace TestApp
         // Loop through the text and display it.
         public async Task DisplayText()
         {
-            while (!Completed && !RequestEnd && !Paused)
+            while (!Completed && !RequestEnd)
             {
-                AdvanceText();
-                await Task.Delay(20);
+                if (!Paused)
+                {
+                    AdvanceText();
+                    await Task.Delay(20);
+                }
+                else
+                {
+                    await tcs.Task;
+                    Paused = false;
+                }
             }
 
             if (RequestEnd)
                 CompleteText();
 
-            if (!Paused)
-                Completed = true;
+            //if (!Paused)
+            Completed = true;
         }
 
         // Advance text by a character
@@ -66,6 +78,12 @@ namespace TestApp
             }
 
             return;
+        }
+
+        public void PauseText(TaskCompletionSource<bool> _tcs)
+        {
+            tcs = _tcs;
+            Paused = true;
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Diagnostics;
 
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace TestApp
 {
@@ -12,7 +13,7 @@ namespace TestApp
     {
         Page1 MainPageReference;
 
-        public Page2(GameStateClass state)
+        public Page2(GameStateClass state, TaskCompletionSource<bool> _tcs = null)
         {
             //Debug.WriteLine(state.ToString());
 
@@ -68,10 +69,12 @@ namespace TestApp
             //There is also a PushAsync option rather than PushModalAsync
             void buttonClicked(object sender, EventArgs e)
             {
-                Navigation.PopModalAsync();
-
                 if (MainPageReference != null)
                     MainPageReference.ResumeText();
+
+                _tcs.SetResult(true);
+
+                Navigation.PopAsync();
             }
 
 
