@@ -394,14 +394,14 @@ namespace TestApp
     */
         async Task AddLabel(string text)
         {
-            GameLabel textLabel = new GameLabel(text);
+            GameLabel textLabel = new GameLabel(text, textArea);
             textLabel.FontSize = fontsize;
             textStack.Children.Add(textLabel);
 
-            await Task.Delay(100);
+            //await Task.Delay(100);
 
             // BUG: does not scroll all the way down
-            textArea.ScrollToAsync(0, textArea.ContentSize.Height, false);
+            //textArea.ScrollToAsync(0, textArea.ContentSize.Height, false);
 
             //textArea.ScrollToAsync(textLabel, ScrollToPosition.End, false);
             await textLabel.DisplayText();
