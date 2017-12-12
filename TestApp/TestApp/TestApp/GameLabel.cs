@@ -9,7 +9,7 @@ namespace TestApp
     class GameLabel : Label
     {
         public GameLabel() : this("") { }
-        public GameLabel(string text, TaskCompletionSource<bool> _tcs = null)
+        public GameLabel(string text, ScrollView _sv = null)
         {
             FullText = "> " + text;
             Completed = false;
@@ -18,12 +18,15 @@ namespace TestApp
             TextColor = Color.LightGreen;
             Paused = false;
 
-            tcs = _tcs;
+            tcs = null;
+            sv = _sv;
             //DisplayText();
         }
 
         // Testing to see if I can use TaskCompletionSource to await page to return to unpause text.
         private TaskCompletionSource<bool> tcs;
+        // Testing to see if passing scroll view will let us scroll every character
+        private ScrollView sv;
 
         public string FullText { get; set; } // The full text that will eventually be displayed
         public bool Completed { get; set; }  // If the text has finished displaying entirely
@@ -39,6 +42,9 @@ namespace TestApp
                 if (!Paused)
                 {
                     AdvanceText();
+                    if (sv != null)
+                        sv.ScrollToAsync(0, sv.ContentSize.Height, false);
+
                     await Task.Delay(20);
                 }
                 // If it's paused, await a signal from the passed TCS to unpause.
