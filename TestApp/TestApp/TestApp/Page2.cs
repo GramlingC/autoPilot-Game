@@ -11,8 +11,6 @@ namespace TestApp
 {
     public class Page2 : ContentPage
     {
-        Page1 MainPageReference;
-
         public Page2(GameStateClass state, TaskCompletionSource<bool> _tcs = null)
         {
             //Debug.WriteLine(state.ToString());
@@ -69,20 +67,14 @@ namespace TestApp
             //There is also a PushAsync option rather than PushModalAsync
             void buttonClicked(object sender, EventArgs e)
             {
-                if (MainPageReference != null)
-                    MainPageReference.ResumeText();
-
+                // Set TCS from page 1 to have a result, causing chain reaction to any paused gamelabels.
                 _tcs.SetResult(true);
 
+                // Pop the page from the stack, returning to main page.
                 Navigation.PopAsync();
             }
 
 
-        }
-
-        public void AddMainPage(Page1 reference)
-        {
-            MainPageReference = reference;
         }
     }
 }
