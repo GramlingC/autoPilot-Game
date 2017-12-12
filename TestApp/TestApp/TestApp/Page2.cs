@@ -5,12 +5,13 @@ using System.Text;
 using System.Diagnostics;
 
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace TestApp
 {
     public class Page2 : ContentPage
     {
-        public Page2(GameStateClass state)
+        public Page2(GameStateClass state, TaskCompletionSource<bool> _tcs = null)
         {
             //Debug.WriteLine(state.ToString());
 
@@ -66,8 +67,14 @@ namespace TestApp
             //There is also a PushAsync option rather than PushModalAsync
             void buttonClicked(object sender, EventArgs e)
             {
-                Navigation.PopModalAsync();
+                // Set TCS from page 1 to have a result, causing chain reaction to any paused gamelabels.
+                _tcs.SetResult(true);
+
+                // Pop the page from the stack, returning to main page.
+                Navigation.PopAsync();
             }
+
+
         }
     }
 }

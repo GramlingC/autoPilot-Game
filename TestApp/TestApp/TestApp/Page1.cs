@@ -117,38 +117,38 @@ namespace TestApp
             // Add the TGR to the page content, to detect mouse clicks/taps
             pageContent.GestureRecognizers.Add(tgr);
 
+/*
+#if __MOBILE__
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
+#else
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+#endif
 
-//#if __MOBILE__
-//            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-//            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
-//#else
-//            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-//            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-//#endif
-//
-//            for (int i = 2; i < maxrow; i++)
-//            {
-//                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-//                //I want several lines of text near the top, that's these Autos
-//            }
-//
-//            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-//            //I want a large empty space, that's the star 
-//
-//#if __MOBILE__
-//            //I want four buttons at the bottom, 
-//            //but they need to be smaller in mobile to fit the screen
-//            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
-//            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
-//            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
-//            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
-//#else
-//            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-//            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-//            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-//            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-//#endif
- 
+            for (int i = 2; i < maxrow; i++)
+            {
+                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                //I want several lines of text near the top, that's these Autos
+            }
+
+            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            //I want a large empty space, that's the star 
+
+#if __MOBILE__
+            //I want four buttons at the bottom, 
+            //but they need to be smaller in mobile to fit the screen
+            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
+            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
+            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
+            grid.RowDefinitions.Add(new RowDefinition { Height = 35 });
+#else
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+#endif
+ */
             //
             // Everything below is for saving ship to file, just examples
             //
@@ -402,6 +402,7 @@ namespace TestApp
 
             // BUG: does not scroll all the way down
             textArea.ScrollToAsync(0, textArea.ContentSize.Height, false);
+
             //textArea.ScrollToAsync(textLabel, ScrollToPosition.End, false);
             await textLabel.DisplayText();
 
@@ -600,7 +601,7 @@ namespace TestApp
             //       the option result, and THEN do any changes to ship variables.
             ModifyShipAttributes(button.buttonOption);
             // DEBUG: Print ship in console after changes
-            Debug.WriteLine(state.ship.ToString());
+            //Debug.WriteLine(state.ship.ToString());
 
             // Print the results of the option chosen
             await OutputOptionResult(button.buttonOption);
@@ -620,27 +621,10 @@ namespace TestApp
                 case "option3":
                     state.goTo(currentEvent.options[3].nextEventNumber);
                     break;
-                //case "clearScreen":
-                //    int index = 0;
-                //    while (index < grid.Children.Count && row > 0)
-                //    {
-                //        if (grid.Children.ElementAt(index) is Label)
-                //        {
-                //            grid.Children.RemoveAt(index);
-                //            row--;
-                //        }
-                //        else
-                //        {
-                //            index++;
-                //        }
-                //    }
-                //    return;
             }
 
             currentEvent = state.getCurrent();
             AddButtons(currentEvent.options);
-
-            //await AddLabel(button.buttonOption.text);
             await AddLabels();
             ShowChoices();
         }
@@ -693,8 +677,26 @@ namespace TestApp
         //for going to the log. im not sure what async does so i didnt put it here but it can be changed if needed
         void goToLog(object sender, EventArgs e)
         {
+            TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
+            // Request for game to pause any typing labels
+            PauseText(tcs);
+
             //Navigation.PushModalAsync(logPage);
-            Navigation.PushModalAsync(new Page2(state));
+            Page2 log = new Page2(state, tcs);
+            Navigation.PushAsync(log);
+        }
+
+        // Pauses the text by passing a TCS (TaskCompletionSource) to each gamelabel, which
+        // will pause the text until a signal is received that the log is closed.
+        public void PauseText(TaskCompletionSource<bool> _tcs)
+        {
+            foreach (GameLabel gl in textStack.Children)
+            {
+                if (!gl.Completed)
+                {
+                    gl.PauseText(_tcs);
+                }
+            }
         }
     }
 }
