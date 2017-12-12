@@ -403,7 +403,6 @@ namespace TestApp
             // BUG: does not scroll all the way down
             textArea.ScrollToAsync(0, textArea.ContentSize.Height, false);
             //textArea.ScrollToAsync(textLabel, ScrollToPosition.End, false);
-            // DEBUG
             await textLabel.DisplayText();
 
             // Add any text printed to terminal to the game state's log of text
