@@ -46,6 +46,11 @@ namespace TestApp
         
         public Page1()
         {
+            var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
+            player.Load("regular 1 loop cut.wav");
+            player.Loop = true;
+            player.Play();
+
             pageContent = new AbsoluteLayout();
 
             topBarArea = new Grid();

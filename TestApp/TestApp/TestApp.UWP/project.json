@@ -2,6 +2,7 @@
   "dependencies": {
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
     "PCLStorage": "1.0.2",
+    "Xam.Plugin.SimpleAudioPlayer": "1.0.1",
     "Xamarin.Forms": "2.4.0.280"
   },
   "frameworks": {
