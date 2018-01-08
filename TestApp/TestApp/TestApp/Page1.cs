@@ -16,24 +16,22 @@ namespace TestApp
 {
     public class Page1 : ContentPage
     {
-
-        //There will be less rows on mobile devices, since they're smaller
         //font will also be smaller
 #if __MOBILE__
-        double fontsize = 10;
+        public double fontsize = 10;
 #else
-        double fontsize = Device.GetNamedSize(NamedSize.Small, typeof(Label));
+        public double fontsize = Device.GetNamedSize(NamedSize.Small, typeof(Label));
 #endif
-        
-        Event currentEvent;
-        GameStateClass state;
+
+        public Event currentEvent;
+        public GameStateClass state;
 
         // Base view of the entire page
         AbsoluteLayout pageContent;
 
         // Can use bar at top for ship stats/pause game button
         // (not sure if Grid is best choice, and may decide to change/remove this)
-        Grid topBarArea;
+        //StackLayout topBarArea;
 
         // Text area where all text labels appear
         // Has a stack layout inside of it, to stack all text labels on top of each other.
@@ -42,18 +40,32 @@ namespace TestApp
 
         // Button area at bottom of screen 
         // (not sure if Grid is best choice)
-        Grid buttonArea;
+        public OptionsMDPage buttonArea;
         
         public Page1()
         {
             var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
             player.Load("regular 1 loop cut.wav");
             player.Loop = true;
-            player.Play();
+            //player.Play();
+
+
+            //
+            // Everything below is for saving ship to file, just examples
+            //
+            Ship testShip = new Ship(100, 100, 100, 0);
+
+            state = new GameStateClass();
+            state.ship = testShip;
+
+            // These two lines generate the event data
+            state.GenerateSampleData();
+
+            currentEvent = state.getCurrent();
 
             pageContent = new AbsoluteLayout();
 
-            topBarArea = new Grid();
+            //topBarArea = new StackLayout();
 
             textStack = new StackLayout();
             textArea = new ScrollView
@@ -63,30 +75,29 @@ namespace TestApp
                 Content = textStack
             };
 
-            buttonArea = new Grid();
-            buttonArea.Padding = new Thickness(0, 10, 0, 0);
+            buttonArea = new OptionsMDPage(this);
 
             // Set porportions of page layout dependent on platform
             // ADJUST MOBILE LAYOUT HERE
 #if __MOBILE__
             // Set the top bar area to stretch screen width and take up small portion of top of window
-            AbsoluteLayout.SetLayoutBounds(topBarArea, new Rectangle(0, 0, 1, .05));
-            AbsoluteLayout.SetLayoutFlags(topBarArea, AbsoluteLayoutFlags.All);
+            //AbsoluteLayout.SetLayoutBounds(topBarArea, new Rectangle(0, 0, 1, .1));
+            //AbsoluteLayout.SetLayoutFlags(topBarArea, AbsoluteLayoutFlags.All);
 
             // Set the top bar area to stretch screen width and take up 50% of window (approximately)
-            AbsoluteLayout.SetLayoutBounds(textArea, new Rectangle(0, .15, 1, .5));
+            AbsoluteLayout.SetLayoutBounds(textArea, new Rectangle(0, 0, 1, .5));
             AbsoluteLayout.SetLayoutFlags(textArea, AbsoluteLayoutFlags.All);
 
             // Set the button area to stretch screen width and take up last 40% of window (approximately)
-            AbsoluteLayout.SetLayoutBounds(buttonArea, new Rectangle(0, 1, 1, .4));
+            AbsoluteLayout.SetLayoutBounds(buttonArea, new Rectangle(0, 1, 1, .5));
             AbsoluteLayout.SetLayoutFlags(buttonArea, AbsoluteLayoutFlags.All);
 #else
             // Set the top bar area to stretch screen width and take up small portion of top of window
-            AbsoluteLayout.SetLayoutBounds(topBarArea, new Rectangle(0, 0, 1, .05));
-            AbsoluteLayout.SetLayoutFlags(topBarArea, AbsoluteLayoutFlags.All);
+            //AbsoluteLayout.SetLayoutBounds(topBarArea, new Rectangle(0, 0, 1, .05));
+            //AbsoluteLayout.SetLayoutFlags(topBarArea, AbsoluteLayoutFlags.All);
 
             // Set the top bar area to stretch screen width and take up 50% of window (approximately)
-            AbsoluteLayout.SetLayoutBounds(textArea, new Rectangle(0, .15, 1, .5));
+            AbsoluteLayout.SetLayoutBounds(textArea, new Rectangle(0, 0, 1, .6));
             AbsoluteLayout.SetLayoutFlags(textArea, AbsoluteLayoutFlags.All);
 
             // Set the button area to stretch screen width and take up last 40% of window (approximately)
@@ -95,14 +106,15 @@ namespace TestApp
 #endif
 
             // Colors to debug layout
-            topBarArea.BackgroundColor = Color.Maroon;
-            textArea.BackgroundColor = Color.DarkBlue;
-            buttonArea.BackgroundColor = Color.DarkGray;
+           // topBarArea.BackgroundColor = Color.Maroon;
+            //textArea.BackgroundColor = Color.DarkBlue;
+            //buttonArea.BackgroundColor = Color.DarkGray;
 
             // Add all page parts to the page
-            pageContent.Children.Add(topBarArea);
+            //pageContent.Children.Add(topBarArea);
             pageContent.Children.Add(textArea);
             pageContent.Children.Add(buttonArea);
+
 
             // In our grid, add a TGR to recognize generic mouse/tap input (for skipping through text primarily)
             var tgr = new TapGestureRecognizer() { NumberOfTapsRequired = 1 };
@@ -154,41 +166,30 @@ namespace TestApp
             grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 #endif
  */
-            //
-            // Everything below is for saving ship to file, just examples
-            //
-            Ship testShip = new Ship(100, 100, 100, 0);
-
-            state = new GameStateClass();
-            state.ship = testShip;
-
-            // These two lines generate the event data
-            state.GenerateSampleData();
-
-            currentEvent = state.getCurrent();
+            
 
             AddButtons(currentEvent.options);
 
-//#if !__MOBILE__
-//            GameButton button = new GameButton
-//            {
-//                Text = "> clearScreen()",
-//                Key = "clearScreen",
-//                TextColor = Color.LightGreen,
-//                //Adapt to device size
-//
-//                FontSize = fontsize,
-//
-//                BackgroundColor = Color.DarkSlateGray,
-//                buttonOption = new Option
-//                {
-//                    text = "",
-//                },
-//            };
-//            button.Clicked += buttonClicked;//adding the function to this button's click
-//
-//            grid.Children.Add(button, 5, 6, maxrow + 3, maxrow + 4);
-//#endif
+            //#if !__MOBILE__
+            //            GameButton button = new GameButton
+            //            {
+            //                Text = "> clearScreen()",
+            //                Key = "clearScreen",
+            //                TextColor = Color.LightGreen,
+            //                //Adapt to device size
+            //
+            //                FontSize = fontsize,
+            //
+            //                BackgroundColor = Color.DarkSlateGray,
+            //                buttonOption = new Option
+            //                {
+            //                    text = "",
+            //                },
+            //            };
+            //            button.Clicked += buttonClicked;//adding the function to this button's click
+            //
+            //            grid.Children.Add(button, 5, 6, maxrow + 3, maxrow + 4);
+            //#endif
 
             //Displaying Stats:
 
@@ -218,7 +219,7 @@ namespace TestApp
             Log.Clicked += goToLog;
             ///////////////////////////////////////////////////////////////////
 
-            topBarArea.Children.Add(Log);
+            //topBarArea.Children.Add(Log);
             
             // FIRST OPTION: Display the stats as a menu
             /*
@@ -297,7 +298,7 @@ namespace TestApp
             //    FontSize = fontsize,
             //};
 
-            this.Padding = new Thickness(10, 20, 10, 10); //Some breathing room around the edges
+            this.Padding = new Thickness(5, 5, 5, 5); //Some breathing room around the edges
             this.Content = pageContent;//Puts the content on the page
             this.BackgroundColor = Color.Black;
 
@@ -509,11 +510,22 @@ namespace TestApp
             grid.Children.Add(continueButton, 0, maxrow + 3);//put it on the grid
         }
         */
-        void AddButtons(List<Option> op)
+        public void AddButtons(List<Option> op)
         {
-            // Moving this all to buttonClicked for now
+            pageContent.Children.Remove(buttonArea);
+            buttonArea = new OptionsMDPage(this);
+#if __MOBILE__
+            AbsoluteLayout.SetLayoutBounds(buttonArea, new Rectangle(0, 1, 1, .5));
+            AbsoluteLayout.SetLayoutFlags(buttonArea, AbsoluteLayoutFlags.All);
+#else
+            AbsoluteLayout.SetLayoutBounds(buttonArea, new Rectangle(0, 1, 1, .4));
+            AbsoluteLayout.SetLayoutFlags(buttonArea, AbsoluteLayoutFlags.All);
+#endif
+          //buttonArea.BackgroundColor = Color.DarkGray;
+            pageContent.Children.Add(buttonArea);
+            /* Moving this all to buttonClicked for now
             List<View> removable = new List<View>();
-            foreach (GameButton b in buttonArea.Children.OfType<GameButton>())
+            foreach (GameButton b in buttonArea.buttons)
             {
                 if (b.Key != null && (b.Key.Contains("option") || b.Text == "> Continue"))
                 {
@@ -521,8 +533,9 @@ namespace TestApp
                 }
             }
             foreach (GameButton b in removable)
-                buttonArea.Children.Remove(b);
+                buttonArea.buttons.Remove(b);
 
+            
             GameButton button;
 
             for (int i = 0; i < 4; i++)
@@ -532,7 +545,7 @@ namespace TestApp
                     Text = "> " + op[i].text,
                     Key = "option" + i,
                     TextColor = Color.LightGreen,
-                    //HorizontalOptions = LayoutOptions.StartAndExpand,
+                    HorizontalOptions = LayoutOptions.CenterAndExpand,
 
                     FontSize = fontsize,
 
@@ -543,22 +556,20 @@ namespace TestApp
                     //IsVisible = false,
                     IsEnabled = false
                 };
-                button.Clicked += buttonClicked;
 
-                // Position buttons in the grid.
-                buttonArea.Children.Add(button, 0, 1, i, i + 1);
+            
 
-//#if __MOBILE__
-//                grid.Children.Add(button, 0, 1, maxrow - i + 4, maxrow - i + 5);
-//#else
-//                grid.Children.Add(button, i, i+1, maxrow + 3, maxrow + 4);
-//#endif
+                //#if __MOBILE__
+                //                grid.Children.Add(button, 0, 1, maxrow - i + 4, maxrow - i + 5);
+                //#else
+                //                grid.Children.Add(button, i, i+1, maxrow + 3, maxrow + 4);
+                //#endif
                 //make sure to put this in a different column each loop
-            }
+            }*/
         }
-        void ShowChoices()
+        public void ShowChoices()
         {
-            foreach (GameButton gb in buttonArea.Children.OfType<GameButton>())
+            foreach (GameButton gb in buttonArea.buttons)
             {
                 //gb.IsVisible = true;
 
@@ -573,7 +584,7 @@ namespace TestApp
                         gb.IsEnabled = true;
             }
         }
-        async void buttonClicked(object sender, EventArgs e)
+        public async void buttonClicked(object sender, EventArgs e)
         {
             // Save which button we got
             GameButton button = (GameButton)sender;
@@ -583,7 +594,7 @@ namespace TestApp
                 return;
             }
 
-            foreach (GameButton b in buttonArea.Children.OfType<GameButton>())
+            foreach (GameButton b in buttonArea.buttons)
             {
                 if (b.Key != null && b.Key.Contains("option"))
                     b.IsEnabled = false;
@@ -600,6 +611,9 @@ namespace TestApp
 
             // Print the text displayed on the button
             await AddLabel(button.buttonOption.text);
+
+            buttonArea.Content = buttonArea.Master.Content;
+            buttonArea.buttons.Clear();
 
             // Change the attributes of the ship based on chosen option
             // Note: Moving this to AFTER the OutputOptionResult method will print
@@ -627,11 +641,13 @@ namespace TestApp
                     state.goTo(currentEvent.options[3].nextEventNumber);
                     break;
             }
-
             currentEvent = state.getCurrent();
-            AddButtons(currentEvent.options);
+            
             await AddLabels();
+            AddButtons(currentEvent.options);
             ShowChoices();
+
+            //buttonArea.Update();
         }
 
         
