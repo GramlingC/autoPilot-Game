@@ -6,15 +6,15 @@ using Xamarin.Forms;
 
 namespace TestApp
 {
-    class MasterDetailPageDemoPage : MasterDetailPage
+    class MainViewPage : MasterDetailPage
     {
-        public MasterDetailPageDemoPage()
+        public MainViewPage()
         {
             Page1 game = new Page1();
 
             Label header = new Label
             {
-                Text = "MasterDetailPage",
+                Text = "autoPilot()",
                 FontSize = game.fontsize,
                 HorizontalOptions = LayoutOptions.Center
             };

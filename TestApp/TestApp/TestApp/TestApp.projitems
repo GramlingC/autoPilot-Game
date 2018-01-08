@@ -13,7 +13,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)OptionsMDPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Class1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MainViewPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EventClass.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameLabel.cs" />
@@ -21,10 +21,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Page1.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Page2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Page1-Game View.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Page2-Log View.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OptionDetail.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Page3.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Page3-Stats View.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SaveManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ShipClass.cs" />
   </ItemGroup>

@@ -15,7 +15,7 @@ namespace TestApp
 
 			//MainPage = new TestApp.Page1();
             //Made this use NavigationPage so we could go back and forth between pages
-            MainPage = new NavigationPage(new TestApp.MasterDetailPageDemoPage());
+            MainPage = new NavigationPage(new TestApp.MainViewPage());
 		}
 
 
