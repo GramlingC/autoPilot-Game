@@ -31,7 +31,7 @@ namespace TestApp
 
             GameButton button;
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < game.currentEvent.options.Count; i++)
             {
                 button = new GameButton
                 {
@@ -46,8 +46,8 @@ namespace TestApp
 
                     buttonOption = game.currentEvent.options[i],
 
-                    //IsVisible = false,
-                    IsEnabled = true
+                    IsVisible = false,
+                    IsEnabled = false
                 };
                 button.Clicked += game.buttonClicked;
 

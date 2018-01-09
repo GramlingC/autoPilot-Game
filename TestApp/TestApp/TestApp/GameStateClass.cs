@@ -151,6 +151,11 @@ namespace TestApp
                 Debug.WriteLine(e.ToString());
             }
         }
+        public void TranslateEvents()
+        {
+            eList = TxtTranslator.LoadAllEvents();
+            SaveEvents();
+        }
         // This simply fills up the List of events with dummy events.
         public void GenerateSampleData()
         {

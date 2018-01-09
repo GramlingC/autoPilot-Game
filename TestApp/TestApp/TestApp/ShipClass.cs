@@ -7,6 +7,7 @@ namespace TestApp
         private int hullIntegrity = 100;
         private int fuel = 100;
         private int lifesigns = 100;
+        private int weapons = 100;
         private int empathyLevel = 0;
 
         public Ship()
@@ -67,6 +68,18 @@ namespace TestApp
         public void ChangeEmpathyLevel(int change)
         {
             empathyLevel += change;
+        }
+
+        //Weapons methods
+        public int Weapons
+        {
+            get { return weapons; }
+            set { weapons = value; }
+        }
+
+        public void ChangeWeap(int change)
+        {
+            weapons += change;
         }
 
         public override string ToString()

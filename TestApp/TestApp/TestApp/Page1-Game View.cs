@@ -49,7 +49,7 @@ namespace TestApp
             player.Loop = true;
             //player.Play();
 
-
+            
             //
             // Everything below is for saving ship to file, just examples
             //
@@ -58,8 +58,12 @@ namespace TestApp
             state = new GameStateClass();
             state.ship = testShip;
 
+            //Generate events from text files
+            state.TranslateEvents();
+            
+            //state.LoadEvents();
             // These two lines generate the event data
-            state.GenerateSampleData();
+            //state.GenerateSampleData();
 
             currentEvent = state.getCurrent();
 
@@ -577,11 +581,18 @@ namespace TestApp
                 // meet the requirements of the chosen option.
                 Option o = gb.buttonOption;
                 Ship s = state.ship;
-                if (s.HullIntegrity >= o.HullRequired &&
-                    s.Fuel >= o.FuelRequired &&
-                    s.Lifesigns >= o.LifeRequired &&
-                    s.EmpathyLevel >= o.EmpRequired)
-                        gb.IsEnabled = true;
+                bool hull = o.HullRequired < 0? s.HullIntegrity < Math.Abs(o.HullRequired): s.HullIntegrity >= o.HullRequired;
+                bool fuel = o.FuelRequired < 0 ? s.Fuel < Math.Abs(o.FuelRequired) : s.Fuel >= o.FuelRequired;
+                bool life = o.LifeRequired < 0 ? s.Lifesigns < Math.Abs(o.LifeRequired) : s.Lifesigns >= o.LifeRequired;
+                bool weap = o.WeapRequired < 0 ? s.Weapons < Math.Abs(o.WeapRequired) : s.Weapons >= o.WeapRequired;
+                bool emp = o.EmpRequired < 0 ? s.EmpathyLevel < Math.Abs(o.EmpRequired) : s.EmpathyLevel >= o.EmpRequired;
+
+                if (hull && fuel && life && weap && emp 
+                    && !o.optionPicked)
+                {
+                    gb.IsEnabled = true;
+                    gb.IsVisible = true;
+                }
             }
         }
         public async void buttonClicked(object sender, EventArgs e)
@@ -608,7 +619,7 @@ namespace TestApp
             //    ShowChoices();
             //    return;
             //}
-
+            //
             // Print the text displayed on the button
             await AddLabel(button.buttonOption.text);
 
@@ -624,23 +635,16 @@ namespace TestApp
 
             // Print the results of the option chosen
             await OutputOptionResult(button.buttonOption);
-
+            currentEvent.options[button.buttonOption.optionNumber-1].optionPicked = true;
             // this may be done later by retreiving text from a database (?)
-            switch (button.Key)
+            if (button.buttonOption.nextEventNumber == currentEvent.eventNumber)
             {
-                case "option0":
-                    state.goTo(currentEvent.options[0].nextEventNumber);
-                    break;
-                case "option1":
-                    state.goTo(currentEvent.options[1].nextEventNumber);
-                    break;
-                case "option2":
-                    state.goTo(currentEvent.options[2].nextEventNumber);
-                    break;
-                case "option3":
-                    state.goTo(currentEvent.options[3].nextEventNumber);
-                    break;
+                AddButtons(currentEvent.options);
+                ShowChoices();
+                return;
             }
+            state.goTo(button.buttonOption.nextEventNumber);
+
             currentEvent = state.getCurrent();
             
             await AddLabels();
@@ -671,6 +675,11 @@ namespace TestApp
             if (o.LifeChange != 0)
             {
                 s.ChangeLifesigns(o.LifeChange);
+            }
+
+            if (o.WeapChange != 0)
+            {
+                s.ChangeWeap(o.WeapChange);
             }
 
             if (o.EmpChange != 0)

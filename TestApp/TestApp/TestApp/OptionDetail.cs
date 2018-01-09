@@ -32,6 +32,7 @@ namespace TestApp
                 game.buttonArea.Content = game.buttonArea.Master.Content;
 
                 game.AddButtons(game.currentEvent.options);
+                game.ShowChoices();
             }
             );
 
@@ -54,21 +55,21 @@ namespace TestApp
                         {
                             new Label
                             {
-                                Text = "Hull Integrity = " + game.state.ship.HullIntegrity,
+                                Text = "Hull Integrity = " + game.state.ship.HullIntegrity + "  Crew Lifesigns = " + game.state.ship.Lifesigns,
                                 TextColor = Color.LightSeaGreen,
-                                FontSize = game.fontsize,
+                                FontSize = game.fontsize * 4/5,
                             },
                             new Label
                             {
-                                Text = "Crew Lifesigns = " + game.state.ship.Lifesigns,
+                                Text = "Fuel = " + game.state.ship.Fuel + "  Weapons = " + game.state.ship.Weapons,
                                 TextColor = Color.LightSeaGreen,
-                                FontSize = game.fontsize,
+                                FontSize = game.fontsize * 4/5,
                             },
                             new Label
                             {
-                                Text = "Fuel = " + game.state.ship.Fuel,
+                                Text = "Empathy = " + game.state.ship.EmpathyLevel,
                                 TextColor = Color.LightSeaGreen,
-                                FontSize = game.fontsize,
+                                FontSize = game.fontsize * 4/5,
                             },
                         }
                     }

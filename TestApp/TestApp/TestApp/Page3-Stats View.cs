@@ -11,7 +11,7 @@ namespace TestApp
 {
     public class Page3 : ContentPage
     {
-        public Page3(GameStateClass state, TaskCompletionSource<bool> _tcs = null)
+        public Page3(Page1 game, TaskCompletionSource<bool> _tcs = null)
         {
             //Debug.WriteLine(state.ToString());
 
@@ -38,28 +38,39 @@ namespace TestApp
                 Opacity = 1,
                 BackgroundColor = Color.Black,
                 Children =
-                {
-                    //backButton,
-                    new Label
-                    {
-                        Text = "Hull Integrity = " + state.ship.HullIntegrity,
-                        TextColor = Color.LightSeaGreen,
-                        FontSize = 15,
-                    },
-                    new Label
-                    {
-                        Text = "Crew Lifesigns = " + state.ship.Lifesigns,
-                        TextColor = Color.LightSeaGreen,
-                        FontSize = 15,
-                    },
-                    new Label
-                    {
-                        Text = "Fuel = " + state.ship.Fuel,
-                        TextColor = Color.LightSeaGreen,
-                        FontSize = 15,
-                    },
-                }
-            };
+                        {
+                            new Label
+                            {
+                                Text = "Hull Integrity = " + game.state.ship.HullIntegrity,
+                                TextColor = Color.LightSeaGreen,
+                                FontSize = game.fontsize * 2,
+                            },
+                            new Label
+                            {
+                                Text = "Crew Lifesigns = " + game.state.ship.Lifesigns,
+                                TextColor = Color.LightSeaGreen,
+                                FontSize = game.fontsize * 2,
+                            },
+                            new Label
+                            {
+                                Text = "Fuel = " + game.state.ship.Fuel,
+                                TextColor = Color.LightSeaGreen,
+                                FontSize = game.fontsize * 2,
+                            },
+                            new Label
+                            {
+                                Text = "Weapons = " + game.state.ship.Weapons,
+                                TextColor = Color.LightSeaGreen,
+                                FontSize = game.fontsize * 2,
+                            },
+                            new Label
+                            {
+                                Text = "Empathy = " + game.state.ship.EmpathyLevel,
+                                TextColor = Color.LightSeaGreen,
+                                FontSize = game.fontsize * 2,
+                            },
+                        }
+            }; 
             //There is also a PushAsync option rather than PushModalAsync
             void buttonClicked(object sender, EventArgs e)
             {

@@ -86,7 +86,7 @@ namespace TestApp
                     game.PauseText(tcs);
 
                     //Navigation.PushModalAsync(logPage);
-                    Page3 log = new Page3(game.state, tcs);
+                    Page3 log = new Page3(game, tcs);
                     this.Detail = log;
                 }
                 // Show the detail page.

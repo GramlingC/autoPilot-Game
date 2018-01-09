@@ -110,6 +110,7 @@ namespace TestApp
         public int HullChange { get; set; }
         public int FuelChange { get; set; }
         public int LifeChange { get; set; }
+        public int WeapChange { get; set; }
         public int EmpChange { get; set; }
 
         // Values required for option to be available
@@ -118,6 +119,7 @@ namespace TestApp
         public int HullRequired { get; set; }
         public int FuelRequired { get; set; }
         public int LifeRequired { get; set; }
+        public int WeapRequired { get; set; }
         public int EmpRequired { get; set; }
 
         // This calls the other constructor to fill it with empty values
@@ -135,11 +137,13 @@ namespace TestApp
             HullChange = 0;
             FuelChange = 0;
             LifeChange = 0;
+            WeapChange = 0;
             EmpChange = 0;
 
             HullRequired = 0;
             FuelRequired = 0;
             LifeRequired = 0;
+            WeapRequired = 0;
             EmpRequired = 0;
         }
 
