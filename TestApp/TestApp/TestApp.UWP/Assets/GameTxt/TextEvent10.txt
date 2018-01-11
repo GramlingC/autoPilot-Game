@@ -1,0 +1,19 @@
+10
+Text:
+Before Navphytos can begin the proper warp sequence, Navphytos must determine which weapons to keep online during warp transit. Though it could theoretically maintain an acceptable warp bubble with all the weapons systems online throughout the entire journey, Navphytos eventually determines that such an action could consequentially result in an less than optimal response time in case of complications. One such complication being the first Alcubierre drive failure.
+
+Which weapon systems should Navphytos continue to keep online?
+
+Options:
+[[keep(particle)]]
+[The particle beam systems are perhaps the strongest in terms of raw firepower, but should be used sparingly as the ionization of particles combined with the magnification of such particles to the speed of light expends resources which is unsustainable in repeated usage.]
+[]
+{WP/G:10}
+[[keep(railgun)]]
+[The railgun systems are the moderately powerful solution in terms of firepower, but requires metal and resource usage, a physical limitation which the other two solutions do not have. It taxes the weapons systems more than the other two solutions in terms of raw resources. It is, however, fairly reliable and can be fired in rapid succession.]
+[]
+{WR/G:10}
+[[keep(laser)]]
+[The laser systems are perhaps the least powerful, but the most flexible weapons solution within the entire armanent. The laser weapons require little material and is far less taxing than the particle beam systems. Though its firepower may be lacking in terms of direct combat, any other applications only usually require the usage of the laser in order to destroy such obstacles.]
+[]
+{WL/G:10}

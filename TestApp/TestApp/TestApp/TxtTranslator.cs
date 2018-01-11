@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using PCLStorage;
+using System.Reflection;
 
 namespace TestApp
 {
@@ -173,12 +174,33 @@ namespace TestApp
             ///////
             List<Event> e = new List<Event>();
 
+#if __ANDROID__
+            Assembly assembly = Assembly.GetExecutingAssembly();
+#else
+            Assembly assembly = Assembly.Load(new AssemblyName("TestApp.UWP"));
+#endif
+            foreach (string s in assembly.GetManifestResourceNames())
+            {
+                Debug.WriteLine(s);
+                if (!s.Contains("TextEvent"))
+                    continue;
+                using (Stream stream = assembly.GetManifestResourceStream(s))
+                {
+                    e.Add(LoadEvent(stream));
+                }
+            }
+
+            /*
             IFolder rootFolder = FileSystem.Current.LocalStorage;
+            Debug.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            Debug.WriteLine(rootFolder.Path);
             IFolder appDataFolder = rootFolder.GetFolderAsync("appData").Result;
+
+           // Application.Context.Assets.Open();
 
             IList<IFile> files = appDataFolder.GetFilesAsync().Result;
 
-
+            
             foreach (IFile saveFile in files)
             {
                 if (!saveFile.Name.Contains("Text"))
@@ -192,7 +214,7 @@ namespace TestApp
             }
 
             Debug.WriteLine("Done Loading");
-
+            */
             return e;
         }
     }

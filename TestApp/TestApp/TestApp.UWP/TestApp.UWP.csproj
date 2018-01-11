@@ -109,6 +109,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\regular 1 loop cut.wav" />
+    <EmbeddedResource Include="Assets\TextEvent0.txt" />
+    <EmbeddedResource Include="Assets\TextEvent1.txt" />
+    <EmbeddedResource Include="Assets\TextEvent10.txt" />
+    <EmbeddedResource Include="Assets\TextEvent2.txt" />
+    <EmbeddedResource Include="Assets\TextEvent3.txt" />
+    <EmbeddedResource Include="Assets\TextEvent4.txt" />
+    <EmbeddedResource Include="Assets\TextEvent5.txt" />
+    <EmbeddedResource Include="Assets\TextEvent6.txt" />
+    <EmbeddedResource Include="Assets\TextEvent7.txt" />
+    <EmbeddedResource Include="Assets\TextEvent8.txt" />
+    <EmbeddedResource Include="Assets\TextEvent9.txt" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-100.png" />
     <Content Include="Assets\LockScreenLogo.scale-125.png" />

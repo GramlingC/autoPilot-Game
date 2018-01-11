@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Event xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <eventNumber>8</eventNumber>
+  <eventName />
+  <text>
+    <string>After successfully determining the most optimal path in terms of path selection, Navphytos's next step is to ascertain the integrity of the of the ship as a whole. Checking out the entire ship before leaving could possibly take a long stretch of time which could be better saved getting there faster, but it could also prevent any of the failures which occurred during the fatal errors during the failure of the Alcubierre drive.</string>
+  </text>
+  <options>
+    <Option>
+      <optionNumber>1</optionNumber>
+      <nextEventNumber>9</nextEventNumber>
+      <optionPicked>false</optionPicked>
+      <text>check(hull)</text>
+      <optionSummary />
+      <resultText>
+        <string>Navphytos checks the hull and its barriers once again in order to ensure no fatal errors can occur. It would be against its own programming if Navphytos failed to learn from its earlier oversights and continued on without making sure everything was prepared for superluminal transit.</string>
+        <string>This additional check, however, does take a bit of time to complete and thus costs significantly in terms of resource usage.</string>
+      </resultText>
+      <HullChange>10</HullChange>
+      <FuelChange>-10</FuelChange>
+      <LifeChange>0</LifeChange>
+      <WeapChange>0</WeapChange>
+      <EmpChange>0</EmpChange>
+      <HullRequired>0</HullRequired>
+      <FuelRequired>0</FuelRequired>
+      <LifeRequired>0</LifeRequired>
+      <WeapRequired>0</WeapRequired>
+      <EmpRequired>0</EmpRequired>
+    </Option>
+    <Option>
+      <optionNumber>2</optionNumber>
+      <nextEventNumber>9</nextEventNumber>
+      <optionPicked>false</optionPicked>
+      <text>ignore(diagnostics)</text>
+      <optionSummary />
+      <resultText>
+        <string>Due to the setbacks caused by the Alcubierre drive and the subsequent resolving of the issues relating to the pirates, Navphytos determines that a diagnostics test would be unnecessary at this given time due to the necessary repairs after the Alcubierre drive failure and the incident with the pirates, and thus navigating back to the proper warp zone is the clearly optimal path for Navphytos to follow.</string>
+      </resultText>
+      <HullChange>0</HullChange>
+      <FuelChange>-5</FuelChange>
+      <LifeChange>0</LifeChange>
+      <WeapChange>0</WeapChange>
+      <EmpChange>0</EmpChange>
+      <HullRequired>0</HullRequired>
+      <FuelRequired>0</FuelRequired>
+      <LifeRequired>0</LifeRequired>
+      <WeapRequired>0</WeapRequired>
+      <EmpRequired>0</EmpRequired>
+    </Option>
+  </options>
+</Event>

@@ -47,7 +47,7 @@ namespace TestApp
             var player = Plugin.SimpleAudioPlayer.CrossSimpleAudioPlayer.Current;
             player.Load("regular 1 loop cut.wav");
             player.Loop = true;
-            //player.Play();
+            player.Play();
 
             
             //
@@ -64,6 +64,8 @@ namespace TestApp
             //state.LoadEvents();
             // These two lines generate the event data
             //state.GenerateSampleData();
+            //state.SaveEvents();
+            //state.LoadEvents();
 
             currentEvent = state.getCurrent();
 
@@ -581,7 +583,7 @@ namespace TestApp
                 // meet the requirements of the chosen option.
                 Option o = gb.buttonOption;
                 Ship s = state.ship;
-                bool hull = o.HullRequired < 0? s.HullIntegrity < Math.Abs(o.HullRequired): s.HullIntegrity >= o.HullRequired;
+                bool hull = o.HullRequired < 0 ? s.HullIntegrity < Math.Abs(o.HullRequired): s.HullIntegrity >= o.HullRequired;
                 bool fuel = o.FuelRequired < 0 ? s.Fuel < Math.Abs(o.FuelRequired) : s.Fuel >= o.FuelRequired;
                 bool life = o.LifeRequired < 0 ? s.Lifesigns < Math.Abs(o.LifeRequired) : s.Lifesigns >= o.LifeRequired;
                 bool weap = o.WeapRequired < 0 ? s.Weapons < Math.Abs(o.WeapRequired) : s.Weapons >= o.WeapRequired;

@@ -149,6 +149,39 @@
   <ItemGroup>
     <BundleResource Include="Resources\regular 1 loop cut.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TextEvent0.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TextEvent1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TextEvent2.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TextEvent3.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TextEvent4.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TextEvent5.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TextEvent6.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TextEvent7.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TextEvent8.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TextEvent9.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TextEvent10.txt" />
+  </ItemGroup>
   <Import Project="..\TestApp\TestApp.projitems" Label="Shared" Condition="Exists('..\TestApp\TestApp.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

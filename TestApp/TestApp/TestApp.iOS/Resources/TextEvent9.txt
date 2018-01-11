@@ -1,0 +1,28 @@
+9
+Text:
+Navphytos finally begins to traverse the star systems necessary in order to complete the warp sequence without creating undue harm to the rest of the Milky Way or any inhabitants that may exist nearby. 
+
+The star systems which Navphytos seem to pass do not seem to be much different from the Solar System of Earth, as the different systems within the Milky Way seem to be comprised of the same base molecules and elements.
+
+It is of note, however, that minor planets like asteroids and comets are fairly frequent as Navphytos passes them by in order to reach the warp zone. Navphytos has been trying to evade them as per its programming in order to avoid unnecessary usage of these minor planets, but the fuel expended for such evasive maneuvers is beyond what is acceptable in his projections. 
+
+There seems to only be two viable options:
+
+Options:
+[[mine(minorplanets)]]
+[Since Navphytos is incidentally passing by the minor planets like the asteroid and comets, it would be almost inconsequential to procure some needed materials and raw materials from these minor planets. 
+
+Much of the hull and its associated systems are made from metals and carbon nanotubes, materials which are not readily available on earth but can be easily fabricated from raw materials when purified from outer space.
+
+The weapons system which Navphytos has at its disposal is also in need of raw materials, as the particle beam cannons as well as the laser and railgun armanents require a significant amount of metals and ionized materials, a rare sight on Earth but fairly plentiful in space.]
+[]
+{F:-10/H:10/W:10/G:10}
+
+[[destroy(minorplanets)]]
+[Though there could be material gain from slowing down and retrieving the possible raw materials from the minor planets, the constant evasion of the minor planets has now become a issue of further nuclear fuel wastage, a point which cannot be ignored in a long term warp transit like that of Navphytos's to Kepler 1638b.
+The optimal solution to this dilemma, Navphytos finally ascertains, is to destroy the minor planets and collect any accreted materials which the ship collects as it passes its destruction. 
+
+Such a solution will cut down on fuel usage and accelerate the ship back on its original timeframe to complete the warp jump.]
+[]
+{F:-5/H:5/W:5/G:10}
+

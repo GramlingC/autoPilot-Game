@@ -149,6 +149,39 @@
   <ItemGroup>
     <AndroidAsset Include="Assets\regular 1 loop cut.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\TextEvent0.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\TextEvent1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\TextEvent2.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\TextEvent3.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\TextEvent4.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\TextEvent5.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\TextEvent6.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\TextEvent7.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\TextEvent8.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\TextEvent9.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\TextEvent10.txt" />
+  </ItemGroup>
   <Import Project="..\TestApp\TestApp.projitems" Label="Shared" Condition="Exists('..\TestApp\TestApp.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Android.Support.Animated.Vector.Drawable.25.4.0.2\build\MonoAndroid70\Xamarin.Android.Support.Animated.Vector.Drawable.targets" Condition="Exists('..\..\packages\Xamarin.Android.Support.Animated.Vector.Drawable.25.4.0.2\build\MonoAndroid70\Xamarin.Android.Support.Animated.Vector.Drawable.targets')" />

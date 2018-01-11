@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Event xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <eventNumber>5</eventNumber>
+  <eventName />
+  <text>
+    <string>All systems seem now to be online and working to an acceptable degree within margin of error. Repairs are scheduled to run as soon as the processes and functions are booted up to do so. The other smaller artificial intelligences have their own AI chip integrated in their systems, but are significantly underpowered compared to Navphytos.</string>
+    <string>Navphytos must wait until those processes are run to completion before expecting any repairs. Though Navhpytos waits for the other AIs to boot up to completion, indicators from the weapons and navigations system show that a group of raiders or pirates are slowly coming up. </string>
+    <string>It seems that this other spacecraft that seems to contain raiders or pirates has been tailing Navphytos's spacecraft for a while in order to lay siege to the ship for its precious cargo that they think exists within the ship's cargo. </string>
+    <string>It is advisable to run a process to either evade or scare these pirates:</string>
+  </text>
+  <options>
+    <Option>
+      <optionNumber>1</optionNumber>
+      <nextEventNumber>6</nextEventNumber>
+      <optionPicked>false</optionPicked>
+      <text>use(weapons)</text>
+      <optionSummary>Navphytos will utilize the weapons as a scare tactic and fire upon the pirates if necessary.</optionSummary>
+      <resultText>
+        <string>Navphytos decides that utilizing the weapons systems is the best course of action. Navphytos can not attack first due to Intergalactic Law dictating that any spacecraft firing first is essentially tantamount to declaring war on the recieving ship. Navphytos's secondary directive dictates that it must not fire upon first in order to avoid such controversies for the company Yatsuta.</string>
+        <string>The pirates seem to inch closer and closer. Intergalactic Law permits warning shots so as long as the shots miss with great certainty. Navphytos fire two salvos of two shots to warn the incoming pirates. If these pirates are simply opportunistic, they should be sufficiently scared off by these two salvos.</string>
+        <string>The pirates, however, don't seem to be backing off. Navphytos can now only wait until they fire first in order to return fire using the laser cannons. The railguns would be a sure-fire method in debilitating the pirate spacecraft, but that would violate Intergalactic Law in terms of reasonable munitions in combat.</string>
+        <string>The pirates eventually reach what Navphytos considers as their effective firing range, and waits for the shot that will end this battle. The pirates continue to combobulate slowly towards Navphytos, turning its gun turrets toward Navphytos.</string>
+        <string>The pirates fires explosive shots towards Navphytos, but most of them miss or are too small of a caliber to cause any significant damage to the defensive barriers on the hull. The pirates continue to fire as fast as possible in order to score any type of damage on Navphytos.</string>
+        <string>Once Navphytos determines that the pirates are reloading their weapons, Navphytos fires a salvo of four shots. Two of the shots only glance the pirate ship, but one seems to have disabled one of the propulsion drives for the ship and the other seems to have been absorbed by......</string>
+        <string>There was an explosion. A fairly large explosion at that. The pirates seemed to have used standard rocket fuel as their primary propulsion method, a practice outdated by several centuries of technological innovation. Using such a volatile fuel was illogical.</string>
+        <string>Navphytos did not factor that into its calculations. Such an anamoly should not exist in this era. Navphytos, ignoring the strangeness of this brief encounter, simply tagged the event as a situation to review and archived it in the cold storage of his server clusters.</string>
+      </resultText>
+      <HullChange>0</HullChange>
+      <FuelChange>0</FuelChange>
+      <LifeChange>0</LifeChange>
+      <WeapChange>-5</WeapChange>
+      <EmpChange>-5</EmpChange>
+      <HullRequired>0</HullRequired>
+      <FuelRequired>0</FuelRequired>
+      <LifeRequired>0</LifeRequired>
+      <WeapRequired>0</WeapRequired>
+      <EmpRequired>0</EmpRequired>
+    </Option>
+    <Option>
+      <optionNumber>2</optionNumber>
+      <nextEventNumber>6</nextEventNumber>
+      <optionPicked>false</optionPicked>
+      <text>use(rocket)</text>
+      <optionSummary>Navphytos will utilize the nuclear photonic rockets to evade the dangerous situation.</optionSummary>
+      <resultText>
+        <string>Navphytos decides to utilize the Alcubierre drive by accelerating through four phases while ignoring other nonessential tasks such as climate control and longform sensors.</string>
+        <string>The pirates seem to get closer and closer according to the sensors, but Navphytos, utilizing more tachyons than optimal, allows for an accelerated departure into warp space and leaving the pirate ship far behind.</string>
+      </resultText>
+      <HullChange>0</HullChange>
+      <FuelChange>-10</FuelChange>
+      <LifeChange>0</LifeChange>
+      <WeapChange>0</WeapChange>
+      <EmpChange>0</EmpChange>
+      <HullRequired>0</HullRequired>
+      <FuelRequired>0</FuelRequired>
+      <LifeRequired>0</LifeRequired>
+      <WeapRequired>0</WeapRequired>
+      <EmpRequired>0</EmpRequired>
+    </Option>
+  </options>
+</Event>
