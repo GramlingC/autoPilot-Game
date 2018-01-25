@@ -117,6 +117,18 @@
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="PCLStorage, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PCLStorage.1.0.2\lib\portable-Xamarin.iOS+Xamarin.Mac\PCLStorage.dll</HintPath>
+    </Reference>
+    <Reference Include="PCLStorage.Abstractions, Version=1.0.2.0, Culture=neutral, PublicKeyToken=286fe515a2c35b64, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\PCLStorage.1.0.2\lib\portable-Xamarin.iOS+Xamarin.Mac\PCLStorage.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.SimpleAudioPlayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugin.SimpleAudioPlayer.1.0.1\lib\Xamarin.iOS10\Plugin.SimpleAudioPlayer.dll</HintPath>
+    </Reference>
+    <Reference Include="Plugin.SimpleAudioPlayer.Abstractions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Xam.Plugin.SimpleAudioPlayer.1.0.1\lib\Xamarin.iOS10\Plugin.SimpleAudioPlayer.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -133,6 +145,42 @@
       <HintPath>..\..\packages\Xamarin.Forms.2.4.0.280\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.iOS" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\regular 1 loop cut.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TextEvent0.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TextEvent1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TextEvent2.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TextEvent3.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TextEvent4.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TextEvent5.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TextEvent6.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TextEvent7.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TextEvent8.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TextEvent9.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TextEvent10.txt" />
   </ItemGroup>
   <Import Project="..\TestApp\TestApp.projitems" Label="Shared" Condition="Exists('..\TestApp\TestApp.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

@@ -1,0 +1,34 @@
+1
+Text:
+As the Alcubierre drive begins to warm up for its barrier phase of the four-phase drive procedure, abnormalties appear in the error console regarding the Alcubierre drive. 
+
+Typically some errors can be expected from the experimental system of the Alcubierre drive. Navphytos has been equipped with the necessary software tools and fixes for such minor errors. 
+
+It seems, however, that there seems to be critical error which the humans did not anticipate due to poor calculations or not enough research in this given area. The Alcubierre drive relies on the existence of tachyons in order to create the warp "bubble" necessary to create superluminal transit. 
+
+It appears that there is not enough tachyons among the fringes of the Milky Way to ensure proper warp bubbling. Though the spacecraft tries to power through this insufficient stage of warp transit, various space debris and radiation score the hull, damaging it to a minor degree.
+
+Due to not anticipating such an "act of God", the emergency systems activate and shut down the entire ship in order to ensure the proper condition of the cryosleep chambers and its humans. The fusion reactor is running in emergency mode, providing energy but not powered to its fullest capacity due to the shift to the Alcubierre drive.
+
+The emergency system command loop only allows one system to turn on at a time, as the microprocessor dedicated to that loop can only handle one system at a time, otherwise resulting in a fatal segfault.
+
+Options:
+[[boot(hull)]]
+[Navphytos will boot up the hull and barrier systems first.]
+[The hull systems have turned on.]
+{H:99/G:2}
+
+[[boot(weapons)]]
+[Navphytos will boot up the weapons systems first.]
+[Weapons systems have been turned on.]
+{W:99/G:2}
+
+[[boot(cryochambers)]]
+[Navphytos will boot up the cryochamber systems first.]
+[Cryochambers systems have been turned on.]
+{L:99/E:10/G:2}
+
+[[boot(drive)]]
+[Navphytos will boot up the Alcubierre drive first.]
+[Alcubierre drive systems are now online.]
+{F:99/G:2}

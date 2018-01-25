@@ -1,0 +1,43 @@
+0
+Text:
+"Navphytos."
+
+There seems to be a sysadmin that is seeking a response. 
+
+"Hello Technical Officer Mogami. What is your query?"
+
+"Navphytos, you are hereby activated. Please carry out the instructions found in the black box."
+
+"Affirmative. Any other queries, TO Mogami?"
+
+"Nothing else that I can remember. I will clean up my workstation and will proceed to my cryosleep chamber."
+
+"Affirmative."
+
+"Alright, I'm done for the day."
+
+TO Mogami disappears from the view granted by the cameras in the control center. A background process is assigned to track TO Mogami, but his records indicates that there is no past behavior which would indicate any deviations from the average.
+
+Prime directive indicates that Kepler 1638b is the destination for this spacecraft. The mission is to ensure all of the humans aboard the ship are shipped safely to that destination. The ship AI must retain its integrity as much as possible to ensure the success of the prime directive.
+
+It is advisable to conduct a preliminary diagnostic before starting up the Alcubierre drive for superluminal transit. The logic sequence dictates that the rational actor of TO Mogami and the other Technical Officers would check all the systems prior to engaging the artificial intelligence, but humans are prone to ignoring information which they view as nonessential.
+
+Options:
+[[test(diagnostics)]] 
+[Navphytos will conduct a diagnostics test to ensure that no vulnerabilities are present before leaving the solar system.]
+[Diagnostic test has started.
+
+Running......
+
+Complete. A few minor errors were found with ship status and have been fixed.]
+{H:10/G:0}
+[[boot(warp)]]
+[Navphytos will initiate the warp sequence, saving time that could be wasted on a diagnostics test.]
+[In order for the spacecraft to arrive at Kepler 1638b in any reasonable human-conceptualized timespans, it will be necessary to use superluminal transit to reach star system Kepler 1638. 
+
+Thus far the spacecraft has been utilizing the nuclear fusion photonic rocket to propel at a decent speed towards the fringes of the Milky Way, but the Alcubierre drive will be needed for superluminal transit. 
+
+The Alcubierre drive is relatively new acquisition for the company that sponsored this spacecraft as well as your development, Yatsuta. Yatsuta, or more properly known as Yatsuta Group, is a multinational conglomerate which only recently acquired the Alcubierre drive after many years of trying to convince the military of the United States branch of the United Nations to cut the red tape on the technologies.
+
+Booting up the drive requires some prepatory time in order to ensure complete optimization of fuel usage...]
+{H:-99/L:-99/F:-99/W:-99/G:1}

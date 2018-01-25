@@ -1,0 +1,16 @@
+8
+Text:
+After successfully determining the most optimal path in terms of path selection, Navphytos's next step is to ascertain the integrity of the of the ship as a whole. Checking out the entire ship before leaving could possibly take a long stretch of time which could be better saved getting there faster, but it could also prevent any of the failures which occurred during the fatal errors during the failure of the Alcubierre drive.
+
+Options:
+[[check(hull)]]
+[]
+[Navphytos checks the hull and its barriers once again in order to ensure no fatal errors can occur. It would be against its own programming if Navphytos failed to learn from its earlier oversights and continued on without making sure everything was prepared for superluminal transit. 
+
+This additional check, however, does take a bit of time to complete and thus costs significantly in terms of resource usage.]
+{F:-10/H:10/G:9}
+
+[[ignore(diagnostics)]]
+[]
+[Due to the setbacks caused by the Alcubierre drive and the subsequent resolving of the issues relating to the pirates, Navphytos determines that a diagnostics test would be unnecessary at this given time due to the necessary repairs after the Alcubierre drive failure and the incident with the pirates, and thus navigating back to the proper warp zone is the clearly optimal path for Navphytos to follow.]
+{F:-5/G:9}

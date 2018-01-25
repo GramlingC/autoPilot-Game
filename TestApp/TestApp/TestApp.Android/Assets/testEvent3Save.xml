@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Event xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <eventNumber>3</eventNumber>
+  <eventName />
+  <text>
+    <string>The emergency system command loop only allows one system to turn on at a time, as the microprocessor dedicated to that loop can only handle one system at a time, otherwise resulting in a fatal segfault.</string>
+  </text>
+  <options>
+    <Option>
+      <optionNumber>1</optionNumber>
+      <nextEventNumber>4</nextEventNumber>
+      <optionPicked>false</optionPicked>
+      <text>boot(hull)</text>
+      <optionSummary>Navphytos will boot up the hull and barrier systems first.</optionSummary>
+      <resultText>
+        <string>The hull systems have turned on.</string>
+      </resultText>
+      <HullChange>79</HullChange>
+      <FuelChange>0</FuelChange>
+      <LifeChange>0</LifeChange>
+      <WeapChange>0</WeapChange>
+      <EmpChange>0</EmpChange>
+      <HullRequired>-20</HullRequired>
+      <FuelRequired>0</FuelRequired>
+      <LifeRequired>0</LifeRequired>
+      <WeapRequired>0</WeapRequired>
+      <EmpRequired>0</EmpRequired>
+    </Option>
+    <Option>
+      <optionNumber>2</optionNumber>
+      <nextEventNumber>4</nextEventNumber>
+      <optionPicked>false</optionPicked>
+      <text>boot(weapons)</text>
+      <optionSummary>Navphytos will boot up the weapons systems first.</optionSummary>
+      <resultText>
+        <string>Weapons systems have been turned on.</string>
+      </resultText>
+      <HullChange>0</HullChange>
+      <FuelChange>0</FuelChange>
+      <LifeChange>0</LifeChange>
+      <WeapChange>79</WeapChange>
+      <EmpChange>0</EmpChange>
+      <HullRequired>0</HullRequired>
+      <FuelRequired>0</FuelRequired>
+      <LifeRequired>0</LifeRequired>
+      <WeapRequired>-20</WeapRequired>
+      <EmpRequired>0</EmpRequired>
+    </Option>
+    <Option>
+      <optionNumber>3</optionNumber>
+      <nextEventNumber>4</nextEventNumber>
+      <optionPicked>false</optionPicked>
+      <text>boot(cryochambers)</text>
+      <optionSummary>Navphytos will boot up the cryochamber systems first.</optionSummary>
+      <resultText>
+        <string>Cryochambers systems have been turned on.</string>
+      </resultText>
+      <HullChange>0</HullChange>
+      <FuelChange>0</FuelChange>
+      <LifeChange>79</LifeChange>
+      <WeapChange>0</WeapChange>
+      <EmpChange>0</EmpChange>
+      <HullRequired>0</HullRequired>
+      <FuelRequired>0</FuelRequired>
+      <LifeRequired>-20</LifeRequired>
+      <WeapRequired>0</WeapRequired>
+      <EmpRequired>0</EmpRequired>
+    </Option>
+    <Option>
+      <optionNumber>4</optionNumber>
+      <nextEventNumber>4</nextEventNumber>
+      <optionPicked>false</optionPicked>
+      <text>boot(drive)</text>
+      <optionSummary>Navphytos will boot up the Alcubierre drive first.</optionSummary>
+      <resultText>
+        <string>Alcubierre drive systems are now online.</string>
+      </resultText>
+      <HullChange>0</HullChange>
+      <FuelChange>79</FuelChange>
+      <LifeChange>0</LifeChange>
+      <WeapChange>0</WeapChange>
+      <EmpChange>0</EmpChange>
+      <HullRequired>0</HullRequired>
+      <FuelRequired>-20</FuelRequired>
+      <LifeRequired>0</LifeRequired>
+      <WeapRequired>0</WeapRequired>
+      <EmpRequired>0</EmpRequired>
+    </Option>
+  </options>
+</Event>

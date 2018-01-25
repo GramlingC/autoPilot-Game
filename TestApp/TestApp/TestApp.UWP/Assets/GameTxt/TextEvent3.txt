@@ -1,0 +1,28 @@
+3
+Text:
+The emergency system command loop only allows one system to turn on at a time, as the microprocessor dedicated to that loop can only handle one system at a time, otherwise resulting in a fatal segfault.
+
+Options:
+[[boot(hull)]]
+[Navphytos will boot up the hull and barrier systems first.]
+[The hull systems have turned on.]
+H:-20|
+{H:79/G:4}
+
+[[boot(weapons)]]
+[Navphytos will boot up the weapons systems first.]
+[Weapons systems have been turned on.]
+W:-20|
+{W:79/G:4}
+
+[[boot(cryochambers)]]
+[Navphytos will boot up the cryochamber systems first.]
+[Cryochambers systems have been turned on.]
+L:-20|
+{L:79/E:0/G:4}
+
+[[boot(drive)]]
+[Navphytos will boot up the Alcubierre drive first.]
+[Alcubierre drive systems are now online.]
+F:-20|
+{F:79/G:4}

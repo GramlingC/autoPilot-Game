@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Event xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <eventNumber>7</eventNumber>
+  <eventName />
+  <text>
+    <string>After completing all the repairs for the Alcubierre drive and other tangential systems, Navphytos finds itself lost due to the lack of prior calculations of any incidental star systems that the ship could encounter on its way towards Kepler 1638b. There are only a few options for Navphytos to execute:</string>
+  </text>
+  <options>
+    <Option>
+      <optionNumber>1</optionNumber>
+      <nextEventNumber>8</nextEventNumber>
+      <optionPicked>false</optionPicked>
+      <text>navigate(universal)</text>
+      <optionSummary>Though it is arduous in terms of processing power and time-consuming, reaquiring the ship's universal position allows for Navphytos to determine the best course of action with the new information which is presented to it right now.</optionSummary>
+      <resultText />
+      <HullChange>15</HullChange>
+      <FuelChange>-15</FuelChange>
+      <LifeChange>0</LifeChange>
+      <WeapChange>0</WeapChange>
+      <EmpChange>0</EmpChange>
+      <HullRequired>0</HullRequired>
+      <FuelRequired>0</FuelRequired>
+      <LifeRequired>0</LifeRequired>
+      <WeapRequired>0</WeapRequired>
+      <EmpRequired>0</EmpRequired>
+    </Option>
+    <Option>
+      <optionNumber>2</optionNumber>
+      <nextEventNumber>8</nextEventNumber>
+      <optionPicked>false</optionPicked>
+      <text>navigate(localreference)</text>
+      <optionSummary>The best course of action in this dilemma is perhaps finding a local reference to map out the rest of the star system. Navphytos could rebuild its universal position, but it would be too intensive processing power-wise and perhaps utilizing more fuel than it would perhaps prefer to use.</optionSummary>
+      <resultText />
+      <HullChange>10</HullChange>
+      <FuelChange>-10</FuelChange>
+      <LifeChange>0</LifeChange>
+      <WeapChange>0</WeapChange>
+      <EmpChange>0</EmpChange>
+      <HullRequired>0</HullRequired>
+      <FuelRequired>0</FuelRequired>
+      <LifeRequired>0</LifeRequired>
+      <WeapRequired>0</WeapRequired>
+      <EmpRequired>0</EmpRequired>
+    </Option>
+    <Option>
+      <optionNumber>3</optionNumber>
+      <nextEventNumber>8</nextEventNumber>
+      <optionPicked>false</optionPicked>
+      <text>navigate(warpzone)</text>
+      <optionSummary>Plotting out this particular star system could potentially be a nonoptimal method to achieve what will eventually be transit in warp space. Navphytos, by its calculations, determines that the hull and its barriers are able to endure this temporary barrage of space debris in order to speed up the warp jump process.</optionSummary>
+      <resultText />
+      <HullChange>-5</HullChange>
+      <FuelChange>-15</FuelChange>
+      <LifeChange>0</LifeChange>
+      <WeapChange>0</WeapChange>
+      <EmpChange>10</EmpChange>
+      <HullRequired>0</HullRequired>
+      <FuelRequired>0</FuelRequired>
+      <LifeRequired>0</LifeRequired>
+      <WeapRequired>0</WeapRequired>
+      <EmpRequired>0</EmpRequired>
+    </Option>
+    <Option>
+      <optionNumber>4</optionNumber>
+      <nextEventNumber>8</nextEventNumber>
+      <optionPicked>false</optionPicked>
+      <text>navigate(optimizedpath)</text>
+      <optionSummary>Navphytos finally determines that the best course of action in terms of navigating this particular star system is to chart out the optimal path for the spacecraft to traverse. Determing the relativistic placement of the star system or determining the absolute universal location of the spacecraft is perhaps too strenuous on the time that Navphytos has available. This optimal path allows for proper response to the entropy of this particular star system while not wasting time trying to determine the position of the spacecraft, a position which the ship would probably never return to in the rest of its operational lifespan.</optionSummary>
+      <resultText />
+      <HullChange>0</HullChange>
+      <FuelChange>-5</FuelChange>
+      <LifeChange>0</LifeChange>
+      <WeapChange>0</WeapChange>
+      <EmpChange>5</EmpChange>
+      <HullRequired>0</HullRequired>
+      <FuelRequired>0</FuelRequired>
+      <LifeRequired>0</LifeRequired>
+      <WeapRequired>0</WeapRequired>
+      <EmpRequired>0</EmpRequired>
+    </Option>
+  </options>
+</Event>

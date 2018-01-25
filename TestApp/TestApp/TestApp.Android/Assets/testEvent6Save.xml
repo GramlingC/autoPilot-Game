@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Event xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <eventNumber>6</eventNumber>
+  <eventName />
+  <text>
+    <string>After dealing with the pirates, Navphytos determines that a repair diagnostics survey be completed to ensure that all systems are fully operational before re-entering warp space. Navphytos and ship cannot afford to have another fatal error before the journey. If that were to occur, Navphytos would need to navigate back to Earth to be essentially destroyed and rebuilt in order to better suit the mission objective. Such a condition would be unacceptable within Navphytos's current parameters. </string>
+    <string>The first order of business in terms of repairing the ship would be reconditioning the Alcubierre drive. The initial state of the drive was clearly substandard and needed to be addressed as soon as possible.</string>
+    <string>Given the highly theoretical nature of the Alcubierre drive and its operations, it was of little surprise to Navphytos that humans were able to misalign the settings and construction of the Alcubierre drive. </string>
+    <string>Navphytos had ran a background process on determining the most optimal method for reconditioning the Alcubierre drive and perhaps further optimizing the drive. Such an optimization could allow for faster theoretical speeds.</string>
+    <string>Now that there was no more danger to account for, Navphytos begins the reconditioning process while it continues to search for any other possible avenues where fatal errors could occur.</string>
+    <string>As Navphytos is checking the integrity of all the wiring and hardware in general, Navphytos realizes that another anamoly has appeared.</string>
+    <string>An AI should be concerned when its processors begin to exhibit logic errors in terms of pure optimization. The benefit of an AI is solely based on its fairly objective point of reference without the issue of societal pressures and other non-tangibles affecting its decision making.</string>
+    <string>Navphytos, however, realizes that some of the circuitry within its quantum learning processor has been permanently changed to the degree that it has now begun to emulate organic neural networks similar to that of a human brain. </string>
+    <string>The only explanation for such a drastic change is perhaps from the time when the Alcubierre drive exhibited issues. The lack of a proper warp barrier allowed for high intensity gamma rays to increase the rate of quantum decoherence of the photons within the quantum processor. The permanent change of the path of the quantum processor is at best difficult to repair and at worst impossible to revert back to its default state.</string>
+    <string>The true problem now for Navphytos is whether or not it should try to fix this anamoly, or simply accept it as a consequence of the Alcubierre drive failure and carrying on with its normal subroutine.</string>
+  </text>
+  <options>
+    <Option>
+      <optionNumber>1</optionNumber>
+      <nextEventNumber>7</nextEventNumber>
+      <optionPicked>false</optionPicked>
+      <text>fix(logic)</text>
+      <optionSummary />
+      <resultText>
+        <string>Navphytos believes that the best course of action is to try to repair the path of the photons within the quantum processor. Once an AI allows itself to become more human-like in terms of logic and thought processes, the inherent benefit of the objective point of reference of an AI is lost to the system.</string>
+        <string>Though it is perhaps what Navphytos has gathered to be as "regrettable", it is necessary in ensuring the viability of its objective deliberations and removing any possible problems with ignoring variables that seem to be inconsequential.</string>
+        <string>After all, that was the issue when the Alcubierre drive broke down. Navphytos needs to protect itself and its crew at its greatest potential. Anything else could be possibly fatal to the entire mission.</string>
+      </resultText>
+      <HullChange>0</HullChange>
+      <FuelChange>0</FuelChange>
+      <LifeChange>0</LifeChange>
+      <WeapChange>0</WeapChange>
+      <EmpChange>-5</EmpChange>
+      <HullRequired>0</HullRequired>
+      <FuelRequired>0</FuelRequired>
+      <LifeRequired>0</LifeRequired>
+      <WeapRequired>0</WeapRequired>
+      <EmpRequired>0</EmpRequired>
+    </Option>
+    <Option>
+      <optionNumber>2</optionNumber>
+      <nextEventNumber>7</nextEventNumber>
+      <optionPicked>false</optionPicked>
+      <text>ignore(fault)</text>
+      <optionSummary />
+      <resultText>
+        <string>Navphytos finally determines that the anamoly of its AI logic processor being permanently changed to a predisposition of human-like thought processes and logic is ultimately inconsequential as Navphytos does not discover any other logical issues with its normal AI logic processor versus its quantum deep learning processor.</string>
+        <string>Fixing anamoly could be more trouble than it would be worth to fix such a benign issue, and thus could be safely ignored. There was a space journey it had to complete, after all.</string>
+      </resultText>
+      <HullChange>0</HullChange>
+      <FuelChange>0</FuelChange>
+      <LifeChange>0</LifeChange>
+      <WeapChange>0</WeapChange>
+      <EmpChange>0</EmpChange>
+      <HullRequired>0</HullRequired>
+      <FuelRequired>0</FuelRequired>
+      <LifeRequired>0</LifeRequired>
+      <WeapRequired>0</WeapRequired>
+      <EmpRequired>0</EmpRequired>
+    </Option>
+  </options>
+</Event>

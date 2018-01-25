@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
+using System.Diagnostics;
+using PCLStorage;
 
 namespace TestApp
 {
     public class GameStateClass
     {
+        /*
         private int[] ReadText(String file, int typeSelector, int eventNumber = -1)
         {
             //Reads text from file to return either Events or Options
@@ -81,7 +85,7 @@ namespace TestApp
                  * Saving/Loading 
                  * 
                  * 
-                 */
+                 *
 
             }
 
@@ -104,5 +108,214 @@ namespace TestApp
             new int[] {0,2,4,6},
             new int[] {11,22}
         };
+        */
+
+        private List<Event> eList = new List<Event>();
+        private int currentEvent;
+        public bool ready;
+        public Ship ship;
+        ////////////////////////////////
+        //To get used text for log
+        public List<String> usedText = new List<String>();
+
+        public Event getCurrent()
+        {
+            // Removed this line, in case events are not inserted in order
+            //return eList[currentEvent];
+            foreach (Event e in eList)
+            {
+                if (e.eventNumber == currentEvent)
+                {
+                    return e;
+                }
+            }
+
+            return null;
+        }
+        public void goTo(int next)
+        {
+            currentEvent = next;
+        }
+
+        public void ClearEventList()
+        {
+            while (eList.Count > 0)
+            {
+                eList.RemoveAt(0);
+            }
+        }
+        public void PrintEventList()
+        {
+            foreach (Event e in eList)
+            {
+                Debug.WriteLine(e.ToString());
+            }
+        }
+        public void TranslateEvents()
+        {
+            eList = TxtTranslator.LoadAllEvents();
+            SaveEvents();
+        }
+        // This simply fills up the List of events with dummy events.
+        public void GenerateSampleData()
+        {
+            Option o1, o2, o3, o4;
+            Event e;
+            List<String> t;
+
+            o1 = new Option(0, 0, false, "doOne()", "This is a summary for choice one", new List<string> {"This is the result of choice one.", "And here is another line of the result."});
+            o2 = new Option(1, 1, false, "doTwo()", "This is a summary for choice two", new List<string> { "This is the result of choice two.", "And here is another line of the result." });
+            o3 = new Option(2, 2, false, "doThree()", "This is a summary for choice three", new List<string> { "This is the result of choice three.", "And here is another line of the result." });
+            o4 = new Option(3, 3, false, "doFour()", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "And here is another line of the result." });
+            t = new List<string>()
+            {
+                "This is the first event!",
+                "Feel free to read this at your own disposal",
+                "Multiple lines of text in one Event right here!"
+            };
+            e = new Event(0, "Initial Event", t, new List<Option> { o1, o2, o3, o4 });
+
+            eList.Add(e);
+            
+            o1 = new Option(0, 0, false, "escogerUno()", "This is a summary for choice one", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
+            o2 = new Option(1, 1, false, "escogerDos()", "This is a summary for choice two", new List<string> { "This is the result of choice two.", "And here is another line of the result." });
+            o3 = new Option(2, 3, false, "escogerTres()", "This is a summary for choice three", new List<string> { "This is the result of choice three.", "And here is another line of the result." });
+            o4 = new Option(3, 5, false, "escogerCuatro()", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "And here is another line of the result." });
+            t = new List<string>()
+            {
+                "Welcome to event number 2",
+                "Or, as I like to say, numero dos",
+                "If you couldn't already tell, this event was| based on Kloss's test class in EventClass.cs!"
+            };
+            e = new Event(1, "Event Two", t, new List<Option> { o1, o2, o3, o4 });
+
+            eList.Add(e);
+
+            o1 = new Option(0, 0, false, "gotoEvent(0)", "This is a summary for choice one", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
+            o2 = new Option(1, 1, false, "gotoEvent(1)", "This is a summary for choice two", new List<string> { "This is the result of choice two.", "And here is another line of the result." });
+            o3 = new Option(2, 3, false, "gotoEvent(3)", "This is a summary for choice three", new List<string> { "This is the result of choice three.", "And here is another line of the result." });
+            o4 = new Option(3, 4, false, "gotoEvent(4)", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "And here is another line of the result." });
+            t = new List<string>()
+            {
+                "We are now at the third event",
+                "This one only has two lines!!!"
+            };
+            e = new Event(2, "Third Event", t, new List<Option> { o1, o2, o3, o4 });
+
+            eList.Add(e);
+
+            o1 = new Option(0, 0, false, "toBeginning()", "This is a summary for choice one", new List<string> { "This is the result of choice one.", "And here is another line of the result." });
+            o2 = new Option(1, 2, false, "toPrevious()", "This is a summary for choice two", new List<string> { "This is the result of choice two.", "And here is another line of the result." });
+            o3 = new Option(2, 4, false, "toNext()", "This is a summary for choice three", new List<string> { "This is the result of choice three.", "And here is another line of the result." });
+            o4 = new Option(3, 5, false, "toEnd()", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "And here is another line of the result." });
+            t = new List<string>()
+            {
+                "The next event is the last one.",
+                "It's the most realistic event in this sample| data.",
+                "However, it is still silly.",
+                "Enjoy."
+            };
+            e = new Event(3, "#4", t, new List<Option> { o1, o2, o3, o4 });
+
+            eList.Add(e);
+
+            o1 = new Option(0, 5, false, "releaseCargo('60x Fuel')", "This is a summary for choice one", new List<string> { "You release 60x Fuel to the planet below.", "Hopefully it helps someone..." });
+            o1.FuelRequired = 60;
+            o1.FuelChange = -60;
+            o2 = new Option(1, 5, false, "examinePlanetLife()", "This is a summary for choice two", new List<string> { "Planet life is intelligent.", "...", "For the most part." });
+            o3 = new Option(2, 5, false, "helpPlanet()", "This is a summary for choice three", new List<string> { "You have enough empathy to help the planet!" });
+            o3.EmpRequired = 5;
+            o4 = new Option(3, 5, false, "selfDestruct()", "This is a summary for choice four", new List<string> { "You exploded." });
+            o4.HullChange = -100;
+            t = new List<string>()
+            {
+                "A distress signal is coming in from the| nearby planet",
+                "The coordinates of the signal seem to be| coming from beneath the surface of the| only ocean of the planet, which covers| less than 20% of its surface",
+                "The signal asks for a box of supplies, but| stresses not to intervene in any other way",
+                "This is the first event!",
+                "Feel free to read this at your own disposal",
+                "Multiple lines of text in one Event right here!",
+                "The next event is the last one.",
+                "It's the most realistic event in this sample| data.",
+                "However, it is still silly.",
+                "Enjoy.",
+                "Welcome to event number 2",
+                "Or, as I like to say, numero dos",
+                "A distress signal is coming in from the| nearby planet",
+                "The coordinates of the signal seem to be| coming from beneath the surface of the| only ocean of the planet, which covers| less than 20% of its surface",
+                "The signal asks for a box of supplies, but| stresses not to intervene in any other way",
+                "This is the first event!",
+                "Feel free to read this at your own disposal",
+                "Multiple lines of text in one Event right here!",
+                "The next event is the last one.",
+                "It's the most realistic event in this sample| data.",
+                "However, it is still silly.",
+                "Enjoy.",
+                "Welcome to event number 2",
+                "Or, as I like to say, numero dos",
+                "If you couldn't already tell, this event was| based on Kloss's test class in EventClass.cs!"
+            };
+            e = new Event(4, "Underwater Investigation", t, new List<Option> { o1, o2, o3, o4 });
+
+            eList.Add(e);
+
+            o1 = new Option(0, 0, false, "loseHull()", "This is a summary for choice one", new List<string> { "This is the result of choice one.", "Decreasing hull by 15.", "Returning to start event..." });
+            o1.HullChange = -15;
+            o2 = new Option(1, 0, false, "gainFuel()", "This is a summary for choice two", new List<string> { "This is the result of choice two.", "Increasing fuel by 20.", "Returning to start event..." });
+            o2.FuelChange = 20;
+            o3 = new Option(2, 0, false, "gainLife()", "This is a summary for choice three", new List<string> { "This is the result of choice three.", "Increasing life by 40.", "Returning to start event..." });
+            o3.LifeChange = 40;
+            o4 = new Option(3, 0, false, "gainHumanity()", "This is a summary for choice four", new List<string> { "This is the result of choice four.", "Increasing empathy by 10.", "Returning to start event..." });
+            o4.EmpChange = 10;
+            t = new List<string>()
+            {
+                "The next event is the last one.",
+                "It's the most realistic event in this sample| data.",
+                "However, it is still silly.",
+                "Enjoy."
+            };
+            e = new Event(5, "Event to Test Ship Changes", t, new List<Option> { o1, o2, o3, o4 });
+
+            eList.Add(e);
+        }
+
+        public void SaveEvents()
+        {
+            foreach (Event e in eList)
+            {
+                int id = e.eventNumber;
+
+                SaveManager.SaveObject(@"testEvent"+id+"Save.xml",e);
+            }
+        }
+        public void LoadEvents()
+        {
+            if (eList.Count == 0)
+            {
+                eList = SaveManager.LoadAll();
+            }
+        }
+
+        ///////////////////////////////////////
+        public void AddToUsedText(string s)
+        {
+            //Event currentEvent = this.getCurrent();
+            //foreach (string str in currentEvent.text)
+            //{
+            //    usedText.Add(str);
+            //    foreach (Option o in currentEvent.options)
+            //    {
+            //       if(o.optionPicked) usedText.Add(o.text);
+            //    }
+            //
+            //}
+
+            usedText.Add(s);
+        }
+
+        public override string ToString()
+        {
+            return base.ToString() + usedText.ToString();
+        }
     }
 }
